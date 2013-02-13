@@ -17,7 +17,7 @@ class Create_Books {
       $table->string('key_id');
       $table->string('name');
       $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
-      $table->foreign('article_id')->references('id')->on('articles')->on_delete('cascade');
+      //$table->foreign('article_id')->references('id')->on('articles')->on_delete('cascade');
       $table->timestamps();
       $table->index('key_id');
     });

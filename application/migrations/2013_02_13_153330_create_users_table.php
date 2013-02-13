@@ -15,7 +15,7 @@ class Create_Users_Table {
         $table->increments('id');
         $table->string('key_id');
         $table->string('name');
-        $table->string('email')->unique();;
+        $table->string('email')->unique();
         $table->string('password');
         $table->timestamps();
         $table->index('key_id');
