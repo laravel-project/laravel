@@ -9,7 +9,7 @@ class Create_User_Likes_Table {
 	 */
 	public function up()
 	{
-		Schema::create('user_likes', function($table)
+		Schema::table('user_likes', function($table)
     {
       $table->create();
       $table->increments('id');

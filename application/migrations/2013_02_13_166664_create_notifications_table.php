@@ -9,7 +9,7 @@ class Create_Notifications_Table {
 	 */
 	public function up()
 	{
-		Schema::create('notifications', function($table)
+		Schema::table('notifications', function($table)
     {
       $table->create();
       $table->increments('id');

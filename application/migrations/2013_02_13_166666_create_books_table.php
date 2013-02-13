@@ -10,7 +10,7 @@ class Create_Books_Table {
 	public function up()
 	{
     //create book table
-    Schema::create('books', function($table)
+    Schema::table('books', function($table)
     {
       $table->create();
       $table->increments('id');

@@ -9,7 +9,7 @@ class Create_Admins_Table {
 	 */
 	public function up()
 	{
-		Schema::create('admins', function($table)
+		Schema::table('admins', function($table)
     {
       $table->create();
       $table->increments('id');
