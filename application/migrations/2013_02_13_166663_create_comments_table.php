@@ -12,12 +12,13 @@ class Create_Comments_Table {
 		Schema::table('comments', function($table)
     {
       $table->create();
+      $table->engine = 'InnoDB';
       $table->increments('id');
       $table->string('key_id');
       $table->string('content');
-      $table->integer('user_id');
-      $table->integer('article_id');
-      $table->integer('comment_id');
+      $table->integer('user_id')->unsigned();
+      $table->integer('article_id')->unsigned();
+      $table->integer('comment_id')->unsigned();
       $table->timestamps();
       $table->index('key_id');
       $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');

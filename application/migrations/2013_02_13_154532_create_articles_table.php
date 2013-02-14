@@ -12,14 +12,15 @@ class Create_Articles_Table {
 		Schema::table('articles', function($table)
     {
         $table->create();
+        $table->engine = 'InnoDB';
         $table->increments('id');
         $table->string('key_id');
         $table->string('title');
         $table->string('content');
         $table->string('image');
         $table->string('status');
-        $table->integer('user_id');
-        $table->integer('category_id');
+        $table->integer('user_id')->unsigned();
+        $table->integer('category_id')->unsigned();
         $table->timestamps();
         $table->index('key_id');
         $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');

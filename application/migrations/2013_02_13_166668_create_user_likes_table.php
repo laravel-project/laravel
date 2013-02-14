@@ -12,11 +12,12 @@ class Create_User_Likes_Table {
 		Schema::table('user_likes', function($table)
     {
       $table->create();
+      $table->engine = 'InnoDB';
       $table->increments('id');
       $table->string('key_id');
       $table->boolean('likes');
-      $table->integer('user_id');
-      $table->integer('article_id');
+      $table->integer('user_id')->unsigned();
+      $table->integer('article_id')->unsigned();
       $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
       $table->foreign('article_id')->references('id')->on('articles')->on_delete('cascade');
       $table->timestamps();

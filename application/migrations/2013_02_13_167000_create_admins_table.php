@@ -12,6 +12,7 @@ class Create_Admins_Table {
 		Schema::table('admins', function($table)
     {
       $table->create();
+      $table->engine = 'InnoDB';
       $table->increments('id');
       $table->string('key_id');
       $table->string('email');

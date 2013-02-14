@@ -12,11 +12,12 @@ class Create_Projects_Table {
 		Schema::table('projects', function($table)
     {
 		  $table->create();
+		  $table->engine = 'InnoDB';
       $table->increments('id');
       $table->string('key_id');
       $table->string('name');
-      $table->integer('user_id');
-      $table->integer('article_id');
+      $table->integer('user_id')->unsigned();
+      $table->integer('article_id')->unsigned();
       $table->timestamps();
       $table->index('key_id');
       $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');

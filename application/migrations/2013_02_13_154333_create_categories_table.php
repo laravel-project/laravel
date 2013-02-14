@@ -12,6 +12,7 @@ class Create_Categories_Table {
 	  Schema::table('categories', function($table)
     {
 		  $table->create();
+		  $table->engine = 'InnoDB';
       $table->increments('id');
       $table->string('key_id');
       $table->string('name');
