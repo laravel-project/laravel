@@ -18,6 +18,9 @@ class Create_Users_Table {
         $table->string('name');
         $table->string('email');
         $table->string('password');
+        $table->string('confirmaton_token');
+        $table->date('confirmated_at');
+        $table->boolean('remember_me');
         $table->timestamps();
         $table->index('key_id');
     });
