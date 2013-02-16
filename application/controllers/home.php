@@ -35,9 +35,5 @@ class Home_Controller extends Base_Controller {
 		return View::make('home.index');
 	}
 
-  public function action_about()
-  {
-    return "This is your about page";
-  }
 
 }

@@ -109,23 +109,39 @@ Route::filter('auth', function()
 // Route for Users_Controller
 Route::controller('users');
 
+Route::controller('session');
+
 View::composer(array('layouts/main', 'layouts/main_fluid'), function($view)
 {
   #load css
   Asset::add('bootstrap.min','css/bootstrap.min.css');
-  Asset::add('boostrap.responsive',
-    'css/boostrap-responsive.min.css');
+  Asset::add('bootsrap.responsive',
+    'css/bootstrap-responsive.min.css');
   Asset::add('style','css/style.css');
   
   #load js
   Asset::add('jquery', 
     'http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js');
-  Asset::add('backbone', 
-    'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js');
   Asset::add('underscore', 
     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
-  Asset::add('bootstrap', 
+  Asset::add('backbone', 
+    'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js');
+   Asset::add('bootstrap', 
     'http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js');
 
 });
-Route::controller(Controller::detect());
+
+Route::controller('home');
+
+Route::get('home/about',function()
+{
+  return View::make('home.about');
+});
+
+// Route for Sessions_Controller
+//Route::controller('sessions');
+
+Route::get('login', function()
+{
+  return View::make('sessions.index');
+});
