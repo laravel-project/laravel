@@ -118,6 +118,7 @@ View::composer(array('layouts/main', 'layouts/main_fluid'), function($view)
   Asset::add('bootsrap.responsive',
     'css/bootstrap-responsive.min.css');
   Asset::add('style','css/style.css');
+  Asset::add('jquery.toastmessage','css/jquery.toastmessage.css');
   
   #load js
   Asset::add('jquery', 
@@ -126,9 +127,9 @@ View::composer(array('layouts/main', 'layouts/main_fluid'), function($view)
     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
   Asset::add('backbone', 
     'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js');
-   Asset::add('bootstrap', 
+  Asset::add('bootstrap', 
     'http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js');
-
+  Asset::add('jquery.toastmessage','js/jquery.toastmessage.js');
 });
 
 Route::controller('home');
@@ -144,4 +145,8 @@ Route::get('home/about',function()
 Route::get('login', function()
 {
   return View::make('sessions.index');
+});
+
+Route::get('sign_up', function(){
+  return View::make('users.new');
 });
