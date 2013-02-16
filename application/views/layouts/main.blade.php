@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <title>Instapics</title>
         {{ Asset::styles() }}
-        {{ Asset::scripts() }}
     </head>
     <body>
         <div class="navbar navbar-fixed-top">
@@ -28,5 +27,6 @@
             <p>&copy; Instapics 2012</p>
             </footer>
         </div> <!-- /container -->
+        {{ Asset::scripts() }}
     </body>
 </html>

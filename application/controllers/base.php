@@ -2,6 +2,18 @@
 
 class Base_Controller extends Controller {
 
+
+  /**
+   * Initialize constructor. 
+   * reload all js and css. For improved performance
+   * load css in header and js in footer
+   */
+
+  public function __construct()  
+  {
+    parent::__construct();
+  }
+
 	/**
 	 * Catch-all method for requests that can't be matched.
 	 *
