@@ -139,7 +139,7 @@ Route::get('home/about',function()
 });
 
 // Route for Sessions_Controller
-//Route::controller('sessions');
+Route::controller('sessions');
 
 Route::get('login', function()
 {
