@@ -13,5 +13,11 @@ class Users_Controller extends Base_Controller {
   {
     return View::make('users.new');
   }
-
+  
+  public function post_create()
+  {
+    //erroor;
+    $input = Input::all();
+    //var_dump $input
+  }
 }
