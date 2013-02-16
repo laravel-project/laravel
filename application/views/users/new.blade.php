@@ -10,6 +10,6 @@
     {{ Form::password('password'); }} <br/>
     {{ Form::label('confirmation_password', 'Confirmation Password :'); }}
     {{ Form::password('confirmation_password'); }} </br>
-    {{ Form::submit('Register!'); }}
+    {{ Form::submit('Register!', array('class' => 'btn btn-primary')); }}
   {{ Form::close(); }}
 @endsection
