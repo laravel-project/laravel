@@ -115,6 +115,7 @@ View::composer(array('layouts/main', 'layouts/main_fluid'), function($view)
   Asset::add('bootstrap.min','css/bootstrap.min.css');
   Asset::add('boostrap.responsive',
     'css/boostrap-responsive.min.css');
+  Asset::add('style','css/style.css');
   
   #load js
   Asset::add('jquery', 

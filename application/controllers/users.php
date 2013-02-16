@@ -9,4 +9,9 @@ class Users_Controller extends Base_Controller {
 		return View::make('users.index');
 	}
 
+  public function action_new()
+  {
+    return View::make('users.new');
+  }
+
 }
