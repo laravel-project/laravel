@@ -56,6 +56,7 @@ class User extends Eloquent {
       $this->confirmation_token = substr(md5(rand()), 0, 25);
       //encrypt password using md5
       $this->password = md5($this->password);
+      $this->last_sign_in_ip = $_SERVER['REMOTE_ADDR'];
 
       parent::save();
       $cond = Array('success' => true);

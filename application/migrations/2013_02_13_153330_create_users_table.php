@@ -20,7 +20,9 @@ class Create_Users_Table {
         $table->string('password');
         $table->string('confirmation_token');
         $table->date('confirmated_at');
-        $table->boolean('remember_me');
+        $table->date('last_sign_in_at');
+        $table->integer('sign_in_count');
+        $table->string('last_sign_in_ip');
         $table->timestamps();
         $table->index('key_id');
     });
