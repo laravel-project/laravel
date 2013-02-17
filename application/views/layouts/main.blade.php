@@ -10,13 +10,9 @@
             <div class="navbar-inner">
                 <div class="container">
                     <a class="brand" href="/">Instapics</a>
-                    <div class="nav-collapse">
+                     <div class="nav-collapse">
                         <ul class="nav">
-                            <li class="active"><a href="{{ url('home')}}">Home</a></li>
-                            <li><a href="{{ url('home/about') }}">About</a></li>
-                            <li><a href="{{ url('login') }}">Login</a></li>
-                            <li><a href="{{ url('sign_up') }}">Register</a></li>
-
+                          @yield('navigation')
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>
