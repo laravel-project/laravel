@@ -29,11 +29,28 @@ class Home_Controller extends Base_Controller {
 	|		}
 	|
 	*/
-
-	public function action_index()
+  public function __construct()
+  {
+    $this->filter('before', 'auth')->except(array('index'));
+  }
+  
+  public function action_index()
 	{
 		return View::make('home.index');
-	}
+  }
+
+  public function action_dashboard()
+  {
+    return View::make('home.dashboard');
+  }
+
+  private function action_auth()
+  {
+    if (!Auth::check())
+    {
+      return Redirect::to('login');
+    }
+  }
 
 
 }

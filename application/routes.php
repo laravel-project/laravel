@@ -150,3 +150,11 @@ Route::get('login', function()
 Route::get('sign_up', function(){
   return View::make('users.new');
 });
+
+//here is the logout routes and 
+//function to destroy session
+Route::any('logout', function() {
+	Auth::logout();
+	Session::flush();
+	return Redirect::to('/');
+});
