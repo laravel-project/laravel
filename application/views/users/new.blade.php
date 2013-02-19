@@ -6,7 +6,7 @@
 <li class='active'><a href="{{ url('sign_up') }}">Register</a></li>
 @endsection
 @section('content')
-  <h1>Registration form</h1>
+  <h2>Registration form</h2>
   {{ Form::open('users/create', 'POST', array('id' => 'registration_form')); }}
     {{ Form::label('name', 'Name :'); }}
     {{ Form::text('name'); }} <br/>
