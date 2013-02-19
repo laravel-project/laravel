@@ -25,7 +25,7 @@
 #Redirect To Error page, when user try to access extension below
 <IfModule mod_rewrite.c>
   RewriteBase /
-  RewriteRule ^(js|css|img|laravel/(.*)|laravel)/$ http://project.dev
+  RewriteRule ^(js|css|img|laravel/(.*)|laravel)/$ http://%{HTTP_HOST}
 </IfModule>
 
 
