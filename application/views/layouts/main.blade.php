@@ -19,8 +19,10 @@
             </div>
         </div>
         <div class="container">
-          @yield('content')
-		      {{ Session::get('success') }}
+          <div class="hero-unit">
+            @yield('content')
+		        {{ Session::get('success') }}
+		      </div>
           <hr>
           <footer>
           <p>&copy; Instapics 2012</p>

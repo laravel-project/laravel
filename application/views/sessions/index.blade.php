@@ -6,7 +6,7 @@
 <li><a href="{{ url('sign_up') }}">Register</a></li>
 @endsection
 @section('content')
-  <h1>Login form</h1>
+  <h2>Login form</h2>
   {{ Form::open('sessions/create', 'POST', array('id' => 'login_form')); }}
     {{ Form::label('email', 'Email :'); }}
     {{ Form::text('email'); }} <br/>
