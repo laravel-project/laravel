@@ -45,18 +45,18 @@ class Users_Controller extends Base_Controller {
         $mail->body('This is a <b>HTML</b> email.');
         $mail->send();
         
-        Session::flash('success', 'registration success');
+        Message::success_or_not_message('success', 'registration');
         return Redirect::to('/');
       }
       else
       {
-        Session::flash('failed', 'registration failed');
+        Message::success_or_not_message('failed', 'registration');
         return Redirect::to('sign_up')->with_errors($save->errors);
       }
     }
     else
     {
-      Session::flash('failed', 'captcha is invalid');
+      Message::invalid_message('captcha');
       return Redirect::to('sign_up')->with_errors($save->errors);
     }
     
