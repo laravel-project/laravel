@@ -16,6 +16,8 @@
     {{ Form::password('password'); }} <br/>
     {{ Form::label('confirmation_password', 'Confirmation Password :'); }}
     {{ Form::password('confirmation_password'); }} </br>
+    <img src="{{ $get_captcha }}" class='recaptcha-image' /></br>
+    {{ Form::text('recaptcha_field', '', array('placeholder' => 'input captcha please..')); }} <br/>
     {{ Form::submit('Register!', array('class' => 'btn btn-primary')); }}
   {{ Form::close(); }}
 @endsection

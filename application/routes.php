@@ -147,9 +147,7 @@ Route::get('login', function()
   return View::make('sessions.index');
 });
 
-Route::get('sign_up', function(){
-  return View::make('users.new');
-});
+Route::get('sign_up', 'users@new');
 
 //here is the logout routes and 
 //function to destroy session
@@ -158,3 +156,8 @@ Route::any('logout', function() {
 	Session::flush();
 	return Redirect::to('/');
 });
+
+Route::get('php_info', function(){
+  return phpinfo();
+});
+

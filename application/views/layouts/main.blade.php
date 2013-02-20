@@ -21,7 +21,6 @@
         <div class="container">
           <div class="hero-unit">
             @yield('content')
-		        {{ Session::get('success') }}
 		      </div>
           <hr>
           <footer>
@@ -34,6 +33,12 @@
             @foreach ($errors->all() as $error)
               $().toastmessage('showErrorToast', "{{ $error }}");
             @endforeach
+          @endif
+          @if (Session::get('failed'))
+            $().toastmessage('showErrorToast', "{{ Session::get('failed') }}")
+          @endif
+          @if (Session::get('success'))
+            $().toastmessage('showErrorToast', "{{ Session::get('success') }}")
           @endif
         </script>
     </body>
