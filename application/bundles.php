@@ -37,4 +37,5 @@ return array(
   'docs' => array('handles' => 'docs'),
   'bob', 
   'console' => array('handles' => 'console'),
+  'smtp' => array('auto' => true),
 );

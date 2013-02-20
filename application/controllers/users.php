@@ -33,12 +33,18 @@ class Users_Controller extends Base_Controller {
     $user->email = $email;
     $user->password = $password;
     $user->set_confirmation_password($confirmation_password);
-    $user->set_image_captcha($image_captcha);
-    $user->set_text_captcha($text_captcha);
     $save = $user->save();
     if($image_captcha == $text_captcha){
       if($save->success)
       {
+        //send email using SMTP
+        $mail = new SMTP();
+        $mail->to($email);
+        $mail->from('developer.laravel@gmail.com', 'Developer');
+        $mail->subject('Hello World');
+        $mail->body('This is a <b>HTML</b> email.');
+        $mail->send();
+        
         Session::flash('success', 'registration success');
         return Redirect::to('/');
       }
