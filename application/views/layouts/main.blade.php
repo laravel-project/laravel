@@ -38,7 +38,7 @@
             $().toastmessage('showErrorToast', "{{ Session::get('failed') }}")
           @endif
           @if (Session::get('success'))
-            $().toastmessage('showErrorToast', "{{ Session::get('success') }}")
+            $().toastmessage('showSuccessToast', "{{ Session::get('success') }}")
           @endif
         </script>
     </body>

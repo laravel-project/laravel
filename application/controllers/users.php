@@ -12,7 +12,7 @@ class Users_Controller extends Base_Controller {
   public function action_new()
   {
     $captcha = str_shuffle('1234567890');
-    Session::put('recaptcha', $captcha);
+    //Session::put('recaptcha', $captcha);
     $get_captcha = system('curl http://api.img4me.com/?text='.$captcha.'&font=arial&fcolor=FFBF00&size=10&bcolor=FFFCFC&type=png');
     return View::make('users.new', array(
       'captcha' => $captcha,
@@ -26,8 +26,8 @@ class Users_Controller extends Base_Controller {
     $email = Input::get('email');
     $password = Input::get('password');
     $confirmation_password = Input::get('confirmation_password');
-    $image_captcha = Input::get('recaptcha_field');
-    $text_captcha = Session::get('recaptcha');
+    $image_captcha = base64_encode(Input::get('recaptcha_field'));
+    $text_captcha = Input::get('recaptcha'); //Session::get('recaptcha');
     $user = new User();
     $user->name = $name;
     $user->email = $email;
@@ -54,7 +54,7 @@ class Users_Controller extends Base_Controller {
       return Redirect::to('sign_up')->with_errors($save->errors);
     }
     
-    Session::flush();
+    //Session::flush();
   }
   
  }
