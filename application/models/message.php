@@ -7,7 +7,7 @@ class Message {
   }
   
   public static function invalid_message($message){
-    return Session::flash('failed', 'invalid '.$message);
+    return Session::flash('failed', $message.' is invalid');
   }
   
   public static function confirmation_message(){

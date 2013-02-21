@@ -33,8 +33,8 @@ class Users_Controller extends Base_Controller {
     $user->email = $email;
     $user->password = $password;
     $user->set_confirmation_password($confirmation_password);
-    $save = $user->save();
     if($image_captcha == $text_captcha){
+      $save = $user->save();
       if($save->success)
       {
         //send email using SMTP
@@ -57,7 +57,7 @@ class Users_Controller extends Base_Controller {
     else
     {
       Message::invalid_message('captcha');
-      return Redirect::to('sign_up')->with_errors($save->errors);
+      return Redirect::to('sign_up');
     }
     
     //Session::flush();
