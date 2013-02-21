@@ -24,7 +24,7 @@
 		      </div>
           <hr>
           <footer>
-          <p>&copy; Instapics 2012</p>
+          <p>&copy; Instapics 2013</p>
           </footer>
         </div> <!-- /container -->
         {{ Asset::scripts() }}

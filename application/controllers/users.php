@@ -13,7 +13,8 @@ class Users_Controller extends Base_Controller {
   {
     $captcha = str_shuffle('1234567890');
     //Session::put('recaptcha', $captcha);
-    $get_captcha = system('curl http://api.img4me.com/?text='.$captcha.'&font=arial&fcolor=FFBF00&size=10&bcolor=FFFCFC&type=png');
+    $get_captcha = system('curl http://api.img4me.com/?text='
+      .$captcha.'&font=arial&fcolor=FFBF00&size=10&bcolor=FFFCFC&type=png');
     return View::make('users.new', array(
       'captcha' => $captcha,
       'get_captcha' => $get_captcha,
