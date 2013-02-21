@@ -17,8 +17,8 @@
     {{ Form::label('confirmation_password', 'Confirmation Password :'); }}
     {{ Form::password('confirmation_password'); }} </br>
     {{ Form::hidden('recaptcha', base64_encode($captcha)); }}
-    <img src="{{ $get_captcha }}" class='recaptcha-image' /></br>
-    {{ Form::text('recaptcha_field', '', array('placeholder' => 'input captcha please..')); }} <br/>
+    <img src="{{ $get_captcha }}" class='recaptcha-image img-rounded' /></br>
+    {{ Form::text('recaptcha_field', '', array('placeholder' => 'please input text above..')); }} <br/>
     {{ Form::submit('Register!', array('class' => 'btn btn-primary')); }}
   {{ Form::close(); }}
 @endsection

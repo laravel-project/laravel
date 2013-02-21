@@ -1,0 +1,13 @@
+#generate bob builder
+#php artisan bob::build
+#!/bin/bash
+
+if [[ $1 = help ]]
+  then
+    php artisan bob::build
+    echo "--------------------------"
+    echo "how to generate"
+    echo "ex: ./bob_generator c mycontroller"
+else
+  php artisan bob::build $1 $2
+fi
