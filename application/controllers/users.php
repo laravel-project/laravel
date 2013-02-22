@@ -29,13 +29,15 @@ class Users_Controller extends Base_Controller {
     $confirmation_password = Input::get('confirmation_password');
     $image_captcha = base64_encode(Input::get('recaptcha_field'));
     $text_captcha = Input::get('recaptcha'); //Session::get('recaptcha');
-    $user = new User();
-    $user->name = $name;
-    $user->email = $email;
-    $user->password = $password;
-    $user->set_confirmation_password($confirmation_password);
     if($image_captcha == $text_captcha){
+      //create object user if capcha has verified
+      $user = new User();
+      $user->name = $name;
+      $user->email = $email;
+      $user->password = $password;
+      $user->set_confirmation_password($confirmation_password);
       $save = $user->save();
+      
       if($save->success)
       {
         //send email using SMTP
