@@ -161,7 +161,8 @@ Route::get('php_info', function(){
   return phpinfo();
 });
 
-Route::get('forgot_password', 'password@new');
+Route::get('forgot_password', 'passwords@new');
+Route::get('process_forgot_password', 'passwords@create');
 
 Route::get('confirmation_password', function(){
   $confirmation_token = Input::get('confirmation_token');
@@ -171,7 +172,7 @@ Route::get('confirmation_password', function(){
     Message::success_or_not_message('success', 'confirmation password');
     DB::table('users')->where('id', '=', $user->id)->update(array('confirmation_token' => null, 'confirmated_at' => Date::mysql_format() ));
     Auth::login($user->id);
-    return Redirect::to('home/dashboard');;
+    return Redirect::to('home/dashboard');
   }
   else{
     Message::success_or_not_message('failed', 'confirmation password');
