@@ -23,6 +23,8 @@ class Create_Users_Table {
         $table->date('last_sign_in_at');
         $table->integer('sign_in_count');
         $table->string('last_sign_in_ip');
+        $table->boolean('can_reset_password');
+        $table->date('expired_at');
         $table->timestamps();
         $table->index('key_id');
     });
