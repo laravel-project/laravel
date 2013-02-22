@@ -40,14 +40,18 @@ class Users_Controller extends Base_Controller {
       if($save->success)
       {
         $user = User::where_email($email)->first();
+
         //send email using SMTP
         $args = array(
           'email' => $email,
           'key_id' => $user->key_id,
           'confirmation_token' => $user->confirmation_token
         ); 
-        Resque::enqueue('Laravel', 'MailsWorker', $args);
         
+
+        Mailer::send_activation_email($user->id);
+        Resque::enqueue('Laravel', 'MailsWorker', $args);
+
         Message::success_or_not_message('success', 'registration');
         return Redirect::to('/');
       }

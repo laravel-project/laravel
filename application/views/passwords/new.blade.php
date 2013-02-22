@@ -1,3 +1,9 @@
-<h1>passwords.index</h1>
-
-<p>This view has been auto-generated to accompany the Passwords_Controller's action_index()</p>
+@layout('layouts/main')
+@section('content')
+  <h2>Forgot Password</h2>
+  {{ Form::open('passwords/create', 'POST') }}
+    {{ Form::label('email', 'Email :'); }}
+    {{ Form::text('email'); }} <br/>
+    {{ Form::submit('send', array('class' => 'btn btn-primary')); }}
+  {{ Form::close(); }}
+@endsection

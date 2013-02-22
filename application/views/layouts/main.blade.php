@@ -12,6 +12,12 @@
                     <a class="brand" href="/">Instapics</a>
                      <div class="nav-collapse">
                         <ul class="nav">
+                          @section('navigation')
+                            {{ Navigation::menu('Home', URL::current(), url('home')); }}
+                            {{ Navigation::menu('About', URL::current(), url('home/about')); }}
+                            {{ Navigation::menu('Login', URL::current(), url('login')); }}
+                            {{ Navigation::menu('Register', URL::current(), url('sign_up')); }}
+                          @endsection
                           @yield('navigation')
                         </ul>
                     </div><!--/.nav-collapse -->
@@ -20,7 +26,7 @@
         </div>
         <div class="container">
           <div class="hero-unit">
-            @yield('content')
+            @yield('content') 
 		      </div>
           <hr>
           <footer>
