@@ -13,6 +13,10 @@ class Message {
   public static function confirmation_message(){
     return Session::flash('failed', 'please confirmation your email');
   }
+  
+  public static function password_error(){
+    return Session::flash('failed', 'password must then 6 character and password and confirmation password not match');
+  }
 }
 
 ?>

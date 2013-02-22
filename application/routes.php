@@ -162,7 +162,10 @@ Route::get('php_info', function(){
 });
 
 Route::get('forgot_password', 'passwords@new');
-Route::get('process_forgot_password', 'passwords@create');
+Route::post('process_forgot_password', 'passwords@create');
+
+Route::get('reset_password', 'passwords@reset_password');
+Route::post('process_reset_password','passwords@process_reset_password');
 
 Route::get('confirmation_password', function(){
   $confirmation_token = Input::get('confirmation_token');
