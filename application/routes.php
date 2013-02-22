@@ -161,3 +161,20 @@ Route::get('php_info', function(){
   return phpinfo();
 });
 
+Route::get('forgot_password', 'password@new');
+
+Route::get('confirmation_password', function(){
+  $confirmation_token = Input::get('confirmation_token');
+  $key_id = Input::get('key_id');
+  $user = User::where_key_id_and_confirmation_token($key_id, $confirmation_token)->first();
+  if($confirmation_token != "" && $user ){
+    Message::success_or_not_message('success', 'confirmation password');
+    DB::table('users')->where('id', '=', $user->id)->update(array('confirmation_token' => null, 'confirmated_at' => Date::mysql_format() ));
+    Auth::login($user->id);
+    return Redirect::to('home/dashboard');;
+  }
+  else{
+    Message::success_or_not_message('failed', 'confirmation password');
+    return Redirect::to('/');
+  }
+});

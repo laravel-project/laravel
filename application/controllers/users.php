@@ -12,7 +12,6 @@ class Users_Controller extends Base_Controller {
   public function action_new()
   {
     $captcha = str_shuffle('1234567890');
-    //Session::put('recaptcha', $captcha);
     $get_captcha = system('curl http://api.img4me.com/?text='
       .$captcha.'&font=arial&fcolor=FFBF00&size=10&bcolor=FFFCFC&type=png');
     return View::make('users.new', array(
@@ -28,7 +27,7 @@ class Users_Controller extends Base_Controller {
     $password = Input::get('password');
     $confirmation_password = Input::get('confirmation_password');
     $image_captcha = base64_encode(Input::get('recaptcha_field'));
-    $text_captcha = Input::get('recaptcha'); //Session::get('recaptcha');
+    $text_captcha = Input::get('recaptcha');
     $user = new User();
     $user->name = $name;
     $user->email = $email;
@@ -38,12 +37,17 @@ class Users_Controller extends Base_Controller {
       $save = $user->save();
       if($save->success)
       {
+        $user = User::where_email($email)->first();
         //send email using SMTP
         $mail = new SMTP();
         $mail->to($email);
         $mail->from('developer.laravel@gmail.com', 'Developer');
         $mail->subject('Hello World');
-        $mail->body('This is a <b>HTML</b> email.');
+        $mail->body('This is a example of activation email 
+        <a href='.URL::to('confirmation_password').'?confirmation_token='
+          .$user->confirmation_token.'&key_id='.$user->key_id.'>
+          click in here to activation your email
+        </a>');
         $mail->send();
         
         Message::success_or_not_message('success', 'registration');
@@ -61,7 +65,6 @@ class Users_Controller extends Base_Controller {
       return Redirect::to('sign_up');
     }
     
-    //Session::flush();
   }
   
  }
