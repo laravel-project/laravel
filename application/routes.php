@@ -134,7 +134,7 @@ View::composer(array('layouts/main', 'layouts/main_fluid'), function($view)
 
 Route::controller('home');
 
-Route::get('home/about',function()
+Route::get('about',function()
 {
   return View::make('home.about');
 });

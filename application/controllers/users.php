@@ -41,16 +41,12 @@ class Users_Controller extends Base_Controller {
       {
         $user = User::where_email($email)->first();
         //send email using SMTP
-        $mail = new SMTP();
-        $mail->to($email);
-        $mail->from('developer.laravel@gmail.com', 'Developer');
-        $mail->subject('Hello World');
-        $mail->body('This is a example of activation email 
-        <a href='.URL::to('confirmation_password').'?confirmation_token='
-          .$user->confirmation_token.'&key_id='.$user->key_id.'>
-          click in here to activation your email
-        </a>');
-        $mail->send();
+        $args = array(
+          'email' => $email,
+          'key_id' => $user->key_id,
+          'confirmation_token' => $user->confirmation_token
+        ); 
+        Resque::enqueue('Laravel', 'MailsWorker', $args);
         
         Message::success_or_not_message('success', 'registration');
         return Redirect::to('/');

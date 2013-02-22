@@ -60,6 +60,7 @@ Laravel\Autoloader::$aliases = $aliases;
 
 Autoloader::map(array(
 	'Base_Controller' => path('app').'controllers/base.php',
+  'Resque' => path('composer').'chrisboulton/php-resque/resque.php',
 ));
 
 /*

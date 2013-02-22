@@ -38,4 +38,5 @@ return array(
   'bob', 
   'console' => array('handles' => 'console'),
   'smtp' => array('auto' => true),
+  'composer' => array('auto' => true),
 );
