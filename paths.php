@@ -56,7 +56,7 @@ $paths['public'] = 'public';
 // The path to the composer directory.
 // --------------------------------------------------------------
 
-$paths['composer'] = 'vendor';
+$paths['vendor'] = 'vendor';
 
 // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 // END OF USER CONFIGURATION. HERE BE DRAGONS!

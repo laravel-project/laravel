@@ -14,7 +14,7 @@
                         <ul class="nav">
                           @section('navigation')
                             {{ Navigation::menu('Home', URL::current(), url('home')); }}
-                            {{ Navigation::menu('About', URL::current(), url('home/about')); }}
+                            {{ Navigation::menu('About', URL::current(), url('about')); }}
                             {{ Navigation::menu('Login', URL::current(), url('login')); }}
                             {{ Navigation::menu('Register', URL::current(), url('sign_up')); }}
                           @endsection

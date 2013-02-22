@@ -32,9 +32,3 @@ unset($web);
 // Launch Laravel.
 // --------------------------------------------------------------
 require path('sys').'laravel.php';
-
-// --------------------------------------------------------------
-// Autoload composer vendors.
-// --------------------------------------------------------------
-//require path('composer').DS.'.composer'.DS.'autoload.php';
-require path('composer').'autoload.php';
