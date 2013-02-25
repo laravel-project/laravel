@@ -41,7 +41,7 @@ class Passwords_Controller extends Base_Controller {
     if (strlen($password) > 5 && $password == $confirmation_password){
       $user = User::where_key_id($key_id)->first();
       DB::table('users')->where('id', '=', $user_id)
-        ->update(array('can_reset_password' => false, 'expired_at' => Date::sum_of_date('1 day') ));
+        ->update(array('can_reset_password' => false));
       Message::success_or_not_message('success', 'reset password');
       return Redirect::to('/');
     }else{

@@ -46,7 +46,7 @@ class Users_Controller extends Base_Controller {
           'user_id' => $user->id
         ); 
         
-        Resque::enqueue('Laravel', 'MailsWorker', $user->id);
+        Resque::enqueue('Laravel', 'MailsWorker', $args);
 
         Message::success_or_not_message('success', 'registration');
         return Redirect::to('/');
