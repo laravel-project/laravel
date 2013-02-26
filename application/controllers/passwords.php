@@ -14,7 +14,14 @@ class Passwords_Controller extends Base_Controller {
     if($user){
       DB::table('users')->where('id', '=', $user_id)
         ->update(array('can_reset_password' => true, 'expired_at' => Date::sum_of_date('1 day') ));
-      Mailer::send_forgot_password($user->id);
+      $args = array(
+        'user_id'  => $user->id,
+        'url_base' => URL::to('reset_password'),
+        'use_to'   => 'send_forgot_password'
+      ); 
+      
+      Resque::enqueue('Laravel', 'MailsWorker', $args);
+      
       Message::success_or_not_message('success', 'send password');
       return Redirect::to('/');
     }else{

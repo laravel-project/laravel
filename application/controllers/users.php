@@ -43,7 +43,9 @@ class Users_Controller extends Base_Controller {
 
         //send email using SMTP
         $args = array(
-          'user_id' => $user->id
+          'user_id'  => $user->id,
+          'url_base' => URL::to('confirmation_password'),
+          'use_to'   => 'confirmation_password'
         ); 
         
         Resque::enqueue('Laravel', 'MailsWorker', $args);
