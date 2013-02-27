@@ -12,7 +12,7 @@ class Passwords_Controller extends Base_Controller {
     $email = Input::get('email');
     $user = User::where_email($email)->first();
     if($user){
-      DB::table('users')->where('id', '=', $user_id)
+      DB::table('users')->where('id', '=', $user->id)
         ->update(array('can_reset_password' => true, 'expired_at' => Date::sum_of_date('1 day') ));
       $args = array(
         'user_id'  => $user->id,
@@ -47,7 +47,7 @@ class Passwords_Controller extends Base_Controller {
     $confirmation_password = Input::get('confirmation_password');
     if (strlen($password) > 5 && $password == $confirmation_password){
       $user = User::where_key_id($key_id)->first();
-      DB::table('users')->where('id', '=', $user_id)
+      DB::table('users')->where('id', '=', $user->id)
         ->update(array('can_reset_password' => false));
       Message::success_or_not_message('success', 'reset password');
       return Redirect::to('/');
