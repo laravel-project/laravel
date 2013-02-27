@@ -6,9 +6,6 @@ class MailsWorker
     public function perform()
     {
       Mailer::send_activation_email($this->args['user_id']);
-      echo 'Ari....';
-      $user = User::find($this->args['user_id']);
-      echo $user->name;
     }
  
     public function do_work()
