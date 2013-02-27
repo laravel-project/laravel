@@ -11,12 +11,10 @@ class Users_Controller extends Base_Controller {
 
   public function action_new()
   {
-    $captcha = str_shuffle('1234567890');
-    $get_captcha = system('curl http://api.img4me.com/?text='
-      .$captcha.'&font=arial&fcolor=FFBF00&size=10&bcolor=FFFCFC&type=png');
+    $c = Captcha::generate();
     return View::make('users.new', array(
-      'captcha' => $captcha,
-      'get_captcha' => $get_captcha,
+      'captcha' => $c['captcha'],
+      'get_captcha' => $c['get_captcha'],
     ));
   }
   
@@ -26,9 +24,10 @@ class Users_Controller extends Base_Controller {
     $email = Input::get('email');
     $password = Input::get('password');
     $confirmation_password = Input::get('confirmation_password');
-    $image_captcha = base64_encode(Input::get('recaptcha_field'));
+    $image_captcha = Input::get('recaptcha_field');
     $text_captcha = Input::get('recaptcha');
-    if($image_captcha == $text_captcha){
+    
+    if( Captcha::valid($image_captcha, $text_captcha) ){
       //create object user if capcha has verified
       $user = new User();
       $user->name = $name;
