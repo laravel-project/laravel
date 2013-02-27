@@ -9,3 +9,41 @@ img.recaptcha-image {
 #registration_form input{
   height: 30px;
 }
+
+.grid {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.am-wrapper{
+	float:left;
+	position:relative;
+	overflow:hidden;
+}
+.am-wrapper img{
+	position:absolute;
+	outline:none;
+}
+
+.container-logged {
+  margin-top: 50px;
+}
+
+.sidebar-content {
+  color: white;
+}
+
+.am-container a img:hover {
+  height: 10px;
+  opacity:0.60;
+  filter: alpha(opacity = 60);
+  transition:opacity 0.25s;
+  -moz-transition:opacity 0.25s;
+  -webkit-transition:opacity 0.25s;
+}
+
+.am-container a:hover .img-info {
+  color: white;
+  position: absolute;
+  bottom: 1px;
+}
