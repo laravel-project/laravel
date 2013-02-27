@@ -111,7 +111,7 @@ Route::controller('users');
 
 Route::controller('session');
 
-View::composer(array('layouts/main', 'layouts/main_fluid'), function($view)
+View::composer(array('layouts/main'), function($view)
 {
   #load css
   Asset::add('bootstrap.min','css/bootstrap.min.css');
