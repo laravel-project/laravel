@@ -6,7 +6,7 @@
         {{ Asset::styles() }}
     </head>
     @if (Auth::check()) <body style="background:#000;"> @else <body> @endif
-      <div class="navbar navbar-fixed-top">
+      <div class="navbar navbar-fixed-top ">
           <div class="navbar-inner">
               <div class="container">
                   <a class="brand" href="/">Instapics</a>
@@ -17,6 +17,7 @@
                           {{ Navigation::menu('About', URL::current(), url('about')); }}
                           {{ Navigation::menu('Login', URL::current(), url('login')); }}
                           {{ Navigation::menu('Register', URL::current(), url('sign_up')); }}
+                          {{ Navigation::menu('Login with facebook', URL::current(), URL::to('facebook')); }}
                         @endsection
                         @yield('navigation')
                       </ul>
@@ -30,10 +31,11 @@
             @yield('content')
 		      </div>
           <hr>
-          <footer>
-          <p>&copy; Instapics 2013</p>
-          </footer>
         </div> <!-- /container -->
+        <footer>
+          <p>&copy; Instapics 2013</p>
+        </footer>
+        <div class='clear'></div>
         @else
           <div class="container-logged container-fluid">
             <div class="row-fluid">
@@ -52,6 +54,9 @@
               </div>
             </div>
           </div>
+          <footer>
+          <p>&copy; Instapics 2013</p>
+        </footer>
         @endif
          
         {{ Asset::scripts() }}

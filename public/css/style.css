@@ -47,3 +47,20 @@ img.recaptcha-image {
   position: absolute;
   bottom: 1px;
 }
+
+footer {
+  position: fixed;
+  bottom: 0px;
+  background-color: black;
+  opacity:0.90;
+  width: 100%;
+  color: white;
+}
+
+footer p {
+  margin: 50px;
+}
+
+/*.nav-collapse {*/
+/*  float: right;*/
+/*}*/
