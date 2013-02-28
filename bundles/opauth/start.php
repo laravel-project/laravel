@@ -10,7 +10,8 @@
 			'Strategy' => array(
 				'Facebook' => array(
 					'app_id' 	 => '604721692878709',
-					'app_secret' => '1be4abae6ed640890ea66d3a34e0112b'
+					'app_secret' => '1be4abae6ed640890ea66d3a34e0112b',
+					'scope' => 'email user_about_me'
 				),
 				'Twitter' => array(
 					'key' 	 => 'APP_KEY',
@@ -19,7 +20,7 @@
 			),
 	    	'security_salt'	=> 'YOURSALTGOESHERE!',
 	    	'path' 			=> '/',
-	    	'callback_transport' => 'get',
+	    	'callback_transport' => 'post',
 	    	'callback_url'	=> '/login_with_facebook'
 		);
 

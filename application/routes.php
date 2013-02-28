@@ -191,10 +191,4 @@ Route::get($providers, array('as' => '', function() {
 	Laravel\IoC::resolve('opauth');
 }));
 
-Route::get('login_with_facebook', function(){
-	$response = unserialize(base64_decode( $_GET['opauth'] ));
-    echo("<pre>");
-    print_r($response);
-    echo("</pre>");
-});
-//Route::post('login_with_facebook', 'sessions@login_with_facebook');
+Route::post('login_with_facebook', 'sessions@login_with_facebook');

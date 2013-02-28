@@ -11,6 +11,9 @@ class MailsWorker
       if ($this->args['use_to'] == 'send_forgot_password'){
         Mailer::send_forgot_password($this->args['user_id'], $this->args['url_base']);
       }
+      if ($this->args['use_to'] == 'send_welcome_email'){
+        Mailer::send_welcome_email($this->args['user_id'], $this->args['url_base']);
+      }
     }
  
     public function do_work()

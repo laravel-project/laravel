@@ -37,7 +37,7 @@ class User extends Eloquent {
 		return $this->has_many('Notification');
 	}
 
-  public function save()
+  public function vaild_save()
   {
     //before save
     $validation = $this->validates(Array('name' => $this->name, 
@@ -86,5 +86,20 @@ class User extends Eloquent {
   {
     return $this->confirmation_password;
   }
-
+  
+  public function facebook_save($email, $name){
+    $this->name = $name;
+    $this->email = $email;
+    $this->key_id = rand(268435456, 4294967295);
+    $this->last_sign_in_ip = $_SERVER['REMOTE_ADDR'];
+    $this->save();
+    
+    $args = array(
+      'user_id'  => $this->id,
+      'url_base' => URL::to('/'),
+      'use_to'   => 'send_welcome_email'
+    ); 
+    
+    Resque::enqueue('Laravel', 'MailsWorker', $args);
+  }
 }

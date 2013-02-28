@@ -31,9 +31,21 @@ class Sessions_Controller extends Base_Controller {
   public function action_login_with_facebook()
   {
     $response = unserialize(base64_decode( $_POST['opauth'] ));
-#    $email = $response['auth']['info']['email'];
-#    $name = $response['auth']['info']['name'];
-    var_dump($response); exit;
+    $email = $response['auth']['info']['email'];
+    $name = $response['auth']['info']['name'];
+    $user = User::where_email($email)->first();
+    if($user){
+      Message::success_or_not_message('success', 'login');
+      Auth::login($user->id);
+      return Redirect::to('home/dashboard');
+    }else{
+      $user = new User();
+      $user->facebook_save($email, $name);
+      $new_user = User::where_email($email)->first();
+      Message::success_or_not_message('success', 'login');
+      Auth::login($new_user->id);
+      return Redirect::to('home/dashboard');
+    }
   }
 
 }
