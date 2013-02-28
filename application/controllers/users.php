@@ -37,7 +37,7 @@ class Users_Controller extends Base_Controller {
       $user->password = $password;
       $user->set_confirmation_password($confirmation_password);
       $save = $user->save();
-      
+
       if($save->success)
       {
         $user = User::where_email($email)->first();

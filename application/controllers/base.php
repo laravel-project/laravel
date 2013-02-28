@@ -2,7 +2,6 @@
 
 class Base_Controller extends Controller {
 
-
   /**
    * Initialize constructor. 
    * reload all js and css. For improved performance

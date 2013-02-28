@@ -6,6 +6,11 @@
     {{ Form::text('email'); }} <br/>
     {{ Form::label('password', 'Password :'); }}
     {{ Form::password('password'); }} <br/>
+    <span>
+      <input id="remember" type="checkbox" name="remember" style="float:left">      
+      {{ Form::label('remember', 'Remember Me'); }}
+    </span>
+    </br class="clear-fix">
     <a href='{{ url('forgot_password') }}'>forgot your password?</a></br>
     {{ Form::submit('Login', array('class' => 'btn btn-primary')); }}
   {{ Form::close(); }}

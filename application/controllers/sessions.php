@@ -16,8 +16,18 @@ class Sessions_Controller extends Base_Controller {
       Message::confirmation_message();
       return Redirect::to('login'); 
     }
+
     if (Auth::attempt($credentials)) 
     {
+      //check if remember active, then generate cookies, the cookies
+      //is combination of random character(A-Z) + separator + key_id + separator +
+      //random alphanumeric
+
+      if (Input::get('remember') != null) {
+                Cookie::put('_letsread_me', 
+          Crypter::encrypt($check_user->email.'||'.$check_user->key_id), 4320);
+      }
+
       Message::success_or_not_message('success', 'login');
       return Redirect::to('home/dashboard');;
     }

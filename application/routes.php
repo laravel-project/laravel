@@ -89,6 +89,25 @@ Event::listen('500', function()
 Route::filter('before', function()
 {
 	// Do stuff before every request to your application...
+  
+  // check if session still active or not
+  // if not the check cookies remember me
+  // if remember me valid then user will login
+  // automatically
+  if (!Auth::check()) {
+    $remember_encrypt = Cookie::get('_letsread_me');
+    if ($remember_encrypt != null) {
+      $remember_decrypt = Crypter::decrypt($remember_encrypt);
+      $credentials = explode('||', $remember_decrypt);
+      $user = User::where_email_and_key_id($credentials[0], $credentials[1])->first();
+      if ($user) {
+        Message::success_or_not_message('success', 'login');
+        Auth::login($user->id);
+        return Redirect::to('home/dashboard');
+      }
+    }
+  }
+
 });
 
 Route::filter('after', function($response)
@@ -154,6 +173,8 @@ Route::get('sign_up', 'users@new');
 Route::any('logout', function() {
 	Auth::logout();
 	Session::flush();
+  Cookie::forget('_letsread_me');
+  Cookie::forget('laravel_session');
 	return Redirect::to('/');
 });
 
