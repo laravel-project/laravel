@@ -30,6 +30,19 @@ class Mailer {
     </a>');
     $mail->send();
   }
+  
+  public static function send_welcome_email($user_id, $url_base){
+    $user = User::find($user_id);
+    $mail = new SMTP();
+    $mail->to($user->email);
+    $mail->from('developer.laravel@gmail.com', 'Developer');
+    $mail->subject('Hello World');
+    $mail->body('Welcome '.$user->name.'
+    <a href='.$url_base.'>
+      click in here to visit your dashboard
+    </a>');
+    $mail->send();
+  }
 }
 
 ?>
