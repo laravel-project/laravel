@@ -27,5 +27,13 @@ class Sessions_Controller extends Base_Controller {
       return Redirect::to('login');
     } 
   }
+  
+  public function action_login_with_facebook()
+  {
+    $response = unserialize(base64_decode( $_POST['opauth'] ));
+#    $email = $response['auth']['info']['email'];
+#    $name = $response['auth']['info']['name'];
+    var_dump($response); exit;
+  }
 
 }

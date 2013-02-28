@@ -39,4 +39,7 @@ return array(
   'console' => array('handles' => 'console'),
   'smtp' => array('auto' => true),
   'composer' => array('auto' => true),
+  'opauth' => array(
+        'auto' => true
+    ),
 );

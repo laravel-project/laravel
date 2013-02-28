@@ -15,6 +15,8 @@ class Users_Controller extends Base_Controller {
     return View::make('users.new', array(
       'captcha' => $c['captcha'],
       'get_captcha' => $c['get_captcha'],
+      'name' => Input::old('name'),
+      'email' => Input::old('email'),
     ));
   }
   
@@ -55,13 +57,13 @@ class Users_Controller extends Base_Controller {
       else
       {
         Message::success_or_not_message('failed', 'registration');
-        return Redirect::to('sign_up')->with_errors($save->errors);
+        return Redirect::to('sign_up')->with_input()->with_errors($save->errors);
       }
     }
     else
     {
       Message::invalid_message('captcha');
-      return Redirect::to('sign_up');
+      return Redirect::to('sign_up')->with_input();
     }
     
   }
