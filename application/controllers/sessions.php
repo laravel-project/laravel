@@ -10,11 +10,11 @@ class Sessions_Controller extends Base_Controller {
     
     if(!$check_user){
       Message::invalid_message('email or password');
-      return Redirect::to('login'); 
+      return Redirect::to('/?login'); 
     }
     if($check_user->confirmation_token != null){
       Message::confirmation_message();
-      return Redirect::to('login'); 
+      return Redirect::to('/?login'); 
     }
 
     if (Auth::attempt($credentials)) 
@@ -34,7 +34,7 @@ class Sessions_Controller extends Base_Controller {
     else 
     {
       Message::invalid_message('email or password');
-      return Redirect::to('login');
+      return Redirect::to('/?login');
     } 
   }
   

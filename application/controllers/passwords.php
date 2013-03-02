@@ -26,7 +26,7 @@ class Passwords_Controller extends Base_Controller {
       return Redirect::to('/');
     }else{
       Message::success_or_not_message('failed', 'send password');
-      return Redirect::to('forgot_password');
+      return Redirect::to('/?forgot_password');
     }
   }
   
@@ -79,11 +79,11 @@ class Passwords_Controller extends Base_Controller {
         return Redirect::to('/');
       }else{
         Message::another_message('failed', 'failed to resend confirmation, you have already send confirmation');
-        return Redirect::to('login');
+        return Redirect::to('/?login');
       }
     }else{
       Message::success_or_not_message('failed', 'resend confirmation');
-      return Redirect::back();
+      return Redirect::to('/?resend_confirmation');
     }
   }
 }

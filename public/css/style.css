@@ -6,8 +6,12 @@ img.recaptcha-image {
   margin-bottom: 10px;
 }
 
-#registration_form input{
-  height: 30px;
+input{
+  height: 30px !important;
+}
+
+#searches-box div input {
+  height: 20px !important;
 }
 
 .grid {
@@ -64,10 +68,17 @@ footer p {
 .row-fluid div {
   color: white;
 }
-/*.nav-collapse {*/
-/*  float: right;*/
-/*}*/
 
 #remember {
   float:left; margin-right: 5px;
+}
+
+#searches-box {
+  position: fixed;
+  top: 5px;
+  right: 8px;
+}
+
+.frontend-layer {
+  margin-bottom: 375px;
 }
