@@ -61,6 +61,13 @@ footer p {
   margin: 50px;
 }
 
+.row-fluid div {
+  color: white;
+}
 /*.nav-collapse {*/
 /*  float: right;*/
 /*}*/
+
+#remember {
+  float:left; margin-right: 5px;
+}

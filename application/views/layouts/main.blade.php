@@ -54,9 +54,6 @@
               </div>
             </div>
           </div>
-          <footer>
-          <p>&copy; Instapics 2013</p>
-        </footer>
         @endif
          
         {{ Asset::scripts() }}
