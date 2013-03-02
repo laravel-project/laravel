@@ -11,8 +11,18 @@
       {{ Form::password('password'); }} <br/>
       {{ Form::label('confirmation_password', 'Confirmation Password :'); }}
       {{ Form::password('confirmation_password'); }} </br>
-      {{ Captcha::generate_view($captcha, $get_captcha) }}
+      <div id='add_captcha'></div>
       {{ Form::submit('Register!', array('class' => 'btn btn-primary')); }}
     {{ Form::close(); }}
   </div>
 </div>
+@section('javascript_tag')
+  <script>
+    $.ajax({
+    url: "{{ url('get_captcha') }}",
+      success: function(captcha){
+        $('#add_captcha').append(captcha)
+      }
+    });
+  </script>
+@endsection

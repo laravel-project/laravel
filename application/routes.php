@@ -216,3 +216,8 @@ Route::get($providers, array('as' => '', function() {
 }));
 
 Route::post('login_with_facebook', 'sessions@login_with_facebook');
+
+Route::get('get_captcha', function()
+{
+  return Captcha::generate_view(); 
+});

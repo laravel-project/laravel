@@ -17,7 +17,7 @@
                           <li><a href='#about'>About</a></li>
                           <li><a href='#watch'>Watch</a></li>
                           <li><a href="#login-modal" data-toggle="modal">Login</a></li>
-                          <li><a href="#registration-modal" data-toggle="modal">Sign up</a></li>
+                          <li><a id="registration_captcha" href="#registration-modal" data-toggle="modal">Sign up</a></li>
                           {{ Navigation::menu('Login with facebook', URL::current(), URL::to('facebook')); }}
                         @endsection
                         @yield('navigation')

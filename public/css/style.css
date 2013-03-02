@@ -6,14 +6,6 @@ img.recaptcha-image {
   margin-bottom: 10px;
 }
 
-input{
-  height: 30px !important;
-}
-
-#searches-box div input {
-  height: 20px !important;
-}
-
 .grid {
   padding: 10px;
   margin-bottom: 20px;
