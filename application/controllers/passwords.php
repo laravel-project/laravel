@@ -26,7 +26,7 @@ class Passwords_Controller extends Base_Controller {
       return Redirect::to('/');
     }else{
       Message::success_or_not_message('failed', 'send password');
-      return Redirect::to('forgot_password');
+      return Redirect::to('/?forgot_password');
     }
   }
   
@@ -54,6 +54,36 @@ class Passwords_Controller extends Base_Controller {
     }else{
       Message::password_error();
       return Redirect::to('reset_password?key_id='.$key_id);
+    }
+  }
+  
+  public function action_resend_confirmation(){
+    return View::make('passwords.resend_confirmation');
+  }
+  
+  public function action_process_resend_confirmation(){
+    $email = Input::get('email');
+    $user = User::where_email($email)->first();
+    if($email != ""){
+      if($user && $user->confirmation_token != ""){
+        DB::table('users')->where('id', '=', $user->id)->update(array('confirmation_token' => substr(md5(rand()), 0, 25) ));
+        $args = array(
+          'user_id'  => $user->id,
+          'url_base' => URL::to('confirmation_password'),
+          'use_to'   => 'confirmation_password'
+        ); 
+        
+        Resque::enqueue('Laravel', 'MailsWorker', $args);
+      
+        Message::success_or_not_message('success', 'resend confirmation');
+        return Redirect::to('/');
+      }else{
+        Message::another_message('failed', 'failed to resend confirmation, you have already send confirmation');
+        return Redirect::to('/?login');
+      }
+    }else{
+      Message::success_or_not_message('failed', 'resend confirmation');
+      return Redirect::to('/?resend_confirmation');
     }
   }
 }

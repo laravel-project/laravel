@@ -7,7 +7,7 @@
 	<a href="#" >
 	  <img src="/img/img{{ rand(1,9) }}.jpg" />
 	  <div class="img-info">
-      <p>A description about the image</p>
+      <p>{{ str_shuffle("A description about the image"); }}</p>
     </div>
 	</a>
 	<?php

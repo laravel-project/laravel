@@ -188,6 +188,9 @@ Route::post('process_forgot_password', 'passwords@create');
 Route::get('reset_password', 'passwords@reset_password');
 Route::post('process_reset_password','passwords@process_reset_password');
 
+Route::get('resend_confirmation', 'passwords@resend_confirmation');
+Route::post('process_resend_confirmation', 'passwords@process_resend_confirmation');
+
 Route::get('confirmation_password', function(){
   $confirmation_token = Input::get('confirmation_token');
   $key_id = Input::get('key_id');
@@ -213,3 +216,8 @@ Route::get($providers, array('as' => '', function() {
 }));
 
 Route::post('login_with_facebook', 'sessions@login_with_facebook');
+
+Route::get('get_captcha', function()
+{
+  return Captcha::generate_view(); 
+});

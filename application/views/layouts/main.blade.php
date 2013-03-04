@@ -6,17 +6,18 @@
         {{ Asset::styles() }}
     </head>
     @if (Auth::check()) <body style="background:#000;"> @else <body> @endif
-      <div class="navbar navbar-fixed-top ">
+      <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
               <div class="container">
                   <a class="brand" href="/">Instapics</a>
                    <div class="nav-collapse">
                       <ul class="nav">
                         @section('navigation')
-                          {{ Navigation::menu('Home', URL::current(), url('home')); }}
-                          {{ Navigation::menu('About', URL::current(), url('about')); }}
-                          {{ Navigation::menu('Login', URL::current(), url('login')); }}
-                          {{ Navigation::menu('Register', URL::current(), url('sign_up')); }}
+                          <li><a href='#home'>Home</a></li>
+                          <li><a href='#about'>About</a></li>
+                          <li><a href='#watch'>Watch</a></li>
+                          <li><a href="#login-modal" data-toggle="modal">Login</a></li>
+                          <li><a id="registration_captcha" href="#registration-modal" data-toggle="modal">Sign up</a></li>
                           {{ Navigation::menu('Login with facebook', URL::current(), URL::to('facebook')); }}
                         @endsection
                         @yield('navigation')
@@ -25,17 +26,13 @@
               </div>
           </div>
         </div>
-        @if (!Auth::check())
-        <div class="container">
-          <div class="hero-unit">
-            @yield('content')
-		      </div>
-          <hr>
-        </div> <!-- /container -->
-        <footer>
-          <p>&copy; Instapics 2013</p>
-        </footer>
         <div class='clear'></div>
+        @if (!Auth::check())
+          @yield('content')
+          <footer>
+            <p>&copy; Instapics 2013</p>
+          </footer>
+          <div class='clear'></div>
         @else
           <div class="container-logged container-fluid">
             <div class="row-fluid">
@@ -44,25 +41,26 @@
               </div>
               <div class="span2 sidebar-content">
                 <div style="position: fixed;">
-                  <div class="input-append">
-                  <input class="input-small" id="appendedInputButtons" type="text" size='12'>
-                  <button class="btn" type="button">Search</button>
-                  </div> <hr>
                 Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. <hr> 
                 Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. 
                 </div>
               </div>
             </div>
           </div>
-          <footer>
-          <p>&copy; Instapics 2013</p>
-        </footer>
         @endif
-         
         {{ Asset::scripts() }}
        
         @yield('javascript_tag')
         <script>
+        
+          //this is function for showing bootsrap popup modal
+          //only use on javascript
+          {{ Modal::show_after_failed('login') }}
+          {{ Modal::show_after_failed('forgot_password') }}
+          {{ Modal::show_after_failed('resend_confirmation') }}
+          {{ Modal::show_after_failed('registration') }}
+          
+          $('#forgot_password_link, #resend_confirmation_link').click(function(){ $('#login-modal').modal('hide') })
           @if (count($errors->all() > 1))
             @foreach ($errors->all() as $error)
               $().toastmessage('showErrorToast', "{{ $error }}");

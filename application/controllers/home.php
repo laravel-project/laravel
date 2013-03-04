@@ -37,7 +37,10 @@ class Home_Controller extends Base_Controller {
   public function action_index()
 	{
 	  if (Auth::check()) return Redirect::to('home/dashboard');
-		return View::make('home.index');
+    return View::make('home.index', array(
+      'name' => Input::old('name'),
+      'email' => Input::old('email'),
+    ));
   }
 
   public function action_dashboard()

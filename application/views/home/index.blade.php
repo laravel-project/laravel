@@ -1,18 +1,25 @@
 @layout('layouts/main')
 @section('content')
-<div class="row">
-  <div class="span6">
-    <h1>Welcome to Instapics!</h1>
-    <p>Instapics is a fun way to share photos with family and friends.</p>
-    <p>Wow them with your photo-filtering abilities!</p>
-    <p>Let them see what a great photographer you are!</p>
-    <p><a href="about" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-  </div>
-</div>
-<!-- Example row of columns -->
-<div class="row">
-    <div class="span3">
-        &nbsp;
+  <div id='home' class="container frontend-layer">
+    <div class="hero-unit">
+      @include('home/home')
     </div>
-   </div>
+    <hr>
+  </div>
+  <div id='about' class="container frontend-layer">
+    <div class="hero-unit">
+      @include('home/about')
+    </div>
+    <hr>
+  </div>
+  <div id='watch' class="container frontend-layer">
+    <div class="hero-unit">
+      @include('home/watch')
+    </div>
+    <hr>
+  </div>
+  @include('home/login-modal')
+  @include('home/forgot_password-modal')
+  @include('home/resend_confirmation-modal')
+  @include('home/registration-modal')
 @endsection

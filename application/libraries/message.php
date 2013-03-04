@@ -17,6 +17,10 @@ class Message {
   public static function password_error(){
     return Session::flash('failed', 'password must then 6 character and password and confirmation password not match');
   }
+  
+  public static function another_message($flag, $message){
+    return Session::flash($flag, $message);
+  }
 }
 
 ?>

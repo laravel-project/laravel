@@ -6,10 +6,6 @@ img.recaptcha-image {
   margin-bottom: 10px;
 }
 
-#registration_form input{
-  height: 30px;
-}
-
 .grid {
   padding: 10px;
   margin-bottom: 20px;
@@ -61,6 +57,20 @@ footer p {
   margin: 50px;
 }
 
-/*.nav-collapse {*/
-/*  float: right;*/
-/*}*/
+.row-fluid div {
+  color: white;
+}
+
+#remember {
+  float:left; margin-right: 5px;
+}
+
+#searches-box {
+  position: fixed;
+  top: 5px;
+  right: 8px;
+}
+
+.frontend-layer {
+  margin-bottom: 375px;
+}
