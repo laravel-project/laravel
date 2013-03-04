@@ -52,6 +52,8 @@ class User extends Eloquent {
     { 
       //generate key_id
       $this->key_id = rand(268435456, 4294967295);
+      //generate remember token
+      $this->remember_token = rand(268435456, 4294967295);
       //generate token
       $this->confirmation_token = substr(md5(rand()), 0, 25);
       //encrypt password using md5
@@ -101,5 +103,10 @@ class User extends Eloquent {
     ); 
     
     Resque::enqueue('Laravel', 'MailsWorker', $args);
+  }
+
+  public function update_attribute($attr, $value) {
+    $this->$attr = $value;
+    $this->save();
   }
 }

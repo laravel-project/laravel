@@ -99,11 +99,31 @@ Route::filter('before', function()
     if ($remember_encrypt != null) {
       $remember_decrypt = Crypter::decrypt($remember_encrypt);
       $credentials = explode('||', $remember_decrypt);
-      $user = User::where_email_and_key_id($credentials[0], $credentials[1])->first();
-      if ($user) {
-        Message::success_or_not_message('success', 'login');
-        Auth::login($user->id);
-        return Redirect::to('home/dashboard');
+      //check browser, if the browser is same when user use remember me feature 
+      //for the first time then continue to next step
+      if ($credentials[0] == $_SERVER['HTTP_USER_AGENT']) {
+        //check credential email, key_id, and remember me
+        $user = User::where_email_and_key_id_and_remember_token($credentials[1], 
+          $credentials[2], $credentials[3])->first();
+        if ($user) {
+          $user->update_attribute('remember_token', rand(123456789, 999999999));
+          Cookie::forget('_letsread_me');
+          Cookie::put('_letsread_me', 
+            Crypter::encrypt($_SERVER['HTTP_USER_AGENT'].'||'.$user->email.
+            '||'.$user->key_id.'||'.$user->remember_token), 4320);
+          Message::success_or_not_message('success', 'login');
+          Auth::login($user->id);
+          return Redirect::to('home/dashboard');
+        }
+        else {
+          //check credential, if remember token wrong but email and key_id is 
+          //right then the cookie login has been sniffed by hacker
+          $user_with_wrong_remember_token = User::where_email_and_key_id($credentials[1],
+            $credentials[2])->first();
+          if ($user_with_wrong_remember_token) {
+            Message::invalid_message('Your remember cookie has been used');
+          }
+        }
       }
     }
   }
