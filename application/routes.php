@@ -91,7 +91,7 @@ Route::filter('before', function()
 	// Do stuff before every request to your application...
   
   // check if session still active or not
-  // if not the check cookies remember me
+  // if not then check cookies remember me
   // if remember me valid then user will login
   // automatically
   if (!Auth::check()) {
