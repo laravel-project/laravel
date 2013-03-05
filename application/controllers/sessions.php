@@ -20,12 +20,12 @@ class Sessions_Controller extends Base_Controller {
     if (Auth::attempt($credentials)) 
     {
       //check if remember active, then generate cookies, the cookies
-      //is combination of random character(A-Z) + separator + key_id + separator +
-      //random alphanumeric
-
+      //is combination of email + key_id + remember token. remember token
+      //will be generated when user use remember cookies.
       if (Input::get('remember') != null) {
-                Cookie::put('_letsread_me', 
-          Crypter::encrypt($check_user->email.'||'.$check_user->key_id), 4320);
+        Cookie::put('_letsread_me', 
+          Crypter::encrypt($_SERVER['HTTP_USER_AGENT'].'||'.$check_user->email.
+          '||'.$check_user->key_id.'||'.$check_user->remember_token), 4320);
       }
 
       Message::success_or_not_message('success', 'login');

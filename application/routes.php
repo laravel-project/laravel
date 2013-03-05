@@ -89,7 +89,7 @@ Event::listen('500', function()
 Route::filter('before', function()
 {
 	// Do stuff before every request to your application...
-  
+
   // check if session still active or not
   // if not then check cookies remember me
   // if remember me valid then user will login
@@ -127,7 +127,6 @@ Route::filter('before', function()
       }
     }
   }
-
 });
 
 Route::filter('after', function($response)
