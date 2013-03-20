@@ -16,9 +16,10 @@ class Create_Articles_Table {
         $table->increments('id');
         $table->string('key_id');
         $table->string('title');
-        $table->string('content');
+        $table->text('content');
         $table->string('image');
         $table->string('status');
+        $table->string('article_url');
         $table->integer('user_id')->unsigned();
         $table->integer('category_id')->unsigned();
         $table->timestamps();

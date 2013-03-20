@@ -10,7 +10,7 @@ class Crawler_Task {
     public function run($arguments)
     {
         // Do awesome notifying...
-        $this->url = 'http://www.kompas.com/';
+        $this->url = 'http://tekno.kompas.com/read/2013/03/17/12411186/Google.Glass.Bisa.Dipakai.Orang.Berkacamata';
         $this->request_type = 'GET';
         $this->data = '';
         $this->post_params = array();
@@ -36,14 +36,20 @@ class Crawler_Task {
        $dom->preserveWhiteSpace = false;
        $dom->loadHTML($this->data);
        $xpath = new DOMXPath($dom);
-       $news = $xpath->query('//*[(@id = "jsddm")]//li[(((count(preceding-sibling::*) + 1) = 8) and parent::*)]//a');
+       $news = $xpath->query('//*[contains(concat( " ", @class, " " ), concat( " ", "isi_artikel", " " ))]//p');
        foreach( $news as $n){
-           $result[] =   $n->nodeValue;
-           $count++;
-           if ($count >9)
-               break; //we just need  10 results. Index starts from 0
+         $ad_Doc = new DOMDocument();
+         $cloned = $n->cloneNode(TRUE);
+         echo $cloned;
+         echo "\n";
+         $ad_Doc->appendChild($ad_Doc->importNode($cloned, True));
+         $xpath = new DOMXPath($ad_Doc);         
+         
+         $result[] = $n->nodeValue;
+         //$count++;
+         //if ($count >9)
+           //break; //we just need  10 results. Index starts from 0
        }
-       var_dump($result);
        exit;
        return $result;
    }
