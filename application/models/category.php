@@ -3,9 +3,9 @@
 class Category extends Eloquent {
   public static $timestamps = true;
 
-	public function articles()
+	public function crawl_urls()
 	{
-		return $this->has_many('Article');
+		return $this->has_many('CrawlUrl');
 	}
 
 }

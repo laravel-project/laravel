@@ -18,12 +18,14 @@ class Create_Crawl_Characteristic_Table {
       $table->integer('crawl_url_id')->unsigned();
       $table->integer('characteristic_id')->unsigned();
       $table->string('xpath');
-      $table->foreign('crawl_url_id')->references('id')
-        ->on('crawl_urls')->on_delete('cascade');
-      $table->foreign('characteristic_id')->references('id')
-        ->on('characteristics')->on_delete('cascade');
+      //$table->foreign('crawl_url_id')->references('id')
+        //->on('crawl_urls')->on_delete('cascade');
+      //$table->foreign('characteristic_id')->references('id')
+        //->on('characteristics')->on_delete('cascade');
       $table->timestamps();
       $table->index('key_id');
+      $table->index('crawl_url_id');
+      $table->index('characteristic_id');
     });
 	}
 

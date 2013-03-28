@@ -1,6 +1,6 @@
 <?php
 
-class Seed_Characteristic_Table {
+class Seed_Category_Table {
 
 	/**
 	 * Make changes to the database.
@@ -9,30 +9,24 @@ class Seed_Characteristic_Table {
 	 */
 	public function up()
 	{
-    //seed for characteristic
+		//
     $now = date('Y-m-d H:i:s');
-    DB::table('characteristics')->insert(
+    DB::table('categories')->insert(
       array(
         array(
-          'name' => 'title',
+          'name' => 'Teknologi',
           'key_id' => rand(268435456, 4294967295),
           'created_at' => $now,
           'updated_at' => $now
         ),
         array(
-          'name' => 'article',
+          'name' => 'Musik',
           'key_id' => rand(268435456, 4294967295),
           'created_at' => $now,
           'updated_at' => $now
         ),
         array(
-          'name' => 'picture',
-          'key_id' => rand(268435456, 4294967295),
-          'created_at' => $now,
-          'updated_at' => $now
-        ),
-        array(
-          'name' => 'content body',
+          'name' => 'Film',
           'key_id' => rand(268435456, 4294967295),
           'created_at' => $now,
           'updated_at' => $now
@@ -48,7 +42,8 @@ class Seed_Characteristic_Table {
 	 */
 	public function down()
 	{
-    DB::table('characteristics')->delete();
+    //
+    DB::table('categories')->delete();
 	}
 
 }

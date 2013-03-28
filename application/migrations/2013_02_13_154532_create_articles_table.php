@@ -21,11 +21,13 @@ class Create_Articles_Table {
         $table->string('status');
         $table->string('article_url');
         $table->integer('user_id')->unsigned();
-        $table->integer('category_id')->unsigned();
+        $table->integer('crawl_url_id')->unsigned();
         $table->timestamps();
         $table->index('key_id');
-        $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
-        $table->foreign('category_id')->references('id')->on('categories');
+        $table->index('user_id');
+        $table->index('crawl_url_id');
+        //$table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
+        //$table->foreign('category_id')->references('id')->on('categories');
     });
 	}
 

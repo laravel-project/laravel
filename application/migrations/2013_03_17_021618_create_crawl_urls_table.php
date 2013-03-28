@@ -18,6 +18,8 @@ class Create_Crawl_Urls_Table {
       $table->string('url');
       $table->timestamps();
       $table->index('key_id');
+      $table->integer('category_id')->unsigned();
+      $table->index('category_id');
     });
 	}
 

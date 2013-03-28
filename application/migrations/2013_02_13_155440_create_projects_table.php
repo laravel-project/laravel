@@ -20,8 +20,10 @@ class Create_Projects_Table {
       $table->integer('article_id')->unsigned();
       $table->timestamps();
       $table->index('key_id');
-      $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
-      $table->foreign('article_id')->references('id')->on('articles')->on_delete('cascade');
+      $table->index('user_id');
+      $table->index('article_id');
+      //$table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
+      //$table->foreign('article_id')->references('id')->on('articles')->on_delete('cascade');
 	  });
 	}
 

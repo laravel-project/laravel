@@ -21,9 +21,12 @@ class Create_Comments_Table {
       $table->integer('comment_id')->unsigned();
       $table->timestamps();
       $table->index('key_id');
-      $table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
-      $table->foreign('comment_id')->references('id')->on('comments');
-      $table->foreign('article_id')->references('id')->on('articles')->on_delete('cascade');
+      $table->index('user_id');
+      $table->index('article_id');
+      $table->index('comment_id');
+      //$table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
+      //$table->foreign('comment_id')->references('id')->on('comments');
+      //$table->foreign('article_id')->references('id')->on('articles')->on_delete('cascade');
     });
 	}
 
