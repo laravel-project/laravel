@@ -51,4 +51,14 @@ class Article extends Eloquent {
     return Validator::make($input, $rules);
   }
 
+  public static function find_article_by_url($url)
+  {
+    return Article::where_article_url($url)->select('id')->first(); 
+  }
+
+  public static function find_article_by_title($title)
+  {
+    return Article::where_title($title)->select('id')->first();
+  }
+
 }
