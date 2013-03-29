@@ -141,7 +141,7 @@ Route::filter('csrf', function()
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::to('login');
+	if (Auth::guest()) return Redirect::to('/?login');
 });
 
 // Route for Users_Controller
@@ -163,8 +163,8 @@ View::composer(array('layouts/main'), function($view)
     'http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js');
   Asset::add('underscore', 
     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
-  Asset::add('backbone', 
-    'http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.10/backbone-min.js');
+  Asset::add('angular', 
+    'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js');
   Asset::add('bootstrap', 
     'http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js');
   Asset::add('jquery.toastmessage','js/jquery.toastmessage.js');
@@ -239,4 +239,9 @@ Route::post('login_with_facebook', 'sessions@login_with_facebook');
 Route::get('get_captcha', function()
 {
   return Captcha::generate_view(); 
+});
+
+Route::get('get_my_articles', function()
+{
+  return "weeew";
 });

@@ -1,18 +1,23 @@
 <div class="am-container" id="am-container">
-  <?php
-    $value = 30;
-    for ($i=1; $i<=$value; $i++)
-    {
-  ?>
-	<a href="#" >
-	  <img src="/img/img{{ rand(1,9) }}.jpg" />
-	  <div class="img-info">
-      <p>{{ str_shuffle("A description about the image"); }}</p>
-    </div>
-	</a>
-	<?php
-    }
-  ?>
+  <div id='articles'>
+    <?php
+  #    $articles = count($articles);
+       if (count($articles) > 0 ){
+         foreach( $articles as $article){
+  #    for ($i=1; $i<=$value; $i++)
+  #    {
+    ?>
+	  <a href="#" >
+	    <img src="{{ $article->image }}" />
+	    <div class="img-info">
+        <p>{{ $article->title }}</p>
+      </div>
+	  </a>
+	  <?php
+        }
+      }
+    ?>
+  </div>
 </div>
 @section('javascript_tag')
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html ng-app>
     <head>
         <meta charset="utf-8">
         <title>Instapics</title>
@@ -42,7 +42,12 @@
               <div class="span2 sidebar-content">
                 <div style="position: fixed;">
                 Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. <hr> 
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. 
+                 <h4> My Books</h4>
+                 <ul id='my_books'>
+                   @foreach( $books as $book )
+                     <li><a href="#{{ $book->nanme }}">{{ $book->name }}</a></li>
+                   @endforeach
+                 </ul>
                 </div>
               </div>
             </div>
@@ -72,6 +77,7 @@
           @if (Session::get('success'))
             $().toastmessage('showSuccessToast', "{{ Session::get('success') }}")
           @endif
+          
         </script>
     </body>
 </html>
