@@ -4,17 +4,15 @@ error_reporting(0);
 class Crawler_Task {
     private $url;
     private $request_type;
-    private $data;
-    private $post_params;
+    private $result;
+    private $crawl_urls;
     
     public function run($arguments)
     {
-        // Do awesome notifying...
-        $this->url = 'http://tekno.kompas.com/read/2013/03/17/12411186/Google.Glass.Bisa.Dipakai.Orang.Berkacamata';
-        $this->request_type = 'GET';
-        $this->data = '';
-        $this->post_params = array();
-        $this->crawl()->parse();
+      // Do awesome notifying...
+      $this->crawl_urls = CrawlUrl::find(1);
+      $this->url = $this->crawl_urls->url;
+      $this->crawl()->parse_parent();
     }
 
     public function crawl()
@@ -22,36 +20,101 @@ class Crawler_Task {
       $curl = curl_init($this->url);
       curl_setopt($curl, CURLOPT_HEADER, false);
       curl_setopt($curl, CURLOPT_TIMEOUT, 60);
-      curl_setopt($curl, CURLOPT_USERAGENT, 'cURL PHP');
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-      $this->data = curl_exec($curl);
+      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+      $this->result = curl_exec($curl);
       curl_close($curl);
       return $this; //make it a chainable method
     }     
 
-    function parse(){
-       $result = array();
-       $count = 0;
-       $dom = new DOMDocument;
-       $dom->preserveWhiteSpace = false;
-       $dom->loadHTML($this->data);
-       $xpath = new DOMXPath($dom);
-       $news = $xpath->query('//*[contains(concat( " ", @class, " " ), concat( " ", "isi_artikel", " " ))]//p');
-       foreach( $news as $n){
-         $ad_Doc = new DOMDocument();
-         $cloned = $n->cloneNode(TRUE);
-         echo $cloned;
-         echo "\n";
-         $ad_Doc->appendChild($ad_Doc->importNode($cloned, True));
-         $xpath = new DOMXPath($ad_Doc);         
-         
-         $result[] = $n->nodeValue;
-         //$count++;
-         //if ($count >9)
-           //break; //we just need  10 results. Index starts from 0
-       }
-       exit;
-       return $result;
-   }
+    public function parse_parent()
+    {
+      $dom = new DOMDocument();
+      $dom->preserveWhiteSpace = false;
+
+      $dom->loadHTML($this->result);
+      $xpath = new DOMXPath($dom);
+      //get characteristic content body xpath
+      $content_id = Characteristic::where_name('content body')->select('id')
+        ->first()->id;
+      $xpath_text = $this->get_xpath($content_id);
+      //get content body
+      $content = $xpath->query($xpath_text)->item(0);
+      //create a new dom document that contains content 
+      $ad_Doc = new DOMDocument();
+      $cloned = $content->cloneNode(TRUE);
+      $ad_Doc->appendChild($ad_Doc->importNode($cloned, True)); 
+      $xpath = new DOMXPath($ad_Doc);         
+      //get all links in content dom
+      $links = $xpath->query('//a');
+      foreach($links as $link) {
+        if (!$cache[$link->getAttribute('href')])
+        {
+          $cache[$link->getAttribute('href')] = true;
+          $this->url = $link->getAttribute('href');
+          $this->crawl()->parse_content();
+        }
+      }
+    }
+
+    public function parse_content()
+    {
+      $dom = new DOMDocument();
+      $dom->preserveWhiteSpace = false;
+      $dom->loadHTML($this->result);
+      $xpath = new DOMXPath($dom);
+      
+      //get xpath title, image, and article
+      $title_id = Characteristic::where_name('title')->select('id')->first()->id;
+      $xpath_title = $this->get_xpath($title_id);
+      $img_id = Characteristic::where_name('picture')->select('id')
+        ->first()->id;
+      $xpath_img = $this->get_xpath($img_id);
+      $article_id = Characteristic::where_name('article')->select('id')
+        ->first()->id;
+      $xpath_article = $this->get_xpath($article_id);
+      
+      //get title
+      $title = trim($xpath->query($xpath_title)->item(0)->nodeValue);
+      
+      //get content article
+      $article_nodes = $xpath->query($xpath_article);
+      $temp_article = "";
+      foreach($article_nodes as $article_node) {
+        //get image
+        $ad_Doc = new DOMDocument();
+        $cloned = $article_node->cloneNode(TRUE);
+        $ad_Doc->appendChild($ad_Doc->importNode($cloned, True)); 
+        $xpath = new DOMXPath($ad_Doc);
+        if (!$xpath_img)
+        {
+          $xpath_img = '//img';
+        }        
+        $img = $xpath->query($xpath_img)->item(0)->getAttribute('src');
+        $temp_article = $temp_article.$article_node->nodeValue;
+      }
+      $article = trim($temp_article);
+      $this->save_article($title, $article, $img);
+    }
+    
+    //function to retrieve xpath from table crawl_characteristic
+    private function get_xpath($characteristic_id)
+    {
+      $xpath = CrawlCharacteristic::
+        get_xpath_by_url_and_characteristic($this->crawl_urls->id, 
+        $characteristic_id);
+      return $xpath;
+    }
+
+    private function save_article($title, $content, $picture)
+    {
+      $article = new Article(); 
+      $article->title = $title;
+      $article->content = $content;
+      $article->image = $picture;
+      $article->article_url = $this->url;
+      $article->crawl_url_id = $this->crawl_urls->id;
+      $article->save_data();
+    }
 
 }

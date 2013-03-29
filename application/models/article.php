@@ -33,4 +33,22 @@ class Article extends Eloquent {
 		return $this->has_many('Project');
 	}
 
+  public function save_data()
+  {
+    $validation = $this->validates(Array('title' => $this->title, 
+      'content' => $this->content));
+    if ( !$validation->fails() )
+    {
+      //generate key_id
+      $this->key_id = rand(268435456, 4294967295);
+      $this->save();
+    }
+  }
+
+  public function validates($input)
+  {
+    $rules = array('title' => 'required', 'content' => 'required');
+    return Validator::make($input, $rules);
+  }
+
 }
