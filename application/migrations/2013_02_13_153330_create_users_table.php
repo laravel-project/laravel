@@ -27,7 +27,7 @@ class Create_Users_Table {
         $table->date('expired_at')->nullable();
         $table->timestamps();
         $table->index('key_id');
-        $table->integer('remember_token');
+        $table->integer('remember_token')->nullable();
     });
 	}
 
