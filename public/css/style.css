@@ -9,6 +9,14 @@ img.recaptcha-image {
 .grid {
   padding: 10px;
   margin-bottom: 20px;
+  margin-top: 50px;
+  margin-left: 10px;
+  background: none repeat scroll 0 0 whitesmoke;
+  border: 4px double cornflowerblue;
+}
+
+.grid strong{
+  font-size: 8pt;
 }
 
 .am-wrapper{
@@ -16,6 +24,7 @@ img.recaptcha-image {
 	position:relative;
 	overflow:hidden;
 }
+
 .am-wrapper img{
 	position:absolute;
 	outline:none;
@@ -29,21 +38,6 @@ img.recaptcha-image {
   color: white;
 }
 
-.am-container a img:hover {
-  height: 10px;
-  opacity:0.60;
-  filter: alpha(opacity = 60);
-  transition:opacity 0.25s;
-  -moz-transition:opacity 0.25s;
-  -webkit-transition:opacity 0.25s;
-}
-
-.am-container a:hover .img-info {
-  color: white;
-  position: absolute;
-  bottom: 1px;
-}
-
 footer {
   position: fixed;
   bottom: 0px;
@@ -55,10 +49,6 @@ footer {
 
 footer p {
   margin: 50px;
-}
-
-.row-fluid div {
-  color: white;
 }
 
 #remember {

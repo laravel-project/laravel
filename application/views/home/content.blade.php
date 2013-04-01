@@ -1,18 +1,20 @@
-<div class="am-container" id="am-container">
+<div class="am-container">
   <div id='articles'>
     <?php
-  #    $articles = count($articles);
        if (count($articles) > 0 ){
          foreach( $articles as $article){
-  #    for ($i=1; $i<=$value; $i++)
-  #    {
+           if ($article->id % 3){
+             $v = 1;
+           }else{
+             $v = 2;
+           }
     ?>
-	  <a href="#" >
-	    <img src="{{ $article->image }}" />
-	    <div class="img-info">
-        <p>{{ $article->title }}</p>
-      </div>
-	  </a>
+    <div class="grid" data-size="{{ $v }}">
+		  <div class="imgholder">
+			  <img src="{{ $article->image }}" />
+		  </div>
+		  <strong>{{ $article->title }}</strong>
+	  </div>
 	  <?php
         }
       }
@@ -20,57 +22,55 @@
   </div>
 </div>
 @section('javascript_tag')
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript" src="/js/jquery.montage.min.js"></script>
+<script type="text/javascript" src="/js/blocksit.min.js"></script>
 <script>
-	$(function() {
-		var $container 	= $('#am-container'),
-			$imgs		= $container.find('img').hide(),
-			totalImgs	= $imgs.length,
-			cnt			= 0;
-		
-		$imgs.each(function(i) {
-			var $img	= $(this);
-			$('<img/>').load(function() {
-				++cnt;
-				if( cnt === totalImgs ) {
-					$imgs.show();
-					$container.montage({
-						minw : 200,
-						alternateHeight : true,
-						alternateHeightRange : {
-							min	: 100,
-							max	: 200
-						},
-						margin : 8,
-						fillLastRow : true
-					});
-					
-					/* 
-					 * just for this demo:
-					 */
-					$('#overlay').fadeIn(500);
-					var imgarr	= new Array();
-					for( var i = 1; i <= 73; ++i ) {
-						imgarr.push( i );
-					}
-					$('#loadmore').show().bind('click', function() {
-						var len = imgarr.length;
-						for( var i = 0, newimgs = ''; i < 15; ++i ) {
-							var pos = Math.floor( Math.random() * len ),
-								src	= imgarr[pos];
-							newimgs	+= '<a href="#"><img src="/img/' + src + '.jpg"/></a>';
-						}
-						
-						var $newimages = $( newimgs );
-						$newimages.imagesLoaded( function(){
-							$container.append( $newimages ).montage( 'add', $newimages );
-						});
-					});
-				}
-			}).attr('src',$img.attr('src'));
-		});	
-		
+$(document).ready(function() {
+	//blocksit define
+	$(window).load( function() {
+		$('#articles').BlocksIt({
+			numOfCol: 4,
+			offsetX: 8,
+			offsetY: 8
+		});
 	});
+	
+	$('.grid').each(function(){
+    if($(this).attr('data-size') == 1){
+      $(this).css('height',"160px");
+    }else{
+      $(this).css('height',"320px");
+    }
+  })
+    
+	//window resize
+	var currentWidth = 1100;
+	$(window).resize(function() {
+		var winWidth = $(window).width();
+		var conWidth;
+		if(winWidth < 660) {
+			conWidth = 440;
+			col = 2
+		} else if(winWidth < 880) {
+			conWidth = 660;
+			col = 3
+		} else if(winWidth < 1100) {
+			conWidth = 880;
+			col = 4;
+		} else {
+			conWidth = 1100;
+			col = 5;
+		}
+		
+		if(conWidth != currentWidth) {
+			currentWidth = conWidth;
+			$('#articles').width(conWidth);
+			$('#articles').BlocksIt({
+				numOfCol: col,
+				offsetX: 8,
+				offsetY: 8
+			});
+		}
+	});
+});
 </script>
 @endsection
