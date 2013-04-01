@@ -47,7 +47,15 @@ class Crawler_Task {
       $xpath = new DOMXPath($ad_Doc);         
       //get all links in content dom
       $links = $xpath->query('//a');
-      foreach($links as $link) {
+      foreach($links as $link) 
+      {
+        //if article has already in database the skip this iteration, and 
+        //continue next iteration
+        if( Article::find_article_by_url($link->getAttribute('href')) )
+        {
+          continue;
+        }
+        
         if (!$cache[$link->getAttribute('href')])
         {
           $cache[$link->getAttribute('href')] = true;
@@ -76,6 +84,12 @@ class Crawler_Task {
       
       //get title
       $title = trim($xpath->query($xpath_title)->item(0)->nodeValue);
+
+      //if article has already in database then exit from this function
+      if( Article::find_article_by_title($title) )
+      {
+        return;
+      }
       
       //get content article
       $article_nodes = $xpath->query($xpath_article);
@@ -106,6 +120,7 @@ class Crawler_Task {
       return $xpath;
     }
 
+    //this function to save data to article table
     private function save_article($title, $content, $picture)
     {
       $article = new Article(); 
