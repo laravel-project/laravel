@@ -117,14 +117,12 @@
         
           //this is function for showing bootsrap popup modal
           //only use on javascript
-          var BASE = "<?php echo URL::base(); ?>";
- 
           {{ Modal::show_after_failed('login') }}
           {{ Modal::show_after_failed('forgot_password') }}
           {{ Modal::show_after_failed('resend_confirmation') }}
           {{ Modal::show_after_failed('registration') }}
           
-          $('#forgot_password_link, #resend_confirmation_link').click(function(){ $('#login-modal').modal('hide') })
+                     
           @if (count($errors->all() > 1))
             @foreach ($errors->all() as $error)
               $().toastmessage('showErrorToast', "{{ $error }}");

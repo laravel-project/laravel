@@ -19,6 +19,11 @@
       }
     });
 
+    $('#forgot_password_link, #resend_confirmation_link').click(function(){ 
+      $('#login-modal').modal('hide'); 
+    });
+
+
   });
 
   function load_content($data) {
