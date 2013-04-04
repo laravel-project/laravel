@@ -24,21 +24,26 @@
             $('<strong></strong>').text($data[i].title).appendTo($grid);
           }
         };
-
-        $('#articles').BlocksIt({
-			    numOfCol: 4,
-			    offsetX: 8,
-			    offsetY: 8
-		    });
-	
+        
         $('.grid').each(function(){
           if($(this).attr('data-size') == 1){
             $(this).css('height',"160px");
-          } 
-          else{
-            $(this).css('height',"320px");
-          };
-        });
+            $(this).children('.imgholder').children('img').css('height',"120px")
+            $(this).children('.imgholder').children('img').css('width',"250px")
+          }else{
+            $(this).css('height',"342px");
+            $(this).children('.imgholder').children('img').css('height',"300px")
+            $(this).children('.imgholder').children('img').css('width',"525px")
+          }
+        })
+        
+        //blocksit define
+	      $('#articles').BlocksIt({
+		      numOfCol: 4,
+		      offsetX: 0,
+		      offsetY: 0
+	      });
+
       },
       complete: function() {
         $('.spinner').remove();

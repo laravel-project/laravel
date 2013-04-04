@@ -166,6 +166,7 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('bootstrap', 
     'http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js');
   Asset::add('jquery.toastmessage','js/jquery.toastmessage.js');
+  Asset::add('blocksit','js/blocksit.min.js');
   Asset::add('application', 'js/application.js');
 });
 
