@@ -34,7 +34,7 @@
           </footer>
           <div class='clear'></div>
         @else
-          @if (Auth::User()->sign_in_count != 1)
+          @if (Auth::User()->sign_in_count == 1)
             <div class='layer-overflow'>
               <div class='modal-dialog-created'>
                 <h2>hello {{ Auth::User()->name }}</h2>

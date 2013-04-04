@@ -45,11 +45,6 @@ class Home_Controller extends Base_Controller {
 
   public function action_dashboard()
   {
-
-    //return View::make('home.dashboard', array(
-      //'articles' => Article::all(),
-      //'books' => Book::where_user_id(Auth::User()->id)->get(),
-    //));
     return View::make('home.dashboard', array(
       'books' => Book::where_user_id(Auth::User()->id)->get(),
     ));
@@ -58,25 +53,22 @@ class Home_Controller extends Base_Controller {
   //this method is used to reload data content through ajax process
   public function action_content()
   {
-    if (Request::ajax())
-    {
-      $articles =  Article::with('crawlurl')->order_by('created_at', 'desc')
-        ->take(50)->get(array('articles.key_id', 'articles.title', 
+    $articles =  Article::with('crawlurl')->order_by('created_at', 'desc')
+        ->take(23)->get(array('articles.key_id', 'articles.title', 
         'articles.image', 'articles.content', 'articles.article_url', 
         'articles.crawl_url_id'));
-      $data = Array(); 
+    $data = Array(); 
         
-      foreach($articles as $article){
-        array_push($data, array(
-          'key_id' => $article->key_id,
-          'title' => $article->title,
-          'picture' => $article->image,
-          'url' => $article->article_url,
-          'source' => $article->crawlurl->url
-        ));
-      }
-      return Response::json($data);
+    foreach($articles as $article){
+      array_push($data, array(
+        'key_id' => $article->key_id,
+        'title' => $article->title,
+        'picture' => $article->image,
+        'url' => $article->article_url,
+        'source' => $article->crawlurl->url
+      ));
     }
+    return Response::json($data);
   }
 
   private function action_auth()

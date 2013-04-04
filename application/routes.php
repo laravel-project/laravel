@@ -170,7 +170,6 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('application', 'js/application.js');
 });
 
-Route::controller('home');
 
 Route::get('about',function()
 {
@@ -241,9 +240,9 @@ Route::get('get_captcha', function()
   return Captcha::generate_view(); 
 });
 
-Route::get('get_my_articles', function()
-{
-  return "weeew";
-});
 
-Route::get('content', 'home@content');
+Route::get('home/content.json', 'home@content');
+
+Route::get('home', 'home@index');
+
+Route::get('home/dashboard', 'home@dashboard');
