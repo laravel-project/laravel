@@ -11,8 +11,8 @@ img.recaptcha-image {
   margin-bottom: 20px;
   margin-top: 50px;
   margin-left: 10px;
-  background: none repeat scroll 0 0 whitesmoke;
-  border: 4px double cornflowerblue;
+  background: none repeat scroll 0 0 #EAE8E3;
+  border: 1px outset white;
 }
 
 .grid strong{
@@ -35,7 +35,7 @@ img.recaptcha-image {
 }
 
 .sidebar-content {
-  color: white;
+  color: snow;
 }
 
 footer {
@@ -69,4 +69,24 @@ footer p {
   position: absolute;
   left: 45%;
   top: 50%;
+}
+
+/*create modal*/
+.layer-overflow{
+  background: none repeat scroll 0 0 black;
+  height: 100%;
+  opacity: 0.8;
+  position: fixed;
+  width: 100%;
+  z-index: 100000;
+}
+
+.modal-dialog-created{
+  background: none repeat scroll 0 0 white;
+  border-radius: 10px 10px 10px 10px;
+  left: 0;
+  margin: 12% 18%;
+  padding: 15px;
+  position: fixed;
+  right: 0;
 }

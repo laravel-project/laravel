@@ -11,11 +11,5 @@
 @endsection
 @section('content')
   @include('home.content')
-  <?php 
-   //$dom = SimpleHtmlDom::url('http://news.okezone.com/read/2013/02/27/339/768611/beredar-dokumen-bukti-ibas-terima-usd900-ribu');
-   //$href = $dom->get('article p')->first();
-   
-   //echo $href;
-   ?>
 @endsection
 

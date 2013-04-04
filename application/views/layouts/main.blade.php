@@ -5,7 +5,7 @@
         <title>Instapics</title>
         {{ Asset::styles() }}
     </head>
-    @if (Auth::check()) <body style="background:#000;"> @else <body> @endif
+    @if (Auth::check()) <body style="background:buttonshadow;"> @else <body> @endif
       <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
               <div class="container">
@@ -34,24 +34,81 @@
           </footer>
           <div class='clear'></div>
         @else
-          <div class="container-logged container-fluid">
-            <div class="row-fluid">
-              <div class="span10">
-                @yield('content')
-              </div>
-              <div class="span2 sidebar-content">
-                <div style="position: fixed;">
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. <hr> 
-                 <h4> My Books</h4>
-                 <ul id='my_books'>
-                   @foreach( $books as $book )
-                     <li><a href="#{{ $book->nanme }}">{{ $book->name }}</a></li>
-                   @endforeach
-                 </ul>
+          @if (Auth::User()->sign_in_count != 1)
+            <div class='layer-overflow'>
+              <div class='modal-dialog-created'>
+                <h2>hello {{ Auth::User()->name }}</h2>
+                <p> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque a</p>
+                <p> please add topic the topic article you want to read</p>
+                <div ng-controller="TodoCtrl">
+                  <span>{{remaining()}} of {{todos.length}} remaining</span>
+                  [ <a href="" ng-click="archive()">archive</a> ]
+                  <ul class="unstyled">
+                  <li ng-repeat="todo in todos">
+                  <input type="checkbox" ng-model="todo.done">
+                  <span class="done-{{todo.done}}">{{todo.text}}</span>
+                  </li>
+                  </ul>
+                  <form ng-submit="addTodo()">
+                  <input type="text" ng-model="todoText" size="30"
+                  placeholder="add new todo here">
+                  <input class="btn-primary" type="submit" value="add">
+                  </form>
                 </div>
               </div>
             </div>
-          </div>
+            
+            @section('javascript_tag')
+              <script>
+                //--angular
+                function TodoCtrl($scope) {
+                  $scope.todos = [
+                  {text:'learn angular', done:true},
+                  {text:'build an angular app', done:false}];
+                   
+                  $scope.addTodo = function() {
+                  $scope.todos.push({text:$scope.todoText, done:false});
+                  $scope.todoText = '';
+                  };
+                   
+                  $scope.remaining = function() {
+                  var count = 0;
+                  angular.forEach($scope.todos, function(todo) {
+                  count += todo.done ? 0 : 1;
+                  });
+                  return count;
+                  };
+                   
+                  $scope.archive = function() {
+                  var oldTodos = $scope.todos;
+                  $scope.todos = [];
+                  angular.forEach(oldTodos, function(todo) {
+                  if (!todo.done) $scope.todos.push(todo);
+                  });
+                  };
+                }
+              </script>
+            @endsection
+          @else
+            <div class="container-logged container-fluid">
+              <div class="row-fluid">
+                <div class="span10">
+                  @yield('content')
+                </div>
+                <div class="span2 sidebar-content">
+                  <div style="position: fixed;">
+                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus. <hr> 
+                   <h4> My Books</h4>
+                   <ul id='my_books'>
+                     @foreach( $books as $book )
+                       <li><a href="#{{ $book->nanme }}">{{ $book->name }}</a></li>
+                     @endforeach
+                   </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          @endif
         @endif
         {{ Asset::scripts() }}
        

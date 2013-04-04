@@ -42,4 +42,7 @@ return array(
   'opauth' => array(
         'auto' => true
     ),
+  'laravel-simplehtmldom' => array(
+        'auto' => true
+    ),
 );
