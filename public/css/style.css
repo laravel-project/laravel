@@ -64,3 +64,9 @@ footer p {
 .frontend-layer {
   margin-bottom: 375px;
 }
+
+.spinner {
+  position: absolute;
+  left: 45%;
+  top: 50%;
+}

@@ -33,6 +33,11 @@ class Article extends Eloquent {
 		return $this->has_many('Project');
 	}
 
+  public function crawlurl()
+  {
+    return $this->belongs_to('CrawlUrl', 'crawl_url_id');
+  }
+
   public function save_data()
   {
     $validation = $this->validates(Array('title' => $this->title, 

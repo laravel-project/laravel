@@ -60,6 +60,8 @@
         
           //this is function for showing bootsrap popup modal
           //only use on javascript
+          var BASE = "<?php echo URL::base(); ?>";
+ 
           {{ Modal::show_after_failed('login') }}
           {{ Modal::show_after_failed('forgot_password') }}
           {{ Modal::show_after_failed('resend_confirmation') }}

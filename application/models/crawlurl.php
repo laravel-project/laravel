@@ -15,4 +15,9 @@ class CrawlUrl extends Eloquent {
 		return $this->has_many('CrawlCharacteristic', 'crawl_url_id');
 	}
 
+  public function articles()
+  {
+    return $this->has_many('Article', 'crawl_url_id');
+  }
+
 }
