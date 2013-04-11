@@ -34,7 +34,7 @@
           </footer>
           <div class='clear'></div>
         @else
-          @if (Auth::User()->sign_in_count == 1)
+          @if (Auth::User()->sign_in_count != 1)
             <div class='layer-overflow'>
               <div class='modal-dialog-created'>
                 <h2>hello {{ Auth::User()->name }}</h2>
@@ -81,16 +81,7 @@
         {{ Asset::scripts() }}
        
         @yield('javascript_tag')
-        <script>
-        
-          //this is function for showing bootsrap popup modal
-          //only use on javascript
-          {{ Modal::show_after_failed('login') }}
-          {{ Modal::show_after_failed('forgot_password') }}
-          {{ Modal::show_after_failed('resend_confirmation') }}
-          {{ Modal::show_after_failed('registration') }}
-          
-                     
+        <script>         
           @if (count($errors->all() > 1))
             @foreach ($errors->all() as $error)
               $().toastmessage('showErrorToast', "{{ $error }}");
@@ -102,8 +93,6 @@
           @if (Session::get('success'))
             $().toastmessage('showSuccessToast', "{{ Session::get('success') }}")
           @endif
-         var m = angular.module('laravel', []);
-
        </script>
     </body>
 </html>

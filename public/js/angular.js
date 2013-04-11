@@ -1,4 +1,15 @@
-//--angular
+//overide angular starting symbol and end symbol template tag
+var m = angular.module('laravel', []);
+m.config(function($interpolateProvider) {
+  $interpolateProvider.startSymbol('((');
+  $interpolateProvider.endSymbol('))');
+});
+
+m.controller('ArtclCtrl', function($scope){
+
+});
+
+
 function TodoCtrl($scope) {
   $scope.todos = [];
    
