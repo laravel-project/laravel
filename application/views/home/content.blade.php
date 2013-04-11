@@ -1,9 +1,6 @@
-<div class="am-container" ng-controller="">
+<div class="am-container" ng-controller="ArtclCtrl">
   <div id='articles'>
-    <img class='spinner' src="../img/spinner_loading.gif" alt="spinner"/>
+    <spinner></spinner>
   </div>
 </div>
 
-@section('javascript_tag')
-  <script type="text/javascript" src="/js/content.js"></script>
-@endsection

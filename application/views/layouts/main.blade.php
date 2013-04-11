@@ -102,7 +102,7 @@
           @if (Session::get('success'))
             $().toastmessage('showSuccessToast', "{{ Session::get('success') }}")
           @endif
-         var m = angular.module('laravel', []);
+
 
        </script>
     </body>
