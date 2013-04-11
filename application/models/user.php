@@ -12,6 +12,11 @@ class User extends Eloquent {
 		return $this->has_many('Book');
 	}
 
+  public function topics()
+	{
+		return $this->has_many('Topic');
+	}
+	
 	public function articles()
 	{
 		return $this->has_many('Article');
