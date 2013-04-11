@@ -169,6 +169,8 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('blocksit','js/blocksit.min.js');
   Asset::add('application', 'js/application.js');
   Asset::add('angular_overide', 'js/angular.js');
+  Asset::add('underscore',
+    'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
 });
 
 

@@ -102,13 +102,8 @@
           @if (Session::get('success'))
             $().toastmessage('showSuccessToast', "{{ Session::get('success') }}")
           @endif
-          
-          //overide angular starting symbol and end symbol template tag
-          var m = angular.module('laravel', []);
-          m.config(function($interpolateProvider) {
-            $interpolateProvider.startSymbol('((');
-            $interpolateProvider.endSymbol('))');
-          });
-        </script>
+         var m = angular.module('laravel', []);
+
+       </script>
     </body>
 </html>
