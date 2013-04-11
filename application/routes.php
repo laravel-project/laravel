@@ -250,3 +250,4 @@ Route::get(array('home','/'), 'home@index');
 
 Route::get('home/dashboard', 'home@dashboard');
 
+Route::post('home/create_topic', 'home@create_topic');

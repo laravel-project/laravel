@@ -43,16 +43,17 @@
                 <div ng-controller="TodoCtrl">
                   <span>(( remaining() )) of (( todos.length )) remaining</span>
                   [ <a href="" ng-click="archive()">remove</a> ]
-                  <ul class="unstyled">
-                    <li ng-repeat="todo in todos">
-                      <input type="checkbox" ng-model="todo.done">
-                      <span class="done-(( todo.done ))">(( todo.text ))</span>
-                    </li>
-                  </ul>
-                  <form ng-submit="addTodo()">
-                    <input type="text" ng-model="todoText" size="30"
-                    placeholder="add new todo here">
-                    <input class="btn-primary" type="submit" value="add" ng-disabled="!todoText">
+                  <form action="{{ url('home/create_topic') }}" method="POST">
+                    <ul class="unstyled">
+                      <li ng-repeat="todo in todos">
+                        <input type="checkbox" ng-model="todo.done">
+                        <span class="done-(( todo.done ))">(( todo.text ))</span>
+                        <input type="hidden" name="topics[]" value="(( todo.text ))">
+                      </li>
+                    </ul>
+                    <input type="text" ng-model="todoText" size="30" placeholder="add new todo here">
+                    <input class="btn-primary" type="button" value="add" ng-disabled="!todoText" ng-click="addTodo()"></br>
+                    {{ Form::submit('Submit Topic', array('class' => 'btn btn-primary')); }}
                   </form>
                 </div>
               </div>
