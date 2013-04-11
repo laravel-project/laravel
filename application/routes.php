@@ -168,6 +168,7 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('jquery.toastmessage','js/jquery.toastmessage.js');
   Asset::add('blocksit','js/blocksit.min.js');
   Asset::add('application', 'js/application.js');
+  Asset::add('angular_overide', 'js/angular.js');
 });
 
 

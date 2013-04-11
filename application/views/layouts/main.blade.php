@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html ng-app="laravel">
     <head>
         <meta charset="utf-8">
         <title>Instapics</title>
@@ -41,54 +41,22 @@
                 <p> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque a</p>
                 <p> please add topic the topic article you want to read</p>
                 <div ng-controller="TodoCtrl">
-                  <span>{{remaining()}} of {{todos.length}} remaining</span>
-                  [ <a href="" ng-click="archive()">archive</a> ]
+                  <span>(( remaining() )) of (( todos.length )) remaining</span>
+                  [ <a href="" ng-click="archive()">remove</a> ]
                   <ul class="unstyled">
-                  <li ng-repeat="todo in todos">
-                  <input type="checkbox" ng-model="todo.done">
-                  <span class="done-{{todo.done}}">{{todo.text}}</span>
-                  </li>
+                    <li ng-repeat="todo in todos">
+                      <input type="checkbox" ng-model="todo.done">
+                      <span class="done-(( todo.done ))">(( todo.text ))</span>
+                    </li>
                   </ul>
                   <form ng-submit="addTodo()">
-                  <input type="text" ng-model="todoText" size="30"
-                  placeholder="add new todo here">
-                  <input class="btn-primary" type="submit" value="add">
+                    <input type="text" ng-model="todoText" size="30"
+                    placeholder="add new todo here">
+                    <input class="btn-primary" type="submit" value="add" ng-disabled="!todoText">
                   </form>
                 </div>
               </div>
             </div>
-            
-            @section('javascript_tag')
-              <script>
-                //--angular
-                function TodoCtrl($scope) {
-                  $scope.todos = [
-                  {text:'learn angular', done:true},
-                  {text:'build an angular app', done:false}];
-                   
-                  $scope.addTodo = function() {
-                  $scope.todos.push({text:$scope.todoText, done:false});
-                  $scope.todoText = '';
-                  };
-                   
-                  $scope.remaining = function() {
-                  var count = 0;
-                  angular.forEach($scope.todos, function(todo) {
-                  count += todo.done ? 0 : 1;
-                  });
-                  return count;
-                  };
-                   
-                  $scope.archive = function() {
-                  var oldTodos = $scope.todos;
-                  $scope.todos = [];
-                  angular.forEach(oldTodos, function(todo) {
-                  if (!todo.done) $scope.todos.push(todo);
-                  });
-                  };
-                }
-              </script>
-            @endsection
           @else
             <div class="container-logged container-fluid">
               <div class="row-fluid">
@@ -135,6 +103,12 @@
             $().toastmessage('showSuccessToast', "{{ Session::get('success') }}")
           @endif
           
+          //overide angular starting symbol and end symbol template tag
+          var m = angular.module('laravel', []);
+          m.config(function($interpolateProvider) {
+            $interpolateProvider.startSymbol('((');
+            $interpolateProvider.endSymbol('))');
+          });
         </script>
     </body>
 </html>

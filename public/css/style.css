@@ -90,3 +90,8 @@ footer p {
   position: fixed;
   right: 0;
 }
+
+.done-true {
+  text-decoration: line-through;
+  color: grey;
+}
