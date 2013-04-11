@@ -1,3 +1,5 @@
+'use strict';
+
 //--angular
 function TodoCtrl($scope) {
   $scope.todos = [];
@@ -25,31 +27,35 @@ function TodoCtrl($scope) {
 }
 
 //--ini buat artikel di content.blade.php
-function ArtclCtrl($scope){
+function ArtclCtrl($scope, $http){
   
  $scope.content = '';
- (function($){
-    //blocksit define
-  if ($scope.content.length == 0) {
-  
-    $.ajax({
-      url: "content.json",
-      dataType: 'json',
-      success: function($data) {
-        $scope.content = $data;
-        setTimeout(function(){
-          $scope.load_content($data)
-        }, 2000); 
-      },
-      complete: function() {
-        setTimeout(function(){
-          $('.spinner').remove()
-        }, 2000);
-      }
-    });
-  }
+ $scope.connectTry = 0;
 
-  $scope.load_content = function($data) {
+ (function($){
+
+   $scope.fetch = function() {
+      $http({method: 'GET', url: 'content.json', cache: true}).
+       success(function(data, status) {
+         $scope.content = data;
+         setTimeout(function(){
+           $scope.load_content($scope.content);
+           $('spinner').remove();
+         }, 2000)       
+       }).
+        error(function(data, status) {
+          $scope.connectTry = $scope.connectTry + 1;
+          if ($scope.connectTry <= 3) {
+            $scope.fetch();
+          }
+          else {
+            $.toastmessage('showErrorToast', "error connection");
+          }
+      });
+    }
+
+   $scope.fetch();
+   $scope.load_content = function($data) {
     var $v;
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
@@ -76,17 +82,17 @@ function ArtclCtrl($scope){
         $(this).css('height',"342px");
         $(this).children('.imgholder').children('img').css('height',"300px")
         $(this).children('.imgholder').children('img').css('width',"525px")
-      }
-    })
-    
-    //blocksit define
-    $('#articles').BlocksIt({
-      numOfCol: 4,
-      offsetX: 0,
-      offsetY: 0
-    });
+        }
+      })
+      
+      //blocksit define
+      $('#articles').BlocksIt({
+        numOfCol: 4,
+        offsetX: 0,
+        offsetY: 0
+      });
 
-  }
+    }
 
 })(jQuery);
 }
