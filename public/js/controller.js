@@ -27,13 +27,16 @@ function TodoCtrl($scope) {
 }
 
 //--ini buat artikel di content.blade.php
-function ArtclCtrl($scope, $http){
+function ArtclCtrl($scope, $http, $compile){
   
  $scope.content = '';
  $scope.connectTry = 0;
+ 
+ 
 
  (function($){
-
+   
+   $('#articles').after($compile('<spinner></spinner>')($scope));
    $scope.fetch = function() {
       $http({method: 'GET', url: 'content.json', cache: true}).
        success(function(data, status) {
@@ -49,7 +52,7 @@ function ArtclCtrl($scope, $http){
             $scope.fetch();
           }
           else {
-            $.toastmessage('showErrorToast', "error connection");
+            $().toastmessage('showErrorToast', "error connection");
           }
       });
     }

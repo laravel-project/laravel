@@ -70,7 +70,7 @@ class Home_Controller extends Base_Controller {
         'articles.image', 'articles.content', 'articles.article_url', 
         'articles.crawl_url_id'));
     if(count($articles) <= 23 ){
-      $sum_articles = 21 - count($articles);
+      $sum_articles = 25 - count($articles);
       $articles = $articles + Article::take($sum_articles)->get();
     }    
     foreach($articles as $article){
