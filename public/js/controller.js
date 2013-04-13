@@ -37,6 +37,7 @@ function ArtclCtrl($scope, $http, $compile){
  (function($){
    
    $('#articles').after($compile('<spinner></spinner>')($scope));
+
    $scope.fetch = function() {
       $http({method: 'GET', url: 'content.json', cache: true}).
        success(function(data, status) {
