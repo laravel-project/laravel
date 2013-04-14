@@ -78,7 +78,7 @@ footer p {
   opacity: 0.8;
   position: fixed;
   width: 100%;
-  z-index: 100000;
+/*  z-index: 100000;*/
 }
 
 .modal-dialog-created{

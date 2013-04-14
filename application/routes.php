@@ -160,17 +160,17 @@ View::composer(array('layouts/main'), function($view)
   
   #load js
   Asset::add('jquery', 
-    'http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js');
+    'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
   Asset::add('angular', 
-    'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js');
+    'https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js');
   Asset::add('bootstrap', 
-    'http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js');
+    'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js');
   Asset::add('jquery.toastmessage','js/jquery.toastmessage.js');
   Asset::add('blocksit','js/blocksit.min.js');
   Asset::add('application', 'js/application.js');
   Asset::add('angular_overide', 'js/controller.js');
-  Asset::add('underscore',
-    'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
+#  Asset::add('underscore',
+#    'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
 });
 
 

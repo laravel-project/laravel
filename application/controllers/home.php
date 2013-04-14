@@ -69,10 +69,6 @@ class Home_Controller extends Base_Controller {
         ->take(23)->get(array('articles.key_id', 'articles.title', 
         'articles.image', 'articles.content', 'articles.article_url', 
         'articles.crawl_url_id'));
-    if(count($articles) <= 23 ){
-      $sum_articles = 25 - count($articles);
-      $articles = $articles + Article::take($sum_articles)->get();
-    }    
     foreach($articles as $article){
       array_push($data, array(
         'key_id' => $article->key_id,
@@ -87,18 +83,43 @@ class Home_Controller extends Base_Controller {
 
   public function action_create_topic()
   {
-    foreach(Input::get('topics') as $name)
-    {
-      $topic = new Topic();
-      $topic->names = $name;
-      $topic->user_id = Auth::User()->id;
-      $topic->key_id = rand(268435456, 4294967295);
-      
-      if ($topic->save()){
+    $string = "";
+    $sparator = "";
+    $articles = array();
+    $my_topics = Auth::User()->topics;
+    if(!empty($my_topics)){
+      foreach($my_topics as $topic){
+        if($string != ""){
+          $sparator = "|";
+        }
+        $string = $string.$sparator.$topic->names;
       }
+      
+      $articles = Article::with('crawlurl')->where('content','REGEXP',$string)->get();
     }
-    DB::table('users')->where('id', '=', Auth::User()->id)->update(array('sign_in_count' => 1) );
-    return Redirect::to('home/dashboard');
+    
+    $topics = Input::get('topics'); 
+    if (!empty($topics)){
+      foreach($topics as $name)
+      {
+        $topic = new Topic();
+        $topic->names = $name;
+        $topic->user_id = Auth::User()->id;
+        $topic->key_id = rand(268435456, 4294967295);
+        
+        if ($topic->save()){
+        }
+      }
+      if(!empty($articles) && count($articles) >= 23){
+        DB::table('users')->where('id', '=', Auth::User()->id)->update(array('sign_in_count' => 1) );
+      }else{
+        Message::another_message('failed','total article minimal 23, please add new topic your article result '.count($articles).' articles');
+      }
+      return Redirect::to('home/dashboard');
+    }else{
+      Message::another_message('failed','please input any topic, to complete your article');
+      return Redirect::to('home/dashboard');
+    }
   }
   
   private function action_auth()

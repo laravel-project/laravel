@@ -61,6 +61,7 @@ function ArtclCtrl($scope, $http, $compile){
    $scope.fetch();
    $scope.load_content = function($data) {
     var $v;
+    console.log($data.length)
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
         if ((i+1) % 3) {
