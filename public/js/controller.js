@@ -31,13 +31,12 @@ function ArtclCtrl($scope, $http, $compile){
   
  $scope.content = '';
  $scope.connectTry = 0;
- 
- 
 
  (function($){
    
    $('#articles').after($compile('<spinner></spinner>')($scope));
-
+   
+   //describe functionto fetch data
    $scope.fetch = function(url) {
       $http({method: 'GET', url: url, cache: true}).
        success(function(data, status) {
@@ -57,8 +56,23 @@ function ArtclCtrl($scope, $http, $compile){
          }
        });
    }
+
+   //describe function to load more data
+   $scope.loadMore = function() {
+     $('body').css('overflow-y', 'hidden'); 
+     $('body').append($compile('<lightbox><spinner></spinner></lightbox>')($scope));
+
+     setTimeout(function(){
+       $('body').css('overflow-y', 'visible'); 
+       $('lightbox').remove();
+     }, 2000)
+   }
+
+
+
    //search my articles function
    $scope.fetch('content.json');
+
    $('#search_my_articles').on('click',function(){
      $('#articles').after($compile('<spinner></spinner>')($scope));
      $scope.fetch('content.json?search='+$('#find_my_articles').val());
@@ -75,6 +89,9 @@ function ArtclCtrl($scope, $http, $compile){
 //        };
 //     });
 //   });
+//
+   
+  //describe function to display content on blocksit
    $scope.load_content = function($data) {
     var $v;
     console.log($data.length)

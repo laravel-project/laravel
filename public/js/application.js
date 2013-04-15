@@ -15,20 +15,32 @@ m.directive('spinner', function(){
   }
 });
 
-/*m.directive('article', function(){*/
-  //return {
-    //restrict: "E",
-    //scope: {
-      //size: '@',
-      //contents: '@'
-    //},
-    //template: "<div class='grid'>ari</div>",
-    //link: function(scope, element) {
-      //scope.contents = scope.content;
-      //scope.size = 1;
-    //}
-  //}
-/*});*/
+//this directive is used to describe scroll function
+m.directive('scroll', function() {
+  return function(scope, elm, attrs){
+    var windowElmnt = jQuery(window);
+    var docElmnt = jQuery(document);
+
+    windowElmnt.bind("scroll", function(){
+      if (windowElmnt.scrollTop() + windowElmnt.height() >= docElmnt.height()) {
+        scope.$apply(attrs.scroll);
+      }
+    });
+  }
+});
+
+m.directive('lightbox', function() {
+  return {
+    restrict: "E",
+    template: '<div id="lightbox" style=((lightBoxStyle)) ng-transclude></div>',
+    transclude: true,
+    link: function(scope) {
+      scope.lightBoxStyle = 'position: absolute; left: 0px; top:' + 
+        jQuery(document).scrollTop() + 'px; opacity:0.5; height: 100%;' +
+        'width: 100%; background-color:black'
+    }
+  }
+})
 
 //this function is used to improve performance using memoization
 Function.prototype.memoized = function(key)
