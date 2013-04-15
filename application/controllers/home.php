@@ -65,10 +65,12 @@ class Home_Controller extends Base_Controller {
       $string = $string.$sparator.$topic->names;
     }
     
-    $articles = Article::with('crawlurl')->where('content','REGEXP',$string)->order_by('created_at', 'desc')
-        ->take(23)->get(array('articles.key_id', 'articles.title', 
-        'articles.image', 'articles.content', 'articles.article_url', 
-        'articles.crawl_url_id'));
+    $articles = Article::get_articles($string);
+    
+    if(Input::get('search') != "" ){
+      $string = Input::get('search');
+      $articles = Article::get_articles($string);
+    }
     foreach($articles as $article){
       array_push($data, array(
         'key_id' => $article->key_id,
@@ -129,6 +131,4 @@ class Home_Controller extends Base_Controller {
       return Redirect::to('login');
     }
   }
-
-
 }

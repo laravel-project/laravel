@@ -38,8 +38,8 @@ function ArtclCtrl($scope, $http, $compile){
    
    $('#articles').after($compile('<spinner></spinner>')($scope));
 
-   $scope.fetch = function() {
-      $http({method: 'GET', url: 'content.json', cache: true}).
+   $scope.fetch = function(url) {
+      $http({method: 'GET', url: url, cache: true}).
        success(function(data, status) {
          $scope.content = data;
          setTimeout(function(){
@@ -47,18 +47,34 @@ function ArtclCtrl($scope, $http, $compile){
            $('spinner').remove();
          }, 2000)       
        }).
-        error(function(data, status) {
-          $scope.connectTry = $scope.connectTry + 1;
-          if ($scope.connectTry <= 3) {
-            $scope.fetch();
-          }
-          else {
-            $().toastmessage('showErrorToast', "error connection");
-          }
-      });
-    }
-
-   $scope.fetch();
+       error(function(data, status) {
+         $scope.connectTry = $scope.connectTry + 1;
+         if ($scope.connectTry <= 3) {
+           $scope.fetch(url);
+         }
+         else {
+           $().toastmessage('showErrorToast', "error connection");
+         }
+       });
+   }
+   //search my articles function
+   $scope.fetch('content.json');
+   $('#search_my_articles').on('click',function(){
+     $('#articles').after($compile('<spinner></spinner>')($scope));
+     $scope.fetch('content.json?search='+$('#find_my_articles').val());
+     $('.grid').remove()
+   })
+   
+//   $('#find_my_articles').keyup(function(){
+//     $('.grid').each(function(){
+//        var re = new RegExp($('#find_my_articles').val(), 'i')
+//        if($(this).children('strong')[0].innerHTML.match(re)){
+//          $(this).show();
+//        }else{
+//          $(this).remove();
+//        };
+//     });
+//   });
    $scope.load_content = function($data) {
     var $v;
     console.log($data.length)
@@ -87,17 +103,17 @@ function ArtclCtrl($scope, $http, $compile){
         $(this).css('height',"342px");
         $(this).children('.imgholder').children('img').css('height',"300px")
         $(this).children('.imgholder').children('img').css('width',"525px")
-        }
-      })
+      }
+    })
       
-      //blocksit define
-      $('#articles').BlocksIt({
-        numOfCol: 4,
-        offsetX: 0,
-        offsetY: 0
-      });
+    //blocksit define
+    $('#articles').BlocksIt({
+      numOfCol: 4,
+      offsetX: 0,
+      offsetY: 0
+    });
 
-    }
+  }
 
 })(jQuery);
 }

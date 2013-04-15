@@ -4,8 +4,8 @@
 <li><a href="{{ url('logout') }}">Logout</a></li>
 <div id="searches-box">
   <div class="input-append">
-    <input class="input-large" id="appendedInputButtons" type="text" size='12'>
-    <button class="btn" type="button">Search</button>
+    <input class="input-large" id="find_my_articles" type="text" size='12'>
+    <button class="btn" type="submit" id="search_my_articles">Search</button>
   </div>
 </div>
 @endsection
