@@ -87,9 +87,10 @@ footer p {
   color: grey;
 }
 
-img:hover{
-  width: 100%;
-  height: 100%;
-  background: green;
-  opacity: 0.5;
+.details{ margin:15px 20px; }	
+.grid a{
+  color: white;
+  font-size: 9pt;
+  font-family: cursive;
 }
+.grid a:hover{color: navy;}

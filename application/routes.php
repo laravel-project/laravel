@@ -157,7 +157,7 @@ View::composer(array('layouts/main'), function($view)
     'css/bootstrap-responsive.min.css');
   Asset::add('style','css/style.css');
   Asset::add('jquery.toastmessage','css/jquery.toastmessage.css');
-  
+  Asset::add('mosaic','css/mosaic.css');
   #load js
   Asset::add('jquery', 
     'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
@@ -167,6 +167,7 @@ View::composer(array('layouts/main'), function($view)
     'http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js');
   Asset::add('jquery.toastmessage','js/jquery.toastmessage.js');
   Asset::add('blocksit','js/blocksit.min.js');
+  Asset::add('mosaic','js/mosaic.1.0.1.min.js');
   Asset::add('application', 'js/application.js');
   Asset::add('angular_overide', 'js/controller.js');
   Asset::add('underscore',

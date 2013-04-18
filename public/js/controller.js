@@ -111,31 +111,27 @@ function ArtclCtrl($scope, $http, $compile){
     var $v;
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
-
-        
-        $scope.content['data-'+i] = $data[i].content;
-
-       
-        var $grid = $('<div></div>').addClass('grid').appendTo('#articles');
-         // .attr('data-size', $v)
-        //var $imgHolder = $('<div></div>').addClass('imgholder').appendTo($grid);
-        $grid.append($compile('<img ng-click="show($event)" data=data-'+ i +' src='+$data[i].picture+'/>')($scope));
-        //$('<strong></strong>').text($data[i].title).appendTo($grid);
+        if ((i+1) % 3) {
+          $v = 1;
+        }
+        else {
+          $v = 1;
+        }
+        var $grid = $('<div></div>').addClass('grid mosaic-block bar2').appendTo('#articles');
+        var $link = $('<a class="mosaic-overlay" href="#"></a>').appendTo($grid);
+        $('<div class="details">'+$data[i].title.substring(0,35)+'...</div>').appendTo($link);
+        $('.mosaic-overlay').hover(function(){
+         // $(this).attr('style','background-color: green')
+        })
+        $('<img/>').attr('src', $data[i].picture).appendTo($grid);
       }
     };
     
     $('.grid').each(function(grid){
-//      if($(this).attr('data-size') == 1){
-//        $(this).css('height',"160px");
         var img = $(this).children('img')
         img.css('height',"200px")
         img.css('width',"275px")
         img.css('cursor','pointer')
-//      }else{
-//        $(this).css('height',"342px");
-//        $(this).children('.imgholder').children('img').css('height',"300px")
-//        $(this).children('.imgholder').children('img').css('width',"525px")
-//      }
     })
       
     //blocksit define
@@ -144,7 +140,23 @@ function ArtclCtrl($scope, $http, $compile){
       offsetX: 0,
       offsetY: 0
     });
+    
+    //------------------------
+    colors = ['green','yellow','orange','blue','navy']
 
+    $('.mosaic-overlay').each(function(){
+      $(this).mouseover(function(){
+        ran = Math.floor((Math.random()*5)+1);
+        console.log($(this).attr('class'))
+         $(this).css('background-color', colors[ran])
+      }).mouseout(function(){
+         $(this).css('background-color', '#111')
+      })
+    })
+    
+    $('.bar2').mosaic({
+			animation	:	'slide'		//fade or slide
+		});
   }
 
 })(jQuery);
