@@ -28,7 +28,7 @@ m.directive('scroll', function() {
     });
   }
 });
-
+//directive to created lightbox
 m.directive('lightbox', function() {
   return {
     restrict: "E",
@@ -40,7 +40,31 @@ m.directive('lightbox', function() {
         'width: 100%; background-color:black'
     }
   }
-})
+});
+
+m.directive('modal', function() {
+  return {
+    restrict: "E",
+    transclude: true,
+    scope: {
+      title: '@',
+      modalid: '@'
+    },
+    template: '<div id="((modalid))" class="modal hide fade" tabindex="-1"' +
+                'role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
+               '<div class="modal-header">' +
+                 '<button type="button" class="close" data-dismiss="modal"' + 
+                   'aria-hidden="true">×</button>' +
+                  '<h3 id="myModalLabel">((title))</h3>' +
+               '</div>' +
+               '<div class="modal-body">' +
+                 '<p>ari</p>' +
+               '</div>' +
+              '</div>',
+    link: function(scope, element, args) {
+    }
+  }
+});
 
 //this function is used to improve performance using memoization
 Function.prototype.memoized = function(key)

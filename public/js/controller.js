@@ -28,8 +28,7 @@ function TodoCtrl($scope) {
 
 //--ini buat artikel di content.blade.php
 function ArtclCtrl($scope, $http, $compile){
-  
- $scope.content = '';
+ $scope.content={}; 
  $scope.count_article = 0;
  $scope.connectTry = 0;
  $scope.total_article = 0;
@@ -44,12 +43,12 @@ function ArtclCtrl($scope, $http, $compile){
       $http({method: 'GET', url: url, cache: true}).
        success(function(data, status) {
          $scope.count_article = $scope.count_article + data['content'].length;
-         console.log(data['counter']);
          if (data['counter'] > 0) {
            $scope.total_article = data['counter'];
          }
          setTimeout(function(){
            $scope.load_content(data['content']);
+
            if (success_condition == 'remove spinner')
              $('spinner').remove();
            else if (success_condition == 'remove lightbox')
@@ -101,23 +100,26 @@ function ArtclCtrl($scope, $http, $compile){
         };
      });
    });
+
+   $scope.show = function(e){
+     alert($scope.content[angular.element(e.target).attr('data')]);
+   };
 //
-   
+
   //describe function to display content on blocksit
    $scope.load_content = function($data) {
     var $v;
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
-        if ((i+1) % 3) {
-          $v = 1;
-        }
-        else {
-          $v = 1;
-        }
+
+        
+        $scope.content['data-'+i] = $data[i].content;
+
+       
         var $grid = $('<div></div>').addClass('grid').appendTo('#articles');
          // .attr('data-size', $v)
         //var $imgHolder = $('<div></div>').addClass('imgholder').appendTo($grid);
-        $('<img/>').attr('src', $data[i].picture).appendTo($grid);
+        $grid.append($compile('<img ng-click="show($event)" data=data-'+ i +' src='+$data[i].picture+'/>')($scope));
         //$('<strong></strong>').text($data[i].title).appendTo($grid);
       }
     };

@@ -81,7 +81,8 @@ class Home_Controller extends Base_Controller {
         'title' => $article->title,
         'picture' => $article->image,
         'url' => $article->article_url,
-        'source' => $article->crawlurl->url
+        'source' => $article->crawlurl->url,
+        'content' => $article->content
       ));
     }
     return Response::json($data);
