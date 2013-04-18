@@ -85,22 +85,22 @@ function ArtclCtrl($scope, $http, $compile){
    //search my articles function
    $scope.fetch('content.json', 'remove spinner');
 
-   $('#search_my_articles').on('click',function(){
-     $('#articles').after($compile('<spinner></spinner>')($scope));
-     $scope.fetch('content.json?q='+$('#find_my_articles').val(), 'remove spinner');
-     $('.grid').remove();
-   })
+//   $('#search_my_articles').on('click',function(){
+//     $('#articles').after($compile('<spinner></spinner>')($scope));
+//     $scope.fetch('content.json?q='+$('#find_my_articles').val(), 'remove spinner');
+//     $('.grid').remove();
+//   })
    
-//   $('#find_my_articles').keyup(function(){
-//     $('.grid').each(function(){
-//        var re = new RegExp($('#find_my_articles').val(), 'i')
-//        if($(this).children('strong')[0].innerHTML.match(re)){
-//          $(this).show();
-//        }else{
-//          $(this).remove();
-//        };
-//     });
-//   });
+   $('#find_my_articles').keyup(function(){
+     $('.grid').each(function(){
+        var re = new RegExp($('#find_my_articles').val(), 'i')
+        if($(this).children('strong')[0].innerHTML.match(re)){
+          $(this).show();
+        }else{
+          $(this).hide();
+        };
+     });
+   });
 //
    
   //describe function to display content on blocksit
@@ -112,26 +112,28 @@ function ArtclCtrl($scope, $http, $compile){
           $v = 1;
         }
         else {
-          $v = 2;
+          $v = 1;
         }
-        var $grid = $('<div></div>').addClass('grid')
-          .attr('data-size', $v).appendTo('#articles');
-        var $imgHolder = $('<div></div>').addClass('imgholder').appendTo($grid);
-        $('<img/>').attr('src', $data[i].picture).appendTo($imgHolder);
-        $('<strong></strong>').text($data[i].title).appendTo($grid);
+        var $grid = $('<div></div>').addClass('grid').appendTo('#articles');
+         // .attr('data-size', $v)
+        //var $imgHolder = $('<div></div>').addClass('imgholder').appendTo($grid);
+        $('<img/>').attr('src', $data[i].picture).appendTo($grid);
+        //$('<strong></strong>').text($data[i].title).appendTo($grid);
       }
     };
     
-    $('.grid').each(function(){
-      if($(this).attr('data-size') == 1){
-        $(this).css('height',"160px");
-        $(this).children('.imgholder').children('img').css('height',"120px")
-        $(this).children('.imgholder').children('img').css('width',"250px")
-      }else{
-        $(this).css('height',"342px");
-        $(this).children('.imgholder').children('img').css('height',"300px")
-        $(this).children('.imgholder').children('img').css('width',"525px")
-      }
+    $('.grid').each(function(grid){
+//      if($(this).attr('data-size') == 1){
+//        $(this).css('height',"160px");
+        var img = $(this).children('img')
+        img.css('height',"200px")
+        img.css('width',"275px")
+        img.css('cursor','pointer')
+//      }else{
+//        $(this).css('height',"342px");
+//        $(this).children('.imgholder').children('img').css('height',"300px")
+//        $(this).children('.imgholder').children('img').css('width',"525px")
+//      }
     })
       
     //blocksit define

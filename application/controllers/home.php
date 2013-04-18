@@ -67,7 +67,7 @@ class Home_Controller extends Base_Controller {
     else if(Input::get('q') != "" ){
       $string = Input::get('q');
       $articles = Article::get_articles($topic, null, true);
-      $counter = Article::count_article;
+      $counter = Article::$count_article;
     }
     else {
       $articles = Article::get_articles($topic, null, true);

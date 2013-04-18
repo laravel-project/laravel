@@ -5,7 +5,7 @@
         <title>Instapics</title>
         {{ Asset::styles() }}
     </head>
-    @if (Auth::check()) <body style="background:buttonshadow;"> @else <body> @endif
+    @if (Auth::check()) <body style="background:#212121;"> @else <body> @endif
       <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
               <div class="container">
