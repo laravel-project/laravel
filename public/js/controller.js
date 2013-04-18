@@ -32,6 +32,8 @@ function ArtclCtrl($scope, $http, $compile){
  $scope.content = '';
  $scope.count_article = 0;
  $scope.connectTry = 0;
+ $scope.total_article = 0;
+
 
  (function($){
    
@@ -41,9 +43,13 @@ function ArtclCtrl($scope, $http, $compile){
    $scope.fetch = function(url, success_condition) {
       $http({method: 'GET', url: url, cache: true}).
        success(function(data, status) {
-         $scope.count_article = $scope.count_article + data.length;
+         $scope.count_article = $scope.count_article + data['content'].length;
+         console.log(data['counter']);
+         if (data['counter'] > 0) {
+           $scope.total_article = data['counter'];
+         }
          setTimeout(function(){
-           $scope.load_content(data);
+           $scope.load_content(data['content']);
            if (success_condition == 'remove spinner')
              $('spinner').remove();
            else if (success_condition == 'remove lightbox')
@@ -67,21 +73,21 @@ function ArtclCtrl($scope, $http, $compile){
 
    //describe function to load more data
    $scope.loadMore = function() {
-     $('body').css('overflow-y', 'hidden'); 
-     $('body').append($compile('<lightbox><spinner></spinner></lightbox>')($scope));
-     
-     $scope.fetch('content.json?p='+$scope.count_article, 'remove lightbox');
+     if ($scope.count_article < $scope.total_article)
+     {
+       $('body').css('overflow-y', 'hidden'); 
+       $('body').append($compile('<lightbox><spinner></spinner></lightbox>')($scope));
+       $scope.fetch('content.json?p='+$scope.count_article, 'remove lightbox');
+     }
 
    }
 
-
-   //get all count article
    //search my articles function
    $scope.fetch('content.json', 'remove spinner');
 
    $('#search_my_articles').on('click',function(){
      $('#articles').after($compile('<spinner></spinner>')($scope));
-     $scope.fetch('content.json?search='+$('#find_my_articles').val(), 'remove spinner');
+     $scope.fetch('content.json?q='+$('#find_my_articles').val(), 'remove spinner');
      $('.grid').remove();
    })
    

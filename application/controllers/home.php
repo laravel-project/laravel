@@ -50,35 +50,33 @@ class Home_Controller extends Base_Controller {
     ));
   }
 
+
   //this method is used to reload data content through ajax process
   public function action_content()
   {
-    $string = "";
-    $sparator = "";
-    $data = array(); 
     
-    $topics = Auth::User()->topics;
-    foreach($topics as $topic){
-      if($string != ""){
-        $sparator = "|";
-      }
-      $string = $string.$sparator.$topic->names;
-    }
-    
+    $data = array('counter', 'content'); 
+    $data['content'] = array();
+
+    $topic = $this->get_topic();
+
     if(Input::get('p') != "") {
-      $articles = Article::get_articles($string, Input::get('p'));
+      $articles = Article::get_articles($topic, Input::get('p'));
+      $counter = 0;
     }
-    else if(Input::get('search') != "" ){
-      $string = Input::get('search');
-      $articles = Article::get_articles($string, null, true);
+    else if(Input::get('q') != "" ){
+      $string = Input::get('q');
+      $articles = Article::get_articles($topic, null, true);
+      $counter = Article::count_article;
     }
     else {
-      $articles = Article::get_articles($string, null, true);
+      $articles = Article::get_articles($topic, null, true);
+      $counter = Article::$count_article;
     }
-
-
+    
+    $data['counter'] = $counter;
     foreach($articles as $article){
-      array_push($data, array(
+      array_push($data['content'], array(
         'key_id' => $article->key_id,
         'title' => $article->title,
         'picture' => $article->image,
@@ -136,5 +134,21 @@ class Home_Controller extends Base_Controller {
     {
       return Redirect::to('login');
     }
+  }
+
+  private function get_topic()
+  {
+    $string = "";
+    $sparator = "";
+    
+    $topics = Auth::User()->topics;
+    foreach($topics as $topic){
+      if($string != ""){
+        $sparator = "|";
+      }
+      $string = $string.$sparator.$topic->names;
+    }
+    
+    return $string;
   }
 }

@@ -246,6 +246,7 @@ Route::get('get_captcha', function()
 
 Route::get('home/content.json', 'home@content');
 
+
 Route::get(array('home','/'), 'home@index');
 
 Route::get('home/dashboard', 'home@dashboard');
