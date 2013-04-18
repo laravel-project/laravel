@@ -65,12 +65,18 @@ class Home_Controller extends Base_Controller {
       $string = $string.$sparator.$topic->names;
     }
     
-    $articles = Article::get_articles($string);
-    
-    if(Input::get('search') != "" ){
+    if(Input::get('p') != "") {
+      $articles = Article::get_articles($string, Input::get('p'));
+    }
+    else if(Input::get('search') != "" ){
       $string = Input::get('search');
       $articles = Article::get_articles($string);
     }
+    else {
+      $articles = Article::get_articles($string);
+    }
+
+
     foreach($articles as $article){
       array_push($data, array(
         'key_id' => $article->key_id,

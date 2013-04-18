@@ -66,10 +66,11 @@ class Article extends Eloquent {
     return Article::where_title($title)->select('id')->first();
   }
 
-  public static function get_articles($string){
-    return Article::with('crawlurl')->where('content','REGEXP',$string)->order_by('created_at', 'desc')
-      ->take(23)->get(array('articles.key_id', 'articles.title', 
-      'articles.image', 'articles.content', 'articles.article_url', 
-      'articles.crawl_url_id'));
+  public static function get_articles($string, $offset=0) {
+    $all_article = Article::with('crawlurl')->where('content','REGEXP',$string)->order_by('created_at', 'desc');
+    return $all_article->take(23)->skip($offset)->get(array('articles.key_id', 
+      'articles.title', 'articles.image', 'articles.content', 
+      'articles.article_url', 'articles.crawl_url_id'));
   }
+
 }

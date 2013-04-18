@@ -30,19 +30,32 @@ function TodoCtrl($scope) {
 function ArtclCtrl($scope, $http, $compile){
   
  $scope.content = '';
+ $scope.count_article = 0;
  $scope.connectTry = 0;
 
  (function($){
    
    $('#articles').after($compile('<spinner></spinner>')($scope));
    
+   $scope.article_fetch = function(url) {
+     return $http({method: 'GET', url: url, cache: true})
+            .error(function(data, status) {
+              $scope.connectTry = $scope.connectTry + 1;
+                if ($scope.connectTry <= 3) {
+                  $scope.article_fetch(url);
+                }
+                else {
+                  $().toastmessage('showErrorToast', "error connection");
+                }
+            });
+   }
    //describe functionto fetch data
    $scope.fetch = function(url) {
       $http({method: 'GET', url: url, cache: true}).
        success(function(data, status) {
-         $scope.content = data;
+         $scope.count_article = $scope.count_article + data.length;
          setTimeout(function(){
-           $scope.load_content($scope.content);
+           $scope.load_content(data);
            $('spinner').remove();
          }, 2000)       
        }).
@@ -61,11 +74,16 @@ function ArtclCtrl($scope, $http, $compile){
    $scope.loadMore = function() {
      $('body').css('overflow-y', 'hidden'); 
      $('body').append($compile('<lightbox><spinner></spinner></lightbox>')($scope));
+     
+     $scope.article_fetch('content.json?p='+$scope.count_article).success(function(data, status) {
+       $scope.count_article = $scope.count_article + data.length;
+       setTimeout(function(){
+         $scope.load_content(data);
+         $('body').css('overflow-y', 'visible'); 
+         $('lightbox').remove();
+       }, 2000)
+     });
 
-     setTimeout(function(){
-       $('body').css('overflow-y', 'visible'); 
-       $('lightbox').remove();
-     }, 2000)
    }
 
 
@@ -94,7 +112,6 @@ function ArtclCtrl($scope, $http, $compile){
   //describe function to display content on blocksit
    $scope.load_content = function($data) {
     var $v;
-    console.log($data.length)
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
         if ((i+1) % 3) {
