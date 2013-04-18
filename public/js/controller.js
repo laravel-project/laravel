@@ -37,32 +37,27 @@ function ArtclCtrl($scope, $http, $compile){
    
    $('#articles').after($compile('<spinner></spinner>')($scope));
    
-   $scope.article_fetch = function(url) {
-     return $http({method: 'GET', url: url, cache: true})
-            .error(function(data, status) {
-              $scope.connectTry = $scope.connectTry + 1;
-                if ($scope.connectTry <= 3) {
-                  $scope.article_fetch(url);
-                }
-                else {
-                  $().toastmessage('showErrorToast', "error connection");
-                }
-            });
-   }
-   //describe functionto fetch data
-   $scope.fetch = function(url) {
+   //describe function to fetch data
+   $scope.fetch = function(url, success_condition) {
       $http({method: 'GET', url: url, cache: true}).
        success(function(data, status) {
          $scope.count_article = $scope.count_article + data.length;
          setTimeout(function(){
            $scope.load_content(data);
-           $('spinner').remove();
+           if (success_condition == 'remove spinner')
+             $('spinner').remove();
+           else if (success_condition == 'remove lightbox')
+           {
+             $('body').css('overflow-y', 'visible'); 
+             $('lightbox').remove();
+           }
+             
          }, 2000)       
        }).
        error(function(data, status) {
          $scope.connectTry = $scope.connectTry + 1;
          if ($scope.connectTry <= 3) {
-           $scope.fetch(url);
+           $scope.fetch(url, success_condition);
          }
          else {
            $().toastmessage('showErrorToast', "error connection");
@@ -75,26 +70,19 @@ function ArtclCtrl($scope, $http, $compile){
      $('body').css('overflow-y', 'hidden'); 
      $('body').append($compile('<lightbox><spinner></spinner></lightbox>')($scope));
      
-     $scope.article_fetch('content.json?p='+$scope.count_article).success(function(data, status) {
-       $scope.count_article = $scope.count_article + data.length;
-       setTimeout(function(){
-         $scope.load_content(data);
-         $('body').css('overflow-y', 'visible'); 
-         $('lightbox').remove();
-       }, 2000)
-     });
+     $scope.fetch('content.json?p='+$scope.count_article, 'remove lightbox');
 
    }
 
 
-
+   //get all count article
    //search my articles function
-   $scope.fetch('content.json');
+   $scope.fetch('content.json', 'remove spinner');
 
    $('#search_my_articles').on('click',function(){
      $('#articles').after($compile('<spinner></spinner>')($scope));
-     $scope.fetch('content.json?search='+$('#find_my_articles').val());
-     $('.grid').remove()
+     $scope.fetch('content.json?search='+$('#find_my_articles').val(), 'remove spinner');
+     $('.grid').remove();
    })
    
 //   $('#find_my_articles').keyup(function(){

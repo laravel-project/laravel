@@ -70,10 +70,10 @@ class Home_Controller extends Base_Controller {
     }
     else if(Input::get('search') != "" ){
       $string = Input::get('search');
-      $articles = Article::get_articles($string);
+      $articles = Article::get_articles($string, null, true);
     }
     else {
-      $articles = Article::get_articles($string);
+      $articles = Article::get_articles($string, null, true);
     }
 
 

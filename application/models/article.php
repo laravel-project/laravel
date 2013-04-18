@@ -2,6 +2,8 @@
 
 class Article extends Eloquent {
   public static $timestamps = true;
+  
+  public static $count_article;
 
 	public function comments()
 	{
@@ -66,8 +68,13 @@ class Article extends Eloquent {
     return Article::where_title($title)->select('id')->first();
   }
 
-  public static function get_articles($string, $offset=0) {
+  
+  public static function get_articles($string, $offset=0, $first=false) {
     $all_article = Article::with('crawlurl')->where('content','REGEXP',$string)->order_by('created_at', 'desc');
+    
+    if ($first == true) {
+      self::$count_article = $all_article->count();  
+    }
     return $all_article->take(23)->skip($offset)->get(array('articles.key_id', 
       'articles.title', 'articles.image', 'articles.content', 
       'articles.article_url', 'articles.crawl_url_id'));
