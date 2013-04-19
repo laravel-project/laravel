@@ -109,6 +109,7 @@ function ArtclCtrl($scope, $http, $compile){
   //describe function to display content on blocksit
    $scope.load_content = function($data) {
     var $v;
+    var colors = ['green','yellow','orange','orangered']
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
         if ((i+1) % 3) {
@@ -120,9 +121,18 @@ function ArtclCtrl($scope, $http, $compile){
         var $grid = $('<div></div>').addClass('grid mosaic-block bar2').appendTo('#articles');
         var $link = $('<a class="mosaic-overlay" href="#"></a>').appendTo($grid);
         $('<div class="details">'+$data[i].title.substring(0,35)+'...</div>').appendTo($link);
-        $('.mosaic-overlay').hover(function(){
-         // $(this).attr('style','background-color: green')
+        //------------------------
+        
+        //PLEASE FIX ME
+        $('.mosaic-overlay').each(function(){
+          $(this).mouseover(function(){
+            var ran = Math.floor((Math.random()*5)+1);
+             $(this).css('background-color', colors[ran])
+          }).mouseout(function(){
+             $(this).css('background-color', '#111')
+          })
         })
+    
         $('<img/>').attr('src', $data[i].picture).appendTo($grid);
       }
     };
@@ -141,18 +151,6 @@ function ArtclCtrl($scope, $http, $compile){
       offsetY: 0
     });
     
-    //------------------------
-    colors = ['green','yellow','orange','blue','navy']
-
-    $('.mosaic-overlay').each(function(){
-      $(this).mouseover(function(){
-        ran = Math.floor((Math.random()*5)+1);
-        console.log($(this).attr('class'))
-         $(this).css('background-color', colors[ran])
-      }).mouseout(function(){
-         $(this).css('background-color', '#111')
-      })
-    })
     
     $('.bar2').mosaic({
 			animation	:	'slide'		//fade or slide
