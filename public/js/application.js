@@ -42,10 +42,13 @@ m.directive('lightbox', function() {
   }
 });
 
+
+
 m.directive('modal', function() {
   return {
     restrict: "E",
     transclude: true,
+    replace: true,
     scope: {
       title: '@',
       modalid: '@'

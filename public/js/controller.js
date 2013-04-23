@@ -102,25 +102,32 @@ function ArtclCtrl($scope, $http, $compile){
    });
 
    $scope.show = function(e){
-     alert($scope.content[angular.element(e.target).attr('data')]);
+     //alert($scope.content[angular.element(e.target).attr('data')]);
+
+     angular.element('modal').remove();
+     var $modal = $($compile('<modal title="content" modalid="mymodal"></modal>')($scope)).appendTo('body');
+     console.log($modal);
+     $modal.modal('show');
    };
 //
 
   //describe function to display content on blocksit
    $scope.load_content = function($data) {
-    var $v;
+    //var $v;
     var colors = ['green','yellow','orange','orangered']
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
-        if ((i+1) % 3) {
-          $v = 1;
-        }
-        else {
-          $v = 1;
-        }
+       /* if ((i+1) % 3) {*/
+          //$v = 1;
+        //}
+        //else {
+          //$v = 1;
+        /*}*/
+        $scope.content['data-'+i] = $data[i].content;
+        
         var $grid = $('<div></div>').addClass('grid mosaic-block bar2').appendTo('#articles');
-        var $link = $('<a class="mosaic-overlay" href="#"></a>').appendTo($grid);
-        $('<div class="details">'+$data[i].title.substring(0,35)+'...</div>').appendTo($link);
+        var $link = $($compile('<a class="mosaic-overlay" href="#" ng-click="show($event)" data=data-'+ i +'></a>')($scope)).appendTo($grid);
+        $('<div class="details" data=data-'+ i +'>'+$data[i].title.substring(0,35)+'...</div>').appendTo($link);
         //------------------------
         
         //PLEASE FIX ME
@@ -133,7 +140,8 @@ function ArtclCtrl($scope, $http, $compile){
           })
         })
     
-        $('<img/>').attr('src', $data[i].picture).appendTo($grid);
+        //$('<img />').attr('src', $data[i].picture).appendTo($grid);
+        $('<img src='+$data[i].picture+'/>').appendTo($grid);
       }
     };
     
