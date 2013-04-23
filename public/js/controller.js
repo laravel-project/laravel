@@ -112,13 +112,24 @@ function ArtclCtrl($scope, $http, $compile){
 
    //fungsi untuk menampilkan pop up
    $scope.show = function(e){
-     angular.element('#mymodal').remove();
+     $('body').css('overflow-y', 'hidden'); 
      var $modal = $($compile('<modal title="'+ titles[angular.element(e.target).attr('data')]
-           +'" modalid="mymodal"><div> <img src="/img/articles/'+ 
+           +'" modalid="mymodal"><div id="imgpopup"> <img src="/img/articles/'+ 
            images[angular.element(e.target).attr('data')] +'"/></div><div>'+
        contents[angular.element(e.target).attr('data')]
      +'</div></modal>')($scope)).appendTo('body');
      $modal.modal('show');
+
+     $('.modal-backdrop, .modal-header > .close').bind('click', function(){
+       setTimeout(function(){ 
+         angular.element('#mymodal').remove();
+         $('body').css('overflow-y', 'visible');
+       }, 500);
+     });
+
+     //$('.modal-body').jScrollPane();
+
+     e.preventDefault();
    };
 
   //describe function to display content on blocksit

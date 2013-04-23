@@ -94,3 +94,18 @@ footer p {
   font-family: cursive;
 }
 .grid a:hover{color: navy;}
+
+
+/*override boostrap min css
+ *
+ */
+
+.modal {
+  width: 80% !important;
+  margin-left: -40% !important;
+}
+
+#imgpopup {
+  margin: 15px 0;
+}
+
