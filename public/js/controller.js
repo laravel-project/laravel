@@ -102,11 +102,12 @@ function ArtclCtrl($scope, $http, $compile){
    });
 
    $scope.show = function(e){
-     alert($scope.content[angular.element(e.target).attr('data')]);
+    // alert($scope.content[angular.element(e.target).attr('data')]);
 
      angular.element('modal').remove();
-     var $modal = $($compile('<modal title="content" modalid="mymodal"></modal>')($scope)).appendTo('body');
-     console.log($modal);
+     var $modal = $($compile('<modal title="Artikel" modalid="mymodal"><div>'+
+       $scope.content[angular.element(e.target).attr('data')] 
+     +'</div></modal>')($scope)).appendTo('body');
      $modal.modal('show');
    };
 //
