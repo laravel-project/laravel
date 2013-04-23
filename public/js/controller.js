@@ -28,12 +28,21 @@ function TodoCtrl($scope) {
 
 //--ini buat artikel di content.blade.php
 function ArtclCtrl($scope, $http, $compile){
- $scope.content={}; 
+
  $scope.count_article = 0;
- $scope.connectTry = 0;
  $scope.total_article = 0;
-
-
+ 
+ var connectTry = 0;
+ //ini buat counter dr isi artikel. setiap isi artikel jsonny disalin ke
+ //variabel dan untuk pembeda antara content satu dengan lainny digunakan variabel counter
+ var counter = 0;
+ //ini buat isi kontentny
+ var contents = {}; 
+ //ini buat title
+ var titles = {};
+ //ini buat gambarny
+ var images = {};
+ 
  (function($){
    
    $('#articles').after($compile('<spinner></spinner>')($scope));
@@ -60,8 +69,8 @@ function ArtclCtrl($scope, $http, $compile){
          }, 2000)       
        }).
        error(function(data, status) {
-         $scope.connectTry = $scope.connectTry + 1;
-         if ($scope.connectTry <= 3) {
+         connectTry = connectTry + 1;
+         if (connectTry <= 3) {
            $scope.fetch(url, success_condition);
          }
          else {
@@ -101,35 +110,36 @@ function ArtclCtrl($scope, $http, $compile){
      });
    });
 
+   //fungsi untuk menampilkan pop up
    $scope.show = function(e){
-    // alert($scope.content[angular.element(e.target).attr('data')]);
-
-     angular.element('modal').remove();
-     var $modal = $($compile('<modal title="Artikel" modalid="mymodal"><div>'+
-       $scope.content[angular.element(e.target).attr('data')] 
+     angular.element('#mymodal').remove();
+     var $modal = $($compile('<modal title="'+ titles[angular.element(e.target).attr('data')]
+           +'" modalid="mymodal"><div> <img src="/img/articles/'+ 
+           images[angular.element(e.target).attr('data')] +'"/></div><div>'+
+       contents[angular.element(e.target).attr('data')]
      +'</div></modal>')($scope)).appendTo('body');
      $modal.modal('show');
    };
-//
 
   //describe function to display content on blocksit
    $scope.load_content = function($data) {
-    //var $v;
     var colors = ['green','yellow','orange','orangered']
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
-       /* if ((i+1) % 3) {*/
-          //$v = 1;
-        //}
-        //else {
-          //$v = 1;
-        /*}*/
-        $scope.content['data-'+i] = $data[i].content;
+
+        //menyalin data ke variabel2 di bawah utnuk ditampilkan di popup modal
+        contents['data-'+ counter] = $data[i].content;
+        titles['data-' + counter] = $data[i].title.replace(/\"|\'/g, "");
+        images['data-' + counter] = $data[i].picture;
         
         var $grid = $('<div></div>').addClass('grid mosaic-block bar2').appendTo('#articles');
-        var $link = $($compile('<a class="mosaic-overlay" href="#" ng-click="show($event)" data=data-'+ i +'></a>')($scope)).appendTo($grid);
-        $('<div class="details" data=data-'+ i +'>'+$data[i].title.substring(0,35)+'...</div>').appendTo($link);
-        //------------------------
+        var $link = $($compile('<a class="mosaic-overlay" href="#" ng-click="show($event)" data=data-'+ 
+              counter +'></a>')($scope)).appendTo($grid);
+        $('<div class="details" data=data-'+ counter +'>'+$data[i].title.substring(0,35)+'...</div>')
+          .appendTo($link);
+
+        //increment counter
+        counter++;
         
         //PLEASE FIX ME
         $('.mosaic-overlay').each(function(){
@@ -141,7 +151,6 @@ function ArtclCtrl($scope, $http, $compile){
           })
         })
     
-        //$('<img />').attr('src', $data[i].picture).appendTo($grid);
         $('<img src="/img/articles/'+$data[i].picture+'"/>').appendTo($grid);
       }
     };
