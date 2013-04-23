@@ -46,7 +46,7 @@ class Home_Controller extends Base_Controller {
   public function action_dashboard()
   {
     return View::make('home.dashboard', array(
-      'books' => Book::where_user_id(Auth::User()->id)->get(),
+      'books' => Book::where_user_id(Auth::User()->id)->take(5)->get(),
     ));
   }
 

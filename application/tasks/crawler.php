@@ -126,10 +126,24 @@ class Crawler_Task {
       $article = new Article(); 
       $article->title = $title;
       $article->content = $content;
-      $article->image = $picture;
+      $image = $this->save_image_to_folder($this->url, $picture);
+      $article->image = $image;
       $article->article_url = $this->url;
       $article->crawl_url_id = $this->crawl_urls->id;
       $article->save_data();
     }
-
+    
+    //this is function to save image to folder
+    //before save, it's must be convert article url to generate image name
+    private function save_image_to_folder($url, $image)
+    {
+      $x = explode('/',$url);
+      //find last on array
+      $last_of_array = strtolower(end($x));
+      //replace dot to underline
+      $image_name = str_replace('.','_',$last_of_array).'.jpg';
+      system('wget -O public/img/articles/'.$image_name.' '.$image);
+      //return image name for naming the image into database;
+      return $image_name;
+    }
 }

@@ -102,7 +102,7 @@ function ArtclCtrl($scope, $http, $compile){
    });
 
    $scope.show = function(e){
-     //alert($scope.content[angular.element(e.target).attr('data')]);
+     alert($scope.content[angular.element(e.target).attr('data')]);
 
      angular.element('modal').remove();
      var $modal = $($compile('<modal title="content" modalid="mymodal"></modal>')($scope)).appendTo('body');
@@ -141,7 +141,7 @@ function ArtclCtrl($scope, $http, $compile){
         })
     
         //$('<img />').attr('src', $data[i].picture).appendTo($grid);
-        $('<img src='+$data[i].picture+'/>').appendTo($grid);
+        $('<img src="/img/articles/'+$data[i].picture+'"/>').appendTo($grid);
       }
     };
     
