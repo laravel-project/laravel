@@ -17,7 +17,7 @@ class Create_Crawl_Characteristic_Table {
       $table->string('key_id');
       $table->integer('crawl_url_id')->unsigned();
       $table->integer('characteristic_id')->unsigned();
-      $table->string('xpath');
+      $table->text('xpath');
       //$table->foreign('crawl_url_id')->references('id')
         //->on('crawl_urls')->on_delete('cascade');
       //$table->foreign('characteristic_id')->references('id')

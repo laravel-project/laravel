@@ -37,6 +37,12 @@ class Seed_Characteristic_Table {
           'created_at' => $now,
           'updated_at' => $now
         ),
+        array(
+          'name' => 'content article',
+          'key_id' => rand(268435456, 4294967295),
+          'created_at' => $now,
+          'updated_at' => $now
+        ),
       )
     );
 	}
