@@ -127,8 +127,12 @@ function ArtclCtrl($scope, $http, $compile){
        }, 500);
      });
 
-     //$('.modal-body').jScrollPane();
-
+     $('#scrollbox4').enscroll({
+       verticalTrackClass: 'track4',
+       verticalHandleClass: 'handle4',
+       minScrollbarLength: 28
+     });
+    
      e.preventDefault();
    };
 

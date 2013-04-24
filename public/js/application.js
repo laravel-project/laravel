@@ -60,7 +60,7 @@ m.directive('modal', function() {
                    'aria-hidden="true">×</button>' +
                   '<h3 id="myModalLabel">((title))</h3>' +
                '</div>' +
-               '<div class="modal-body" ng-transclude></div>' +
+               '<div class="modal-body" ng-transclude id="scrollbox4"></div>' +
               '</div>',
     link: function(scope, element, args) {
     }

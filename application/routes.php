@@ -158,6 +158,7 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('style','css/style.css');
   Asset::add('jquery.toastmessage','css/jquery.toastmessage.css');
   Asset::add('mosaic','css/mosaic.css');
+  
   #load js
   Asset::add('jquery', 
     'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
@@ -172,6 +173,7 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('angular_overide', 'js/controller.js');
   Asset::add('underscore',
     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
+  Asset::add('enscroll', 'js/enscroll-0.4.0.min.js');
 });
 
 
