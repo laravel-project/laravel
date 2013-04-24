@@ -100,7 +100,7 @@ footer p {
  *
  */
 
-.modal {
+#mymodal {
   width: 80% !important;
   margin-left: -40% !important;
 }
