@@ -114,7 +114,7 @@ function ArtclCtrl($scope, $http, $compile){
    $scope.show = function(e){
      $('body').css('overflow-y', 'hidden'); 
      var $modal = $($compile('<modal title="'+ titles[angular.element(e.target).attr('data')]
-           +'" modalid="mymodal"><div id="imgpopup"> <img src="/img/articles/'+ 
+           +'" modalid="mymodal"><div id="imgpopup"> <img src="/img/articles/origins/'+ 
            images[angular.element(e.target).attr('data')] +'"/></div><div>'+
        contents[angular.element(e.target).attr('data')]
      +'</div></modal>')($scope)).appendTo('body');
@@ -166,7 +166,7 @@ function ArtclCtrl($scope, $http, $compile){
           })
         })
     
-        $('<img src="/img/articles/'+$data[i].picture+'"/>').appendTo($grid);
+        $('<img src="/img/articles/thumbs/'+$data[i].picture+'"/>').appendTo($grid);
       }
     };
     

@@ -117,7 +117,7 @@ class Home_Controller extends Base_Controller {
         if ($topic->save()){
         }
       }
-      if(!empty($articles) && count($articles) >= 23){
+      if(!empty($articles) && count($articles) >= 12){
         DB::table('users')->where('id', '=', Auth::User()->id)->update(array('sign_in_count' => 1) );
       }else{
         Message::another_message('failed','total article minimal 23, please add new topic your article result '.count($articles).' articles');

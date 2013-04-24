@@ -7,12 +7,21 @@ class Crawler_Task {
     private $result;
     private $crawl_urls;
     
+    private $origins_folder = 'public/img/articles/origins/';
+    private $thumbs_folder  = 'public/img/articles/thumbs/';
+    
     public function run($arguments)
     {
+      //make new folder on articles
+      system('mkdir '.$this->origins_folder);
+      system('mkdir '.$this->thumbs_folder);
+      
       // Do awesome notifying...
       $this->crawl_urls = CrawlUrl::find(1);
       $this->url = $this->crawl_urls->url;
       $this->crawl()->parse_parent();
+      //resize thumbs images
+      $this->compress_article_images();
     }
 
     public function crawl()
@@ -137,13 +146,22 @@ class Crawler_Task {
     //before save, it's must be convert article url to generate image name
     private function save_image_to_folder($url, $image)
     {
-      $x = explode('/',$url);
-      //find last on array
-      $last_of_array = strtolower(end($x));
-      //replace dot to underline
-      $image_name = str_replace('.','_',$last_of_array).'.jpg';
-      system('wget -O public/img/articles/'.$image_name.' '.$image);
+      $x = explode('/',$image);
+      //find last on array and get image
+      $image_full_name = explode('.', end($x) );
+      $rand = str_shuffle("abcdefghijklmnopqrstufvxyz1234567890");
+      $image_format = substr(end($image_full_name),0,3); //get image format JPG/PNG/GIF
+      //name of image with random string
+      $image_name = $rand.'.'.$image_format;
+      system('wget -O '.$this->origins_folder.$image_name.' '.$image);
+      //copy to thumbs folder
+      system('cp '.$this->origins_folder.$image_name.' '.$this->thumbs_folder.$image_name);
       //return image name for naming the image into database;
       return $image_name;
+    }
+    
+    private function compress_article_images()
+    {
+      system('mogrify -resize 275x275 '.$this->thumbs_folder.'*');
     }
 }
