@@ -12,10 +12,13 @@ class Crawler_Task {
     
     public function run($arguments)
     {
-      //make new folder on articles
-      system('mkdir '.$this->origins_folder);
-      system('mkdir '.$this->thumbs_folder);
-      
+      //re-create thumbs and origins folder for first time
+      if(count(Article::all()) == 0 ){
+        system('rm -rf '.$this->origins_folder);
+        system('rm -rf '.$this->thumbs_folder);
+        system('mkdir '.$this->origins_folder);
+        system('mkdir '.$this->thumbs_folder);
+      }
       // Do awesome notifying...
       $this->crawl_urls = CrawlUrl::find(1);
       $this->url = $this->crawl_urls->url;

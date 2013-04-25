@@ -61,6 +61,11 @@ m.directive('modal', function() {
                   '<h3 id="myModalLabel">((title))</h3>' +
                '</div>' +
                '<div class="modal-body" ng-transclude id="scrollbox4"></div>' +
+               '<div class="modal-footer">'+
+                 '<div class="facebook-icon"></div>'+
+                 '<div class="twitter-icon"></div>'+
+                 '<div class="mail-icon"></div>'+
+               '</div>' +
               '</div>',
     link: function(scope, element, args) {
     }

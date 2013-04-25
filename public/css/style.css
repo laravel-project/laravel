@@ -169,7 +169,7 @@ footer p {
 }
 
 #imgpopup img{
-  float: left;
+  float: right;
   margin: 20px;
 }
 
@@ -182,4 +182,50 @@ footer p {
 
 #myModalLabel{
   margin-left: 10px;  
+}
+
+.facebook-icon, .twitter-icon, .mail-icon {
+  background: url('/img/social-sprite.png'); 
+}
+
+.facebook-icon{
+  background-position: 0 top;
+  cursor: pointer;
+  height: 43px;
+  left: 99px;
+  position: fixed;
+  top: 110px;
+  width: 41px;
+}
+
+.facebook-icon:hover{
+  background-position: 39px top;
+}
+
+.twitter-icon{
+  background-position: 0 bottom;
+  width: 41px;
+  height: 43px;
+  left: 99px;
+  position: fixed;
+  top: 165px;
+  cursor: pointer;
+}
+
+.twitter-icon:hover{
+  background-position: 39px bottom;
+}
+
+.mail-icon{
+  background-position: 85px top;
+  width: 41px;
+  height: 43px;
+  left: 100px;
+  position: fixed;
+  top: 213px;
+  cursor: pointer;
+}
+
+.mail-icon:hover{
+  background-position: 85px bottom;
 }
