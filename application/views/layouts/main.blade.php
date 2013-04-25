@@ -9,11 +9,10 @@
       <div class="navbar navbar-fixed-top">
           <div class="navbar-inner">
               <div class="container">
-                  <a class="brand" href="/">Instapics</a>
                    <div class="nav-collapse">
                       <ul class="nav">
                         @section('navigation')
-                          <li><a href='#home'>Home</a></li>
+                          <li><a class="brand" href="#home">Instapics</a></li>
                           <li><a href='#about'>About</a></li>
                           <li><a href='#watch'>Watch</a></li>
                           <li><a href="#login-modal" data-toggle="modal">Login</a></li>

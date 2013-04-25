@@ -215,3 +215,7 @@ function ArtclCtrl($scope, $http, $compile){
 
 })(jQuery);
 }
+
+function BookCtrl($scope, $http) {
+  console.log('aa')
+}

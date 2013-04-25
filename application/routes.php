@@ -113,7 +113,7 @@ Route::filter('before', function()
             '||'.$user->key_id.'||'.$user->remember_token), 4320);
           Message::success_or_not_message('success', 'login');
           Auth::login($user->id);
-          return Redirect::to('home/dashboard');
+          return Redirect::to('dashboard');
         }
         else {
           //check credential, if remember token wrong but email and key_id is 
@@ -223,7 +223,7 @@ Route::get('confirmation_password', function(){
     Message::success_or_not_message('success', 'confirmation password');
     DB::table('users')->where('id', '=', $user->id)->update(array('confirmation_token' => null, 'confirmated_at' => Date::mysql_format() ));
     Auth::login($user->id);
-    return Redirect::to('home/dashboard');
+    return Redirect::to('dashboard');
   }
   else{
     Message::success_or_not_message('failed', 'confirmation password');
@@ -247,11 +247,16 @@ Route::get('get_captcha', function()
 });
 
 
-Route::get('home/content.json', 'home@content');
+Route::get('content.json', 'home@content');
 
 
 Route::get(array('home','/'), 'home@index');
 
-Route::get('home/dashboard', 'home@dashboard');
+Route::get('content', function()
+{
+  return View::make('home.content');
+});
+
+Route::get('dashboard', 'home@dashboard');
 
 Route::post('home/create_topic', 'home@create_topic');
