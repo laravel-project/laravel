@@ -36,7 +36,7 @@ class Home_Controller extends Base_Controller {
   
   public function action_index()
 	{
-	  if (Auth::check()) return Redirect::to('home/dashboard');
+	  if (Auth::check()) return Redirect::to('dashboard');
     return View::make('home.index', array(
       'name' => Input::old('name'),
       'email' => Input::old('email'),
@@ -122,10 +122,10 @@ class Home_Controller extends Base_Controller {
       }else{
         Message::another_message('failed','total article minimal 23, please add new topic your article result '.count($articles).' articles');
       }
-      return Redirect::to('home/dashboard');
+      return Redirect::to('dashboard');
     }else{
       Message::another_message('failed','please input any topic, to complete your article');
-      return Redirect::to('home/dashboard');
+      return Redirect::to('dashboard');
     }
   }
   

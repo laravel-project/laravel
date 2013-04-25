@@ -3,10 +3,23 @@
 var m = angular.module('laravel', []);
 
 //overide angular starting symbol and end symbol template tag
-m.config(function($interpolateProvider) {
+m.config(function($interpolateProvider, $routeProvider, $locationProvider) {
+  $locationProvider.html5Mode(true);
   $interpolateProvider.startSymbol('((');
   $interpolateProvider.endSymbol('))');
+  $routeProvider.when('/dashboard', {
+    templateUrl: "/content", 
+    controller: "ArtclCtrl"
+  }).when('/book', {
+     template: "Yum!!",
+     controller: "BookCtrl"
+  }).when('/logout', {
+    redirectTo: function(routeParams, path, search) {
+      window.location.href = path;
+    }
+  });
 });
+
 
 m.directive('spinner', function(){
   return {

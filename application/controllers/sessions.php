@@ -29,7 +29,7 @@ class Sessions_Controller extends Base_Controller {
       }
 
       Message::success_or_not_message('success', 'login');
-      return Redirect::to('home/dashboard');;
+      return Redirect::to('dashboard');;
     }
     else 
     {
@@ -47,14 +47,14 @@ class Sessions_Controller extends Base_Controller {
     if($user){
       Message::success_or_not_message('success', 'login');
       Auth::login($user->id);
-      return Redirect::to('home/dashboard');
+      return Redirect::to('dashboard');
     }else{
       $user = new User();
       $user->facebook_save($email, $name);
       $new_user = User::where_email($email)->first();
       Message::success_or_not_message('success', 'login');
       Auth::login($new_user->id);
-      return Redirect::to('home/dashboard');
+      return Redirect::to('dashboard');
     }
   }
 
