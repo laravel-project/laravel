@@ -81,7 +81,7 @@ class Crawler_Task {
       $dom->loadHTML($this->result);
       $xpath = new DOMXPath($dom);
       
-      //get xpath title, image, and article
+      //get xpath title, image, article and article content
       $title_id = Characteristic::where_name('title')->select('id')->first()->id;
       $xpath_title = $this->get_xpath($title_id);
       $img_id = Characteristic::where_name('picture')->select('id')
@@ -90,6 +90,9 @@ class Crawler_Task {
       $article_id = Characteristic::where_name('article')->select('id')
         ->first()->id;
       $xpath_article = $this->get_xpath($article_id);
+      $article_content_id = Characteristic::where_name('content article')->select('id')
+        ->first()->id;
+      $xpath_content_article = $this->get_xpath($article_content_id);
       
       //get title
       $title = trim($xpath->query($xpath_title)->item(0)->nodeValue);
@@ -99,24 +102,40 @@ class Crawler_Task {
       {
         return;
       }
-      
+       
       //get content article
-      $article_nodes = $xpath->query($xpath_article);
-      $temp_article = "";
-      foreach($article_nodes as $article_node) {
-        //get image
-        $ad_Doc = new DOMDocument();
-        $cloned = $article_node->cloneNode(TRUE);
-        $ad_Doc->appendChild($ad_Doc->importNode($cloned, True)); 
-        $xpath = new DOMXPath($ad_Doc);
-        if (!$xpath_img)
-        {
-          $xpath_img = '//img';
-        }        
+      $article = trim($xpath->query($xpath_article)->item(0)->nodeValue);
+      //check if xpath images exist or not. If not exist, it means use 
+      //article_content xpath to get the image  
+      if ($xpath_img) {
         $img = $xpath->query($xpath_img)->item(0)->getAttribute('src');
-        $temp_article = $temp_article.$article_node->nodeValue;
       }
-      $article = trim($temp_article);
+      else {
+        $article_nodes = $xpath->query($xpath_content_article);
+        foreach($article_nodes as $article_node) {
+          //get image
+          $ad_Doc = new DOMDocument();
+          $cloned = $article_node->cloneNode(TRUE);
+          $ad_Doc->appendChild($ad_Doc->importNode($cloned, True)); 
+          $xpath = new DOMXPath($ad_Doc);
+          if (!$xpath_img)
+          {
+            $xpath_img = '//img';
+          }  
+                
+          $images = $xpath->query($xpath_img);
+          //iterates in image array
+          foreach ($images as $image) {
+            // check height and width
+            $img_property = getimagesize($image->getAttribute('src'));
+            $width = $img_property[0];
+            $height = $img_property[1];
+            if($width >= 275 && $height >= 275) {
+              $img = $image->getAttribute('src');
+            }
+          }
+        }
+      }
       $this->save_article($title, $article, $img);
     }
     
