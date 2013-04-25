@@ -115,9 +115,10 @@ function ArtclCtrl($scope, $http, $compile){
      $('body').css('overflow-y', 'hidden'); 
      var $modal = $($compile('<modal title="'+ titles[angular.element(e.target).attr('data')]
            +'" modalid="mymodal"><div id="imgpopup"> <img src="/img/articles/origins/'+ 
-           images[angular.element(e.target).attr('data')] +'"/></div><div>'+
+           images[angular.element(e.target).attr('data')] +'"/></div><div class="content_popup">'+
        contents[angular.element(e.target).attr('data')]
      +'</div></modal>')($scope)).appendTo('body');
+     $('.content_popup').text().split('.').join('.<br/>');
      $modal.modal('show');
 
      $('.modal-backdrop, .modal-header > .close').bind('click', function(){

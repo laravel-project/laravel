@@ -168,3 +168,18 @@ footer p {
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.35);
 }
 
+#imgpopup img{
+  float: left;
+  margin: 20px;
+}
+
+.content_popup{
+  padding: 20px;
+  text-align: justify;
+  margin-bottom: 10px;
+  line-height: 28px;
+}
+
+#myModalLabel{
+  margin-left: 10px;  
+}
