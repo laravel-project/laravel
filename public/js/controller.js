@@ -137,6 +137,24 @@ function ArtclCtrl($scope, $http, $compile){
      e.preventDefault();
    };
 
+   $scope.mouseover = function(e) {
+     var $elmnt = angular.element(e.target);
+     if ($elmnt.hasClass('mosaic-overlay')) {
+       $elmnt = $elmnt.find('div');
+     }
+     var title = titles[$elmnt.attr('data')];
+     $elmnt.html(title);
+   }
+
+   $scope.mouseout = function(e) {
+     var $elmnt = angular.element(e.target);
+     if ($elmnt.hasClass('mosaic-overlay')) {
+       $elmnt = $elmnt.find('div');
+     }
+     var title = $elmnt.text().substring(0,35) + '...';
+     $elmnt.html(title);
+   }
+
   //describe function to display content on blocksit
    $scope.load_content = function($data) {
     var colors = ['green','yellow','orange','orangered']
@@ -149,9 +167,13 @@ function ArtclCtrl($scope, $http, $compile){
         images['data-' + counter] = $data[i].picture;
         
         var $grid = $('<div></div>').addClass('grid mosaic-block bar2').appendTo('#articles');
-        var $link = $($compile('<a class="mosaic-overlay" href="#" ng-click="show($event)" data=data-'+ 
+        var $link = $($compile('<a class="mosaic-overlay" href="#"' +
+              'ng-click="show($event)" ng-mouseout="mouseout($event)"' + 
+              'ng-mouseover="mouseover($event)" data=data-'+ 
               counter +'></a>')($scope)).appendTo($grid);
-        $('<div class="details" data=data-'+ counter +'>'+$data[i].title.substring(0,35)+'...</div>')
+        $($compile('<div class="details" ng-mouseleave="mouseout($event)"' +
+              'ng-mouseenter="mouseover($event)" data=data-' + 
+              counter +'>' + $data[i].title.substring(0,35)+'...</div>')($scope))
           .appendTo($link);
 
         //increment counter
