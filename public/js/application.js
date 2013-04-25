@@ -51,7 +51,8 @@ m.directive('modal', function() {
     replace: true,
     scope: {
       title: '@',
-      modalid: '@'
+      modalid: '@',
+      articleid: '@'
     },
     template: '<div id="((modalid))" class="modal hide fade" tabindex="-1"' +
                 'role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
@@ -65,7 +66,12 @@ m.directive('modal', function() {
                  '<div class="facebook-icon"></div>'+
                  '<div class="twitter-icon"></div>'+
                  '<div class="mail-icon"></div>'+
+                 '<a class="add_bookmark" href="javascript:void(0);"'+
+                   'data-url="/add_bookmark.json?article_id=((articleid))">'+
+                   'bookmark this article'+
+                  '</a>'+
                '</div>' +
+               '<script> add_bookmark() </script>'+
               '</div>',
     link: function(scope, element, args) {
     }
@@ -105,4 +111,20 @@ function modalShowAfterFailed(modal_name){
   if (location.href == "http://"+location.host+"/?"+modal_name){
     return $('#'+modal_name+'-modal').modal('show');
   }
+}
+
+function add_bookmark(){
+  $('.add_bookmark').on('click', function(){
+    $.ajax({
+      url: $(this).attr('data-url'),
+      method: 'POST',
+      success: function(response){
+        if(response[0].status == 'failed'){
+          $().toastmessage('showErrorToast', response[0].message)
+        }else{
+          $().toastmessage('showSuccessToast', response[0].message)
+        }
+      }
+    })
+  })
 }

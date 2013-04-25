@@ -42,7 +42,8 @@ function ArtclCtrl($scope, $http, $compile){
  var titles = {};
  //ini buat gambarny
  var images = {};
- 
+ //ini untuk artikel id
+ var article_id = {};
  (function($){
    
    $('#articles').after($compile('<spinner></spinner>')($scope));
@@ -114,7 +115,8 @@ function ArtclCtrl($scope, $http, $compile){
    $scope.show = function(e){
      $('body').css('overflow-y', 'hidden'); 
      var $modal = $($compile('<modal title="'+ titles[angular.element(e.target).attr('data')]
-           +'" modalid="mymodal"><div id="imgpopup"> <img src="/img/articles/origins/'+ 
+           +'" modalid="mymodal" articleid="'+article_id[angular.element(e.target).attr('data')]+
+           '"><div id="imgpopup"> <img src="/img/articles/origins/'+ 
            images[angular.element(e.target).attr('data')] +'"/></div><div class="content_popup">'+
        contents[angular.element(e.target).attr('data')]
      +'</div></modal>')($scope)).appendTo('body');
@@ -165,6 +167,7 @@ function ArtclCtrl($scope, $http, $compile){
         contents['data-'+ counter] = $data[i].content;
         titles['data-' + counter] = $data[i].title.replace(/\"|\'/g, "");
         images['data-' + counter] = $data[i].picture;
+        article_id['data-' + counter] = $data[i].key_id;
         
         var $grid = $('<div></div>').addClass('grid mosaic-block bar2').appendTo('#articles');
         var $link = $($compile('<a class="mosaic-overlay" href="#"' +

@@ -255,3 +255,34 @@ Route::get(array('home','/'), 'home@index');
 Route::get('home/dashboard', 'home@dashboard');
 
 Route::post('home/create_topic', 'home@create_topic');
+
+Route::post('add_bookmark.json',function(){
+  $status = array();
+  $article_id = Input::get('article_id');
+  $user_id = Auth::User()->id;
+  if($article_id != ""){
+    $bookmark = Bookmark::where_article_id_and_user_id($article_id, $user_id)->first();
+    if($bookmark){
+      array_push($status, array(
+        'status' => 'failed',
+        'message' => 'this article has already bookmark',
+      ));
+    }else{
+      $new_bookmark = new Bookmark();
+      $new_bookmark->article_id = $article_id;
+      $new_bookmark->user_id = $user_id;
+      $new_bookmark->key_id = rand(268435456, 4294967295);
+      $new_bookmark->save();
+      array_push($status, array(
+        'status' => 'success',
+        'message' => 'this article success to bookmark',
+      ));
+    }
+  }else{
+    array_push($status, array(
+      'status' => 'failed',
+      'message' => 'failed to bookmark this article',
+    ));
+  }
+  return Response::json($status);
+});

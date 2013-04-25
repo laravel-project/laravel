@@ -171,6 +171,7 @@ footer p {
 #imgpopup img{
   float: right;
   margin: 20px;
+  width: 450px;
 }
 
 .content_popup{
@@ -192,7 +193,7 @@ footer p {
   background-position: 0 top;
   cursor: pointer;
   height: 43px;
-  left: 99px;
+  left: 7.3%;
   position: fixed;
   top: 110px;
   width: 41px;
@@ -206,7 +207,7 @@ footer p {
   background-position: 0 bottom;
   width: 41px;
   height: 43px;
-  left: 99px;
+  left: 7.3%;
   position: fixed;
   top: 165px;
   cursor: pointer;
@@ -220,7 +221,7 @@ footer p {
   background-position: 85px top;
   width: 41px;
   height: 43px;
-  left: 100px;
+  left: 7.2%;
   position: fixed;
   top: 213px;
   cursor: pointer;
