@@ -266,9 +266,10 @@ Route::post('home/create_topic', 'home@create_topic');
 Route::post('add_bookmark.json',function(){
   $status = array();
   $article_id = Input::get('article_id');
+  $article = Article::where_key_id($article_id)->first();
   $user_id = Auth::User()->id;
   if($article_id != ""){
-    $bookmark = Bookmark::where_article_id_and_user_id($article_id, $user_id)->first();
+    $bookmark = Bookmark::where_article_id_and_user_id($article->id, $user_id)->first();
     if($bookmark){
       array_push($status, array(
         'status' => 'failed',
@@ -276,7 +277,7 @@ Route::post('add_bookmark.json',function(){
       ));
     }else{
       $new_bookmark = new Bookmark();
-      $new_bookmark->article_id = $article_id;
+      $new_bookmark->article_id = $article->id;
       $new_bookmark->user_id = $user_id;
       $new_bookmark->key_id = rand(268435456, 4294967295);
       $new_bookmark->save();

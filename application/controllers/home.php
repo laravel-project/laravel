@@ -74,13 +74,15 @@ class Home_Controller extends Base_Controller {
     
     $data['counter'] = $counter;
     foreach($articles as $article){
+      $bookmarked = Bookmark::is_bookmarked($article->key_id, Auth::User()->id);
       array_push($data['content'], array(
         'key_id' => $article->key_id,
         'title' => $article->title,
         'picture' => $article->image,
         'url' => $article->article_url,
         'source' => $article->crawlurl->url,
-        'content' => $article->content
+        'content' => $article->content,
+        'bookmarked' => $bookmarked 
       ));
     }
     return Response::json($data);
