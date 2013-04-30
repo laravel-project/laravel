@@ -7,16 +7,25 @@ m.config(function($interpolateProvider, $routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
   $interpolateProvider.startSymbol('((');
   $interpolateProvider.endSymbol('))');
-  $routeProvider.when('/dashboard', {
-    templateUrl: "/content", 
-    controller: "ArtclCtrl"
-  }).when('/book', {
-     template: "Yum!!",
-     controller: "BookCtrl"
-  }).when('/logout', {
-    redirectTo: function(routeParams, path, search) {
-      window.location.href = path;
-    }
+  
+  $routeProvider.when('/dashboard', {templateUrl: "/content", controller: "ArtclCtrl"});
+  
+  $routeProvider.when('/book', 
+    {
+      templateUrl: "/book_content", 
+      controller: "BookCtrl", 
+      resolve: bookCtrl.resolve    
+    });
+  
+  $routeProvider.when('/logout', 
+    {
+      redirectTo: function(routeParams, path, search) {
+        window.location.href = path;
+      }
+    });
+  
+  $routeProvider.otherwise({
+      template: "this doesn't exist"
   });
 });
 

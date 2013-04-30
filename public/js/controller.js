@@ -219,6 +219,27 @@ function ArtclCtrl($scope, $http, $compile){
 })(jQuery);
 }
 
-function BookCtrl($scope, $http) {
-  console.log('aa')
+var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookmarks) {
+  $scope.bookmarks = bookmarks;
+  console.log($scope.bookmarks);
+});
+
+bookCtrl.resolve = {
+  bookmarks: function($q, $timeout, $http) {
+    var deferred = $q.defer();
+    $timeout(function(){
+      $http({method: 'GET', url: 'bookmark.json'})
+        .success(function(data, status) {
+          deferred.resolve();
+        })
+        .error(function(data, status) {
+          deferred.reject();
+        });
+    }, 1000);
+
+    return deferred.promise;
+  }
+
 }
+
+

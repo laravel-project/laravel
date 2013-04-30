@@ -254,9 +254,27 @@ Route::get(array('home','/'), 'home@index');
 
 Route::get('content', function()
 {
-  return View::make('home.content', array( 
-    'books' => Book::where_user_id(Auth::User()->id)->take(5)->get())
-  );
+  if ( Request::ajax() ) { 
+    return View::make('home.content', array( 
+      'books' => Book::where_user_id(Auth::User()->id)->take(5)->get()));
+  }
+  else {
+    return Redirect::to('dashboard');
+  }
+});
+
+Route::get('bookmark.json', 'book@bookmark');
+
+Route::get('book', 'book@index');
+
+Route::get('book_content', function(){
+  if ( Request::ajax() ) { 
+    return View::make('book.index');
+  }
+  else {
+    return Redirect::to('book');
+  }
+
 });
 
 Route::get('dashboard', 'home@dashboard');
@@ -293,3 +311,7 @@ Route::post('add_bookmark.json',function(){
   }
   return Response::json($status);
 });
+
+
+// Route for Book_Controller
+Route::controller('book');
