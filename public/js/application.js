@@ -50,7 +50,7 @@ m.directive('lightbox', function() {
     link: function(scope) {
       scope.lightBoxStyle = 'position: absolute; left: 0px; top:' + 
         jQuery(document).scrollTop() + 'px; opacity:0.5; height: 100%;' +
-        'width: 100%; background-color:black'
+        'width: 100%; background-color:black; z-index: 99999;'
     }
   }
 });
