@@ -59,7 +59,7 @@ m.directive('lightbox', function() {
     link: function(scope) {
       scope.lightBoxStyle = 'position: absolute; left: 0px; top:' + 
         jQuery(document).scrollTop() + 'px; opacity:0.5; height: 100%;' +
-        'width: 100%; background-color:black'
+        'width: 100%; background-color:black; z-index: 99999;'
     }
   }
 });
@@ -74,7 +74,8 @@ m.directive('modal', function() {
     scope: {
       title: '@',
       modalid: '@',
-      articleid: '@'
+      articleid: '@',
+      bookmarked: '@'
     },
     template: '<div id="((modalid))" class="modal hide fade" tabindex="-1"' +
                 'role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
@@ -88,12 +89,11 @@ m.directive('modal', function() {
                  '<div class="facebook-icon"></div>'+
                  '<div class="twitter-icon"></div>'+
                  '<div class="mail-icon"></div>'+
-                 '<a class="add_bookmark" href="javascript:void(0);"'+
+                 '<a class="add_bookmark" href="javascript:void(0);" ng-show="true"'+
                    'data-url="/add_bookmark.json?article_id=((articleid))">'+
-                   'bookmark this article'+
-                  '</a>'+
+                 'bookmark this article</a>'+
                '</div>' +
-               '<script> add_bookmark() </script>'+
+               '<script>add_bookmark()</script>'+
               '</div>',
     link: function(scope, element, args) {
     }
