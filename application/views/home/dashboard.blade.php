@@ -11,9 +11,6 @@
 </div>
 @endsection
 @section('content')
-  <noscript>  
-    @include('home.content')
-  </noscript>
   <ng-view></ng-view>
 @endsection
 

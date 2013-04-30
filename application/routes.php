@@ -254,7 +254,9 @@ Route::get(array('home','/'), 'home@index');
 
 Route::get('content', function()
 {
-  return View::make('home.content');
+  return View::make('home.content', array( 
+    'books' => Book::where_user_id(Auth::User()->id)->take(5)->get())
+  );
 });
 
 Route::get('dashboard', 'home@dashboard');
