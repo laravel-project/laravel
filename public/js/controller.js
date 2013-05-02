@@ -52,7 +52,7 @@ function ArtclCtrl($scope, $http, $compile){
    
    //describe function to fetch data
    $scope.fetch = function(url, success_condition) {
-      $http({method: 'GET', url: url, cache: true}).
+      $http({method: 'GET', url: url}).
        success(function(data, status) {
          $scope.count_article = $scope.count_article + data['content'].length;
          if (data['counter'] > 0) {
@@ -91,7 +91,7 @@ function ArtclCtrl($scope, $http, $compile){
        $scope.fetch('content.json?p='+$scope.count_article, 'remove lightbox');
      }
 
-   }
+   };
 
    //search my articles function
    $scope.fetch('content.json', 'remove spinner');
@@ -113,6 +113,19 @@ function ArtclCtrl($scope, $http, $compile){
      });
    });
 
+   $scope.addBookmark = function(e) {
+     $http({method: 'POST', url: angular.element(e.target).attr('data-url')})
+     .success(function(data, status) {
+       if(data[0].status == 'failed'){
+          $().toastmessage('showErrorToast', data[0].message);
+        }
+        else {
+          $().toastmessage('showSuccessToast', data[0].message);
+          angular.element(e.target).parent().html('article has been bookmarked');
+        }
+      });
+   };
+   
    //fungsi untuk menampilkan pop up
    $scope.show = function(e){
      $('body').css('overflow-y', 'hidden'); 
@@ -225,22 +238,18 @@ function ArtclCtrl($scope, $http, $compile){
 
 var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookmarks) {
   $scope.bookmarks = bookmarks;
-  console.log($scope.bookmarks);
 });
 
 bookCtrl.resolve = {
   bookmarks: function($q, $timeout, $http) {
     var deferred = $q.defer();
-    $timeout(function(){
-      $http({method: 'GET', url: 'bookmark.json'})
-        .success(function(data, status) {
-          deferred.resolve();
-        })
-        .error(function(data, status) {
-          deferred.reject();
-        });
-    }, 1000);
-
+    $http({method: 'GET', url: 'bookmark.json'})
+    .success(function(data, status) {
+      deferred.resolve();
+    })
+    .error(function(data, status) {
+      deferred.reject();
+    });
     return deferred.promise;
   }
 

@@ -64,19 +64,24 @@ m.directive('lightbox', function() {
   }
 });
 
+m.directive('bookmark', function(){
+  return {
+    restrict: 'E',
+    replace: 'true',
+    template: '<a class="add_bookmark" href="javascript:void(0);" ng-show="true"'+
+              'data-url="/add_bookmark.json?article_id=((article))"'+
+              'ng-click="addBookmark($event);">bookmark this article</a>',
+    link: function(scope, elmnst, args) {
+      scope.article = args.article;
+    }
+  }
+});
 
-
-m.directive('modal', function() {
+m.directive('modal', function($compile) {
   return {
     restrict: "E",
     transclude: true,
     replace: true,
-    scope: {
-      title: '@',
-      modalid: '@',
-      articleid: '@',
-      bookmarked: '@'
-    },
     template: '<div id="((modalid))" class="modal hide fade" tabindex="-1"' +
                 'role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
                '<div class="modal-header">' +
@@ -88,14 +93,22 @@ m.directive('modal', function() {
                '<div class="modal-footer">'+
                  '<div class="facebook-icon"></div>'+
                  '<div class="twitter-icon"></div>'+
-                 '<div class="mail-icon"></div>'+
-                 '<a class="add_bookmark" href="javascript:void(0);" ng-show="true"'+
-                   'data-url="/add_bookmark.json?article_id=((articleid))">'+
-                 'bookmark this article</a>'+
-               '</div>' +
-               '<script>add_bookmark()</script>'+
+                 '<div class="mail-icon"></div><span></span>'+
+               '</div>'+
               '</div>',
     link: function(scope, element, args) {
+      scope.title = args.title;
+      scope.modalid = args.modalid;
+      scope.articleid = args.articleid;
+      scope.bookmarked = args.bookmarked;
+      var $footerSpan = element.find('.modal-footer').find('span');
+      if (args.bookmarked == 'true') {
+        $footerSpan.html('article has been bookmarked');
+      }
+      else {
+        $footerSpan.html($compile('<bookmark article="'+args.articleid+'"></bookmark>')(scope));
+      };
+
     }
   }
 });
@@ -135,18 +148,3 @@ function modalShowAfterFailed(modal_name){
   }
 }
 
-function add_bookmark(){
-  $('.add_bookmark').on('click', function(){
-    $.ajax({
-      url: $(this).attr('data-url'),
-      method: 'POST',
-      success: function(response){
-        if(response[0].status == 'failed'){
-          $().toastmessage('showErrorToast', response[0].message)
-        }else{
-          $().toastmessage('showSuccessToast', response[0].message)
-        }
-      }
-    })
-  })
-}

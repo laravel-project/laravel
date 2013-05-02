@@ -75,8 +75,8 @@ class Article extends Eloquent {
     if ($first == true) {
       self::$count_article = $all_article->count();  
     }
-    return $all_article->take(23)->skip($offset)->get(array('articles.key_id', 
-      'articles.title', 'articles.image', 'articles.content', 
+    return $all_article->take(23)->skip($offset)->get(array('articles.id', 
+      'articles.key_id', 'articles.title', 'articles.image', 'articles.content', 
       'articles.article_url', 'articles.crawl_url_id'));
   }
 

@@ -74,7 +74,7 @@ class Home_Controller extends Base_Controller {
     
     $data['counter'] = $counter;
     foreach($articles as $article){
-      $bookmarked = Bookmark::is_bookmarked($article->key_id, Auth::User()->id);
+      $bookmarked = Bookmark::is_bookmarked($article->id, Auth::User()->id);
       array_push($data['content'], array(
         'key_id' => $article->key_id,
         'title' => $article->title,
