@@ -138,6 +138,17 @@ modalShowAfterFailed('forgot_password');
 modalShowAfterFailed('resend_confirmation');
 modalShowAfterFailed('registration');
 
+//scroll layouts
+$('#scrolltoHome').click(function(){
+  $('html').animate({scrollTop: $("#home").offset().top}, 1000);
+})
+$('#scrolltoAbout').click(function(){
+  $('html').animate({scrollTop: $("#about").offset().top}, 1000);
+})
+$('#scrolltoWatch').click(function(){
+  $('html').animate({scrollTop: $("#watch").offset().top}, 1000);
+})
+
 $('#forgot_password_link, #resend_confirmation_link').click(function(){ 
   $('#login-modal').modal('hide'); 
 });

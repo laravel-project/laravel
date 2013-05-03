@@ -12,9 +12,9 @@
                    <div class="nav-collapse">
                       <ul class="nav">
                         @section('navigation')
-                          <li><a class="brand" href="#home">Instapics</a></li>
-                          <li><a href='#about'>About</a></li>
-                          <li><a href='#watch'>Watch</a></li>
+                          <li><a id='scrolltoHome' class="brand" href="javascript:void(0);">Instapics</a></li>
+                          <li><a id='scrolltoAbout' href='javascript:void(0);'>About</a></li>
+                          <li><a id='scrolltoWatch' href='javascript:void(0);'>Watch</a></li>
                           <li><a href="#login-modal" data-toggle="modal">Login</a></li>
                           <li><a id="registration_captcha" href="#registration-modal" data-toggle="modal">Sign up</a></li>
                           {{ Navigation::menu('Login with facebook', URL::current(), URL::to('facebook')); }}
