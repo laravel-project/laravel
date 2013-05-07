@@ -236,21 +236,37 @@ function ArtclCtrl($scope, $http, $compile){
 })(jQuery);
 }
 
-var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookmarks) {
-  $scope.bookmarks = bookmarks;
+
+
+
+var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
+  $scope.books = bookService.getBooks();
 });
 
+m.service('bookService', function($http, $q){
+  var books = [];
+  return {
+    fetchBooks: function(){
+      var deferred = $q.defer();
+      $http({method: 'GET', url: 'bookmark.json'})
+      .success(function(data, status) {
+        angular.copy(data, books);
+        deferred.resolve();
+      })
+      .error(function(data, status) {
+        deferred.reject();
+      });
+      return deferred.promise;
+    },
+    getBooks: function() {
+      return books;
+    }
+  }
+})
+
 bookCtrl.resolve = {
-  bookmarks: function($q, $timeout, $http) {
-    var deferred = $q.defer();
-    $http({method: 'GET', url: 'bookmark.json'})
-    .success(function(data, status) {
-      deferred.resolve();
-    })
-    .error(function(data, status) {
-      deferred.reject();
-    });
-    return deferred.promise;
+  bookmarks: function(bookService) {
+    bookService.fetchBooks(); 
   }
 
 }
