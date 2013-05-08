@@ -12,5 +12,8 @@ class Book extends Eloquent {
 	{
 		return $this->belongs_to('Article');
 	}
-
+  public function collection()
+	{
+		return $this->belongs_to('Collection');
+	}
 }

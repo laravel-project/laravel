@@ -331,3 +331,18 @@ Route::post('send_article', function(){
   Resque::enqueue('Laravel', 'MailsWorker', $args);
 
 });
+
+//PLEASE FIX ME
+Route::post('create_book.json', function(){
+  $name = Input::get('book_name');
+  $user_id = Auth::User()->id;
+  $collect = new Collection();
+  if(Collection::where_name($name)->first()){
+  }else{
+    $collect->name = $name;
+    $collect->user_id = $user_id;
+    $collect->key_id = rand(268435456, 4294967295);
+    $collect->save();
+  }
+  return Response::json($name);
+});

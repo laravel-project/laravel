@@ -396,4 +396,49 @@ footer p {
     margin: 0 0 7px 7px;
 }
 
+.with-border-left{
+  border-left: 2px solid darkgray;
+  height: 100%;
+  left: -2px;
+  margin-top: -10px;
+  position: fixed;
+}
 
+.pleft{
+  float: left;
+}
+
+.pright{
+  float: right;
+}
+
+preset{
+  clear: both;
+}
+
+.books-list{
+  position: absolute;
+  left: 17%;
+  width: 82.9%;
+}
+
+.books-list table{
+  width: 100%;
+  background: dimgray;
+}
+
+.books-list select{
+  width: 150px;
+}
+
+.td-parent {
+  background: whitesmoke;
+  color: black;
+}
+.default-color{
+  color: white;
+}
+#toggle-add-book img{
+  position: absolute;
+  right: 0;
+}
