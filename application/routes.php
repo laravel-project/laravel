@@ -169,11 +169,14 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('jquery.toastmessage','js/jquery.toastmessage.js');
   Asset::add('blocksit','js/blocksit.min.js');
   Asset::add('mosaic','js/mosaic.1.0.1.min.js');
-  Asset::add('application', 'js/application.js');
-  Asset::add('angular_overide', 'js/controller.js');
+  Asset::add('angular.application', 'js/application.js');
+  Asset::add('angular.directive', 'js/directive.js');
+  Asset::add('angular.service', 'js/service.js');
+  Asset::add('angular.controller', 'js/controller.js');
   Asset::add('underscore',
     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
   Asset::add('enscroll', 'js/enscroll-0.4.0.min.js');
+  Asset::add('facebook', 'https://connect.facebook.net/en_US/all.js');
 });
 
 
@@ -316,3 +319,15 @@ Route::post('add_bookmark.json',function(){
 
 // Route for Book_Controller
 Route::controller('book');
+
+Route::post('send_article', function(){
+  //send email using SMTP
+  $args = array(
+    'article_keyid' => Input::get('article'),
+    'email' => Input::get('email'),
+    'use_to' => 'send_article'
+  ); 
+  
+  Resque::enqueue('Laravel', 'MailsWorker', $args);
+
+});
