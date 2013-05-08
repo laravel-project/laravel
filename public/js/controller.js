@@ -27,12 +27,13 @@ function TodoCtrl($scope) {
 }
 
 //--ini buat artikel di content.blade.php
-function ArtclCtrl($scope, $http, $compile){
+function ArtclCtrl($scope, $http, $compile, facebook){
 
  $scope.count_article = 0;
  $scope.total_article = 0;
  
  var connectTry = 0;
+ var dataShare;
  //ini buat counter dr isi artikel. setiap isi artikel jsonny disalin ke
  //variabel dan untuk pembeda antara content satu dengan lainny digunakan variabel counter
  var counter = 0;
@@ -125,16 +126,24 @@ function ArtclCtrl($scope, $http, $compile){
         }
       });
    };
+
+
+   //function for posting to facebook
+   $scope.facebookPost = function() {
+     facebook.postWall('', baseUrl + '/img/articles/thumbs/' + images[dataShare], titles[dataShare], contents[dataShare]);
+   }
    
    //fungsi untuk menampilkan pop up
    $scope.show = function(e){
+     dataShare = angular.element(e.target).attr('data');
+
      $('body').css('overflow-y', 'hidden'); 
-     var $modal = $($compile('<modal title="'+ titles[angular.element(e.target).attr('data')]
-           +'" modalid="mymodal" bookmarked="'+ bookmarked[angular.element(e.target).attr('data')]
-           +'" articleid="'+article_id[angular.element(e.target).attr('data')]+
+     var $modal = $($compile('<modal title="'+ titles[dataShare]
+           +'" modalid="mymodal" bookmarked="'+ bookmarked[dataShare]
+           +'" articleid="'+article_id[dataShare]+
            '"><div id="imgpopup"> <img src="/img/articles/origins/'+ 
-           images[angular.element(e.target).attr('data')] +'"/></div><div class="content_popup">'+
-       contents[angular.element(e.target).attr('data')]
+           images[dataShare] +'"/></div><div class="content_popup">'+
+       contents[dataShare]
      +'</div></modal>')($scope)).appendTo('body');
      $('.content_popup').text().split('.').join('.<br/>');
      $modal.modal('show');
@@ -237,38 +246,15 @@ function ArtclCtrl($scope, $http, $compile){
 }
 
 
-
-
 var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
   $scope.books = bookService.getBooks();
 });
 
-m.service('bookService', function($http, $q){
-  var books = [];
-  return {
-    fetchBooks: function(){
-      var deferred = $q.defer();
-      $http({method: 'GET', url: 'bookmark.json'})
-      .success(function(data, status) {
-        angular.copy(data, books);
-        deferred.resolve();
-      })
-      .error(function(data, status) {
-        deferred.reject();
-      });
-      return deferred.promise;
-    },
-    getBooks: function() {
-      return books;
-    }
-  }
-})
 
 bookCtrl.resolve = {
   bookmarks: function(bookService) {
     bookService.fetchBooks(); 
   }
-
 }
 
 

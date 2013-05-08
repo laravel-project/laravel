@@ -1,5 +1,8 @@
 'use strict';
 
+var facebook_app_id = '604721692878709';
+var baseUrl = location.host;
+
 var m = angular.module('laravel', []);
 
 //overide angular starting symbol and end symbol template tag
@@ -30,88 +33,6 @@ m.config(function($interpolateProvider, $routeProvider, $locationProvider) {
 });
 
 
-m.directive('spinner', function(){
-  return {
-    restrict: "E",
-    template: "<img class='spinner' src='../img/spinner_loading.gif' alt='spinner'/>"
-  }
-});
-
-//this directive is used to describe scroll function
-m.directive('scroll', function() {
-  return function(scope, elm, attrs){
-    var windowElmnt = jQuery(window);
-    var docElmnt = jQuery(document);
-
-    windowElmnt.bind("scroll", function(){
-      if (windowElmnt.scrollTop() + windowElmnt.height() >= docElmnt.height()) {
-        scope.$apply(attrs.scroll);
-      }
-    });
-  }
-});
-//directive to created lightbox
-m.directive('lightbox', function() {
-  return {
-    restrict: "E",
-    template: '<div id="lightbox" style=((lightBoxStyle)) ng-transclude></div>',
-    transclude: true,
-    link: function(scope) {
-      scope.lightBoxStyle = 'position: absolute; left: 0px; top:' + 
-        jQuery(document).scrollTop() + 'px; opacity:0.5; height: 100%;' +
-        'width: 100%; background-color:black; z-index: 99999;'
-    }
-  }
-});
-
-m.directive('bookmark', function(){
-  return {
-    restrict: 'E',
-    replace: 'true',
-    template: '<a class="add_bookmark" href="javascript:void(0);" ng-show="true"'+
-              'data-url="/add_bookmark.json?article_id=((article))"'+
-              'ng-click="addBookmark($event);">bookmark this article</a>',
-    link: function(scope, elmnst, args) {
-      scope.article = args.article;
-    }
-  }
-});
-
-m.directive('modal', function($compile) {
-  return {
-    restrict: "E",
-    transclude: true,
-    replace: true,
-    template: '<div id="((modalid))" class="modal hide fade" tabindex="-1"' +
-                'role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
-               '<div class="modal-header">' +
-                 '<button type="button" class="close" data-dismiss="modal"' + 
-                   'aria-hidden="true">×</button>' +
-                  '<h3 id="myModalLabel">((title))</h3>' +
-               '</div>' +
-               '<div class="modal-body" ng-transclude id="scrollbox4"></div>' +
-               '<div class="modal-footer">'+
-                 '<div class="facebook-icon"></div>'+
-                 '<div class="twitter-icon"></div>'+
-                 '<div class="mail-icon"></div><span></span>'+
-               '</div>'+
-              '</div>',
-    link: function(scope, element, args) {
-      scope.title = args.title;
-      scope.modalid = args.modalid;
-      scope.articleid = args.articleid;
-      scope.bookmarked = args.bookmarked;
-      var $footerSpan = element.find('.modal-footer').find('span');
-      if (args.bookmarked == 'true') {
-        $footerSpan.html('article has been bookmarked');
-      }
-      else {
-        $footerSpan.html($compile('<bookmark article="'+args.articleid+'"></bookmark>')(scope));
-      };
-
-    }
-  }
-});
 
 //this function is used to improve performance using memoization
 Function.prototype.memoized = function(key)
