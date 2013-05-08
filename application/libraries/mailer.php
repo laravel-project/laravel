@@ -43,6 +43,16 @@ class Mailer {
     </a>');
     $mail->send();
   }
+
+  public static function send_article($article_keyid, $email) {
+    $article = Article::where('key_id', '=', $article_keyid)->first();
+    $mail = new SMTP();
+    $mail->to($email);
+    $mail->from('bacayuks.com');
+    $mail->subject($article->title);
+    $mail->body($article->content);
+    $mail->send();
+  }
 }
 
 ?>

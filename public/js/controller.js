@@ -132,6 +132,26 @@ function ArtclCtrl($scope, $http, $compile, facebook){
    $scope.facebookPost = function() {
      facebook.postWall('', baseUrl + '/img/articles/thumbs/' + images[dataShare], titles[dataShare], contents[dataShare]);
    }
+
+   //function to send email article content
+   $scope.sendMail = function() {
+     var form = angular.element('#frm_send_artcl');
+     var email = form.find('input#email').val();
+     var article = form.find('input#articleid').val();
+     $http({method: 'POST', url: 'send_article?article='+article+'&email='+email}).
+       success(function(data, status) {
+         console.log(status);
+         if(status != 200){
+            $().toastmessage('showErrorToast', 'Email failed to send');
+          }
+          else {
+            $().toastmessage('showSuccessToast', 'Email has successfully send');
+          }
+       }).
+       error(function(data, status){
+         $().toastmessage('showErrorToast', 'Error Connection');
+       });
+   }
    
    //fungsi untuk menampilkan pop up
    $scope.show = function(e){

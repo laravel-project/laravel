@@ -319,3 +319,15 @@ Route::post('add_bookmark.json',function(){
 
 // Route for Book_Controller
 Route::controller('book');
+
+Route::post('send_article', function(){
+  //send email using SMTP
+  $args = array(
+    'article_keyid' => Input::get('article'),
+    'email' => Input::get('email'),
+    'use_to' => 'send_article'
+  ); 
+  
+  Resque::enqueue('Laravel', 'MailsWorker', $args);
+
+});

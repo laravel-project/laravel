@@ -66,6 +66,10 @@ m.directive('modal', function($compile) {
                  '<div class="facebook-icon" ng-click="facebookPost()"></div>'+
                  '<div class="twitter-icon"></div>'+
                  '<div class="mail-icon"></div><span></span>'+
+                 '<form id="frm_send_artcl">'+
+                 '<label for="email">send to : </label><input type="text" id="email"/>'+
+                 '<input type="hidden" id="articleid" value="((articleid))"/>'+
+                 '<button ng-click="sendMail()">send</button></form>'+
                '</div>'+
               '</div>',
     link: function(scope, element, args) {
