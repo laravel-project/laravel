@@ -18,7 +18,6 @@ class Seed_Books_Table {
           'key_id' => rand(268435456, 4294967295),
           'name' => 'book '.$i,
           'user_id' => rand(1,4),
-          'article_id' => $i,
           'created_at' => $now,
           'updated_at' => $now
         )

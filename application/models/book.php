@@ -8,12 +8,9 @@ class Book extends Eloquent {
 		return $this->belongs_to('User');
 	}
 
-	public function article()
+	public function bookmarks()
 	{
-		return $this->belongs_to('Article');
+		return $this->has_many('Bookmark');
 	}
-  public function collection()
-	{
-		return $this->belongs_to('Collection');
-	}
+	
 }

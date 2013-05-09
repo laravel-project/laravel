@@ -438,6 +438,12 @@ preset{
 .default-color{
   color: white;
 }
+.default-color a{
+  color: white;
+}
+.default-color a:hover{
+  color: black;
+}
 #toggle-add-book img{
   position: absolute;
   right: 0;

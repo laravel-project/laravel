@@ -21,10 +21,7 @@
       </table>
       <div id='list-books'>
         <ul>
-          <li>test</li>
-          <li>test</li>
-          <li>test</li>
-          <li>test</li>
+          <li id='list-books-first'><a href='#' id='BookAll' class="listbooks">All</a></li>
         </ul>
       </div>
     </div>
@@ -33,24 +30,17 @@
         <tr>
           <td colspan='2' class='td-parent'>
             <div class='pright'>
-              <div class="btn-group">
+              <div class="btn-group" id='dropdown-list-books'>
                 <button class="btn dropdown-toggle" data-toggle="dropdown">
                 Move to
                   <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu">
-                  <li>bola</li>
-                  <li>teknologi</li>
-                  <li>komputer</li>
-                </ul>
               </div>
               <a class="btn" href="#"><img src='/img/delete.png' width='12px'></a>
             </div>
           </td>
         </tr>
-        <tr ng-repeat="book in books">
-          <td width='20px'><input type="checkbox"></td>
-          <td>((book.title))</td>
+        <tr id='listbookmarks'>
         </tr>
       </table>
     </div>
@@ -70,12 +60,37 @@
       $.ajax({
         url: 'create_book.json?book_name='+newBook,
         method: 'POST',
-        success: function(res){
-          $('#list-books li:first').prepend('<li>'+res+'</li>');
+        success: function(result){
+          $('#list-books li:last').append('<li><a href="#" id='+result[0].key_id+' class="listbooks">'+result[0].name+'</a></li>');
           $('#add-book').hide();
           $('#add-book input').val('').val();
         }
       })
     }
+  })
+  
+  //load books first
+  $.ajax({
+    url: 'all_books.json',
+    success: function(results){
+      var ul = $('<ul></ul>').addClass('dropdown-menu').appendTo($('#dropdown-list-books'));
+      for(i=0;i<results.length;i++){
+        $('#list-books-first').append('<li><a href="#" id='+results[i].key_id+' class="listbooks">'+results[i].name+'</a></li>');
+        $('<li>'+results[i].name+'</li>').appendTo(ul);
+      }
+    }
+  })
+  
+  //click book to show books
+  $('.listbooks').on('click', function(){
+    var id = $(this).attr('id')
+    $.ajax({
+      url: 'show_book.json?book_id='+id,
+      success: function(results){
+        for(i=0;i<results.length;i++){
+          $('#listbookmarks').html('<td width="20px"><input type="checkbox" id='+results[i].key_id+'></td><td>'+results[i].title+'</td>')
+        }
+      }
+    })
   })
 </script>

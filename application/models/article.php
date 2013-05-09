@@ -15,11 +15,6 @@ class Article extends Eloquent {
 		return $this->belongs_to('Category');
 	}
 
-	public function book()
-	{
-		return $this->has_one('Book');
-	}
-
 	public function user()
 	{
 		return $this->belongs_to('User');

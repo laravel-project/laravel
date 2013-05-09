@@ -17,6 +17,7 @@ class Create_Bookmarks_Table {
       $table->string('key_id');
       $table->integer('user_id');
       $table->integer('article_id');
+      $table->integer('book_id');
       $table->timestamps();
       $table->index('key_id');
 	  });

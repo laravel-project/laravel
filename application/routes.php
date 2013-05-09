@@ -332,17 +332,47 @@ Route::post('send_article', function(){
 
 });
 
-//PLEASE FIX ME
 Route::post('create_book.json', function(){
+  $datas = array();
   $name = Input::get('book_name');
   $user_id = Auth::User()->id;
-  $collect = new Collection();
-  if(Collection::where_name($name)->first()){
+  if(Book::where_name($name)->first()){
   }else{
-    $collect->name = $name;
-    $collect->user_id = $user_id;
-    $collect->key_id = rand(268435456, 4294967295);
-    $collect->save();
+    $book = new Book();
+    $book->name = $name;
+    $book->user_id = $user_id;
+    $book->key_id = rand(268435456, 4294967295);
+    $book->save();
+    array_push($datas, array(
+      'key_id' => $book->key_id,
+      'name' => $name
+    ));
   }
-  return Response::json($name);
+  return Response::json($datas);
+});
+
+Route::get('all_books.json', function(){
+  $user_id = Auth::User()->id;
+  $datas = array();
+  $books = Book::where_user_id($user_id)->get();
+  foreach($books as $book){
+    array_push($datas, array(
+      'key_id' => $book->key_id,
+      'name' => $book->name,
+    ));
+  }
+  return Response::json($datas);
+});
+
+Route::get('show_book.json', function(){
+  $datas = array();
+  $book_id = Input::get('book_id');
+  $books = Bookmark::where_book_id($book_id)->get();
+  foreach($books as $book){
+    array_push($datas, array(
+      'key_id' => $book->key_id,
+      'title' => $book->article->title
+    )); 
+  }
+  return Response::json($datas);
 });

@@ -13,6 +13,10 @@ class Bookmark extends Eloquent {
 		return $this->belongs_to('Article');
 	}
 
+  public function book()
+	{
+		return $this->belongs_to('Book');
+	}
   public static function is_bookmarked($article_id, $user_id)
   {
     $bookmarked = Bookmark::where_article_id_and_user_id($article_id, $user_id)->get();

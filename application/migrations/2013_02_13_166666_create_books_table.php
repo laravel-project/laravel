@@ -18,14 +18,11 @@ class Create_Books_Table {
       $table->string('key_id');
       $table->string('name');
       $table->integer('user_id')->unsigned();
-      $table->integer('article_id')->unsigned();
-      $table->integer('collection_id')->unsigned();
       //$table->foreign('user_id')->references('id')->on('users')->on_delete('cascade');
       //$table->foreign('article_id')->references('id')->on('articles')->on_delete('cascade');
       $table->timestamps();
       $table->index('key_id');
       $table->index('user_id');
-      $table->index('article_id');
     });
 	}
 
