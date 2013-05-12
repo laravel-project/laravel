@@ -34,7 +34,7 @@ class Seed_Crawl_Characteristic {
           'crawl_url_id' => '1',
           'characteristic_id' => '5',
           'key_id' => rand(268435456, 4294967295),
-          'xpath' => "/html/body[@class='style_body']/div[@class='wrapper']/div[@class='container']/div[@class='content_in']/div[@class='content_left left']/div[@class='list_news']/div[@class='news_detail']/div[@class='content_news_detail']/div[@class='artikel isi_berita2011']",
+          'xpath' => "/html/body/div[@class='wrapper']/div[@class='container']/div[@class='content_in']/div[@class='content_left left']/div[@class='list_news']/div[@class='news_detail']",
           'created_at' => $now,
           'updated_at' => $now
         ),

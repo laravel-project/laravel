@@ -68,12 +68,8 @@ class Crawler_Task {
           continue;
         }
         
-        if (!$cache[$link->getAttribute('href')])
-        {
-          $cache[$link->getAttribute('href')] = true;
-          $this->url = $link->getAttribute('href');
-          $this->crawl()->parse_content();
-        }
+        $this->url = $link->getAttribute('href');
+        $this->crawl()->parse_content();
       }
     }
 
@@ -90,9 +86,10 @@ class Crawler_Task {
       $img_id = Characteristic::where_name('picture')->select('id')
         ->first()->id;
       $xpath_img = $this->get_xpath($img_id);
-      $article_id = Characteristic::where_name('article')->select('id')
-        ->first()->id;
-      $xpath_article = $this->get_xpath($article_id);
+      //$article_id = Characteristic::where_name('article')->select('id')
+        //->first()->id;
+      //$xpath_article = $this->get_xpath($article_id);
+      $xpath_meta_description = '/html/head/meta[@name="description"]/@content';
       $article_content_id = Characteristic::where_name('content article')->select('id')
         ->first()->id;
       $xpath_content_article = $this->get_xpath($article_content_id);
@@ -107,14 +104,23 @@ class Crawler_Task {
       }
        
       //get content article
-      $article = trim($xpath->query($xpath_article)->item(0)->nodeValue);
+      $article = $xpath->query($xpath_meta_description)->item(0)->nodeValue;
+
       //check if xpath images exist or not. If not exist, it means use 
       //article_content xpath to get the image  
+      //set blank to variable $img
+      $img = ''; 
       if ($xpath_img) {
         $img = $xpath->query($xpath_img)->item(0)->getAttribute('src');
       }
       else {
         $article_nodes = $xpath->query($xpath_content_article);
+        
+        //if blank then continue next link. it measn there is no article/picture
+        if ($article_nodes->item(0) == null) {
+          return;
+        }
+
         foreach($article_nodes as $article_node) {
           //get image
           $ad_Doc = new DOMDocument();
@@ -127,6 +133,7 @@ class Crawler_Task {
           }  
                 
           $images = $xpath->query($xpath_img);
+
           //iterates in image array
           foreach ($images as $image) {
             // check height and width
@@ -157,7 +164,12 @@ class Crawler_Task {
       $article = new Article(); 
       $article->title = $title;
       $article->content = $content;
-      $image = $this->save_image_to_folder($this->url, $picture);
+      if ($picture) {
+        $image = $this->save_image_to_folder($this->url, $picture);
+      }
+      else {
+        $image = 'no_photo.png';
+      }
       $article->image = $image;
       $article->article_url = $this->url;
       $article->crawl_url_id = $this->crawl_urls->id;
@@ -175,6 +187,7 @@ class Crawler_Task {
       $image_format = substr(end($image_full_name),0,3); //get image format JPG/PNG/GIF
       //name of image with random string
       $image_name = $rand.'.'.$image_format;
+
       system('wget -O '.$this->origins_folder.$image_name.' '.$image);
       //copy to thumbs folder
       system('cp '.$this->origins_folder.$image_name.' '.$this->thumbs_folder.$image_name);

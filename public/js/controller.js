@@ -97,11 +97,6 @@ function ArtclCtrl($scope, $http, $compile, facebook){
    //search my articles function
    $scope.fetch('content.json', 'remove spinner');
 
-//   $('#search_my_articles').on('click',function(){
-//     $('#articles').after($compile('<spinner></spinner>')($scope));
-//     $scope.fetch('content.json?q='+$('#find_my_articles').val(), 'remove spinner');
-//     $('.grid').remove();
-//   })
    
    $('#find_my_articles').keyup(function(){
      $('.grid').each(function(){
@@ -130,7 +125,8 @@ function ArtclCtrl($scope, $http, $compile, facebook){
 
    //function for posting to facebook
    $scope.facebookPost = function() {
-     facebook.postWall('', baseUrl + '/img/articles/thumbs/' + images[dataShare], titles[dataShare], contents[dataShare]);
+     facebook.postWall('', baseUrl + picture_link(images[dataShare], 'thumbs'), 
+         titles[dataShare], contents[dataShare]);
    }
 
    //function to send email article content
@@ -161,8 +157,7 @@ function ArtclCtrl($scope, $http, $compile, facebook){
      var $modal = $($compile('<modal title="'+ titles[dataShare]
            +'" modalid="mymodal" bookmarked="'+ bookmarked[dataShare]
            +'" articleid="'+article_id[dataShare]+
-           '"><div id="imgpopup"> <img src="/img/articles/origins/'+ 
-           images[dataShare] +'"/></div><div class="content_popup">'+
+           '"><div id="imgpopup"> <img src="'+ picture_link(images[dataShare], 'origins') +'"/></div><div class="content_popup">'+
        contents[dataShare]
      +'</div></modal>')($scope)).appendTo('body');
      $('.content_popup').text().split('.').join('.<br/>');
@@ -238,7 +233,7 @@ function ArtclCtrl($scope, $http, $compile, facebook){
           })
         })
     
-        $('<img src="/img/articles/thumbs/'+$data[i].picture+'"/>').appendTo($grid);
+        $('<img src="' + picture_link($data[i].picture, 'thumbs') + '"/>').appendTo($grid);
       }
     };
     
@@ -263,6 +258,34 @@ function ArtclCtrl($scope, $http, $compile, facebook){
   }
 
 })(jQuery);
+   
+  //this function is return the link of picture
+  var picture_link = function(img_name, type) {
+    var link;
+    switch(type) {
+      case 'thumbs':
+        if (img_name == 'no_photo.png') 
+        {
+          link = '/img/no_photo_thumb.png';
+        }
+        else 
+        {
+          link = '/img/articles/thumbs/' + img_name;
+        }
+        break;
+      case 'origins':
+        if (img_name == 'no_photo.png') 
+        {
+          link = '/img/no_photo.png';
+        }
+        else 
+        {
+          link = '/img/articles/origins/' + img_name;
+        }
+        break;
+    }
+    return link;
+  }
 }
 
 
