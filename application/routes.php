@@ -177,6 +177,7 @@ View::composer(array('layouts/main'), function($view)
     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
   Asset::add('enscroll', 'js/enscroll-0.4.0.min.js');
   Asset::add('facebook', 'https://connect.facebook.net/en_US/all.js');
+  Asset::add('twiiter', 'js/twitter.js');
 });
 
 

@@ -27,7 +27,7 @@ function TodoCtrl($scope) {
 }
 
 //--ini buat artikel di content.blade.php
-function ArtclCtrl($scope, $http, $compile, facebook){
+function ArtclCtrl($scope, $http, $compile, facebook, twitter){
 
  $scope.count_article = 0;
  $scope.total_article = 0;
@@ -141,6 +141,11 @@ function ArtclCtrl($scope, $http, $compile, facebook){
    $scope.facebookPost = function() {
      facebook.postWall('', baseUrl + picture_link(images[dataShare], 'thumbs'), 
          titles[dataShare], contents[dataShare]);
+   }
+
+   //function for tweet to twitter
+   $scope.tweet = function() {
+     twitter.tweet(titles[dataShare]);
    }
 
    //function to send email article content
