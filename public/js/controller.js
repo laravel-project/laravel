@@ -121,8 +121,22 @@ function ArtclCtrl($scope, $http, $compile, facebook){
         }
       });
    };
-
-
+   
+   //show popup mailer
+   $scope.showMailer = function(){
+     var articleid = this.articleid;
+     var html = '<div class="autohide-mail"><form id="frm_send_artcl">'+
+       '<input type="text" id="email"/>'+
+       '<input type="hidden" id="articleid" value="'+articleid+'"/>'+
+       '<button ng-click="sendMail()" class="btn">send</button></form></div>'
+     $('.mail-icon').popover({
+       placement: 'right',
+       title: 'send article to:', 
+       html: 'true',
+       content: html
+     })
+   }
+   
    //function for posting to facebook
    $scope.facebookPost = function() {
      facebook.postWall('', baseUrl + picture_link(images[dataShare], 'thumbs'), 
