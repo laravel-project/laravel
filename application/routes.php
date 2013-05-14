@@ -398,3 +398,22 @@ Route::get('move_to_book.json', function(){
   }
   return Response::json('success');
 });
+
+Route::get('twitter_oauth', function(){
+  $m = Session::get('tweet');
+  $twitter = new Twitter();
+  $twitter->set_oauth_token(Session::get('oauth_token'));
+  $twitter->set_oauth_token_secret(Session::get('oauth_token_secret'));
+  $twitter->set_oauth_verifier(Input::get('oauth_verifier'));
+  $s = $twitter->request_access_token();
+  if ($s == true) {
+    $twitter->update_tweet(array('status' => $m));
+    Session::forget('tweet');
+    $url = 'https://twitter.com/' . $twitter->get_username();
+    return Redirect::to($url);
+  }
+  else {
+    return Redirect::to('twitter');
+  }
+});
+

@@ -37,3 +37,11 @@ m.service('facebook', function(){
     }
   }
 });
+
+m.service('twitter', function($http){
+  return {
+    tweet: function(text) {
+      window.open('/twitter?t='+text,'_blank');
+    }
+  }
+})
