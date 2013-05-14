@@ -367,11 +367,23 @@ Route::get('all_books.json', function(){
 Route::get('show_book.json', function(){
   $datas = array();
   $book_id = Input::get('book_id');
-  $books = Bookmark::where_book_id($book_id)->get();
-  foreach($books as $book){
+  
+  if ($book_id == "BookAll"){
+    $bookmarks = Bookmark::all();
+  }else{
+    $book = Book::where_key_id($book_id)->first();
+    $bookmarks = $book->bookmarks;
+  }
+  foreach($bookmarks as $bookmark){
+    if ($bookmark->book_id == 0){
+      $book_name = "unbookmarked";
+    }else{
+      $book_name = $bookmark->book->name;
+    }
     array_push($datas, array(
-      'key_id' => $book->key_id,
-      'title' => $book->article->title
+      'key_id' => $bookmark->key_id,
+      'title' => $bookmark->article->title,
+      'book_name' => $book_name
     )); 
   }
   return Response::json($datas);

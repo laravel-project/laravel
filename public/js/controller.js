@@ -176,6 +176,7 @@ function ArtclCtrl($scope, $http, $compile, facebook){
      +'</div></modal>')($scope)).appendTo('body');
      $('.content_popup').text().split('.').join('.<br/>');
      $modal.modal('show');
+     $scope.showMailer();
 
      $('.modal-backdrop, .modal-header > .close').bind('click', function(){
        setTimeout(function(){ 
