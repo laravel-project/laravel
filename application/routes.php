@@ -399,6 +399,13 @@ Route::get('move_to_book.json', function(){
   return Response::json('success');
 });
 
+Route::get('twitter', function(){
+  $twitter = new Twitter();
+  $url = $twitter->request_authorization();
+  Session::put('tweet', Input::get('t'));
+  return Redirect::to($url);
+});
+
 Route::get('twitter_oauth', function(){
   $m = Session::get('tweet');
   $twitter = new Twitter();
