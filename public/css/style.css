@@ -286,21 +286,21 @@ footer p {
   background-position: 85px bottom;
 }
 
-/* Colors */
-.color-yellow {background:#f2bc00;}
-.color-red    {background:#dd0000;}
-.color-blue   {background:#148ea4;}
-.color-white  {background:#dfdfdf;}
-.color-orange {background:#f66e00;}
-.color-green  {background:#8dc100;}
-.color-yellow h3,
-.color-white h3,
-.color-green h3
-	{color:#000;}
-.color-red h3,
-.color-blue h3,
-.color-orange h3
-	{color:#FFF;}
+/*/* Colors */*/
+/*.color-yellow {background:#f2bc00;}*/
+/*.color-red    {background:#dd0000;}*/
+/*.color-blue   {background:#148ea4;}*/
+/*.color-white  {background:#dfdfdf;}*/
+/*.color-orange {background:#f66e00;}*/
+/*.color-green  {background:#8dc100;}*/
+/*.color-yellow h3,*/
+/*.color-white h3,*/
+/*.color-green h3*/
+/*	{color:#000;}*/
+/*.color-red h3,*/
+/*.color-blue h3,*/
+/*.color-orange h3*/
+/*	{color:#FFF;}*/
 /* End Colors */
 
 /* Columns section */
@@ -432,9 +432,14 @@ preset{
 }
 
 .td-parent {
-  background: whitesmoke;
+  background: none repeat scroll 0 0 whitesmoke;
   color: black;
+  list-style-type: none;
+  margin-left: -26px;
+  padding-bottom: 34px;
+/*  width: 100%;*/
 }
+
 .default-color{
   color: white;
 }
@@ -447,4 +452,17 @@ preset{
 #toggle-add-book img{
   position: absolute;
   right: 0;
+}
+
+#listbookmarks li {
+    padding: 5px;
+    background: steelblue;
+    margin-left: -26px;
+}
+#listbookmarks li input {
+    margin: 10px;
+}
+.table li{
+  list-style-type: none;
+  margin-left: -12px;
 }

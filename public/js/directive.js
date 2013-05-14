@@ -65,7 +65,7 @@ m.directive('modal', function($compile) {
                '<div class="modal-footer">'+
                  '<div class="facebook-icon" ng-click="facebookPost()"></div>'+
                  '<div class="twitter-icon" ng-click="tweet()"></div>'+
-                 '<div class="mail-icon" ng-click="showMailer()" id="((articleid))"></div><span></span>'+
+                 '<div class="mail-icon" id="((articleid))"></div><span></span>'+
                '</div>'+
               '</div>',
     link: function(scope, element, args) {

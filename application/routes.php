@@ -357,6 +357,7 @@ Route::get('all_books.json', function(){
   $books = Book::where_user_id($user_id)->get();
   foreach($books as $book){
     array_push($datas, array(
+      'id' => $book->id,
       'key_id' => $book->key_id,
       'name' => $book->name,
     ));
@@ -367,16 +368,36 @@ Route::get('all_books.json', function(){
 Route::get('show_book.json', function(){
   $datas = array();
   $book_id = Input::get('book_id');
-  $books = Bookmark::where_book_id($book_id)->get();
-  foreach($books as $book){
+  
+  if ($book_id == "BookAll"){
+    $bookmarks = Bookmark::all();
+  }else{
+    $book = Book::where_key_id($book_id)->first();
+    $bookmarks = $book->bookmarks;
+  }
+  foreach($bookmarks as $bookmark){
+    if ($bookmark->book_id == 0){
+      $book_name = "unbookmarked";
+    }else{
+      $book_name = $bookmark->book->name;
+    }
     array_push($datas, array(
-      'key_id' => $book->key_id,
-      'title' => $book->article->title
+      'key_id' => $bookmark->key_id,
+      'title' => $bookmark->article->title,
+      'book_name' => $book_name
     )); 
   }
   return Response::json($datas);
 });
 
+Route::get('move_to_book.json', function(){
+  $bookmark_ids = explode(',', Input::get('bookmark_ids'));
+  $book_id = Input::get('book_id');
+  foreach($bookmark_ids as $bookmark_id){
+    DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->update(array( 'book_id' => $book_id ));
+  }
+  return Response::json('success');
+});
 
 Route::get('twitter', function(){
   $twitter = new Twitter();
