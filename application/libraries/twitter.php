@@ -19,7 +19,7 @@ class Twitter {
   public function request_authorization() {
     $this->twitteroauth = new TwitterOAuth($this->consumer_key, 
       $this->consumer_secret);
-    $request_token = $this->twitteroauth->getRequestToken('http://127.0.0.1:30/twitter_oauth');
+    $request_token = $this->twitteroauth->getRequestToken('http://localhost:30/twitter_oauth');
 
     // Saving them into the session
     Session::put('oauth_token', 
