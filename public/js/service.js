@@ -41,15 +41,7 @@ m.service('facebook', function(){
 m.service('twitter', function($http){
   return {
     tweet: function(text) {
-      var link = 'https://twitter.com/share';
-      var t = encodeURIComponent(text);
-      $http.post(link, {
-        text: t
-      }).success(function(data, status){
-        alert('sukses'); 
-      }).error(function(data, status){
-        alert('gagal');
-      })
+      window.open('/twitter?t='+text,'_blank');
     }
   }
 })

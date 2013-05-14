@@ -62,6 +62,7 @@ Autoloader::map(array(
 	'Base_Controller' => path('app').'controllers/base.php',
   'Resque' => path('vendor').'chrisboulton/php-resque/resque.php',
   'SMTP' => path('bundle').'smtp/libraries/smtp.php',
+  'TwitterOAuth' => path('vendor').'twitteroauth-master/twitteroauth/twitteroauth.php'
 ));
 
 /*

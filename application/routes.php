@@ -177,7 +177,6 @@ View::composer(array('layouts/main'), function($view)
     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
   Asset::add('enscroll', 'js/enscroll-0.4.0.min.js');
   Asset::add('facebook', 'https://connect.facebook.net/en_US/all.js');
-  Asset::add('twiiter', 'js/twitter.js');
 });
 
 
@@ -377,3 +376,30 @@ Route::get('show_book.json', function(){
   }
   return Response::json($datas);
 });
+
+
+Route::get('twitter', function(){
+  $twitter = new Twitter();
+  $url = $twitter->request_authorization();
+  Session::put('tweet', Input::get('t'));
+  return Redirect::to($url);
+});
+
+Route::get('twitter_oauth', function(){
+  $m = Session::get('tweet');
+  $twitter = new Twitter();
+  $twitter->set_oauth_token(Session::get('oauth_token'));
+  $twitter->set_oauth_token_secret(Session::get('oauth_token_secret'));
+  $twitter->set_oauth_verifier(Input::get('oauth_verifier'));
+  $s = $twitter->request_access_token();
+  if ($s == true) {
+    $twitter->update_tweet(array('status' => $m));
+    Session::forget('tweet');
+    $url = 'https://twitter.com/' . $twitter->get_username();
+    return Redirect::to($url);
+  }
+  else {
+    return Redirect::to('twitter');
+  }
+});
+
