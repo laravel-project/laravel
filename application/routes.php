@@ -357,6 +357,7 @@ Route::get('all_books.json', function(){
   $books = Book::where_user_id($user_id)->get();
   foreach($books as $book){
     array_push($datas, array(
+      'id' => $book->id,
       'key_id' => $book->key_id,
       'name' => $book->name,
     ));
@@ -387,4 +388,13 @@ Route::get('show_book.json', function(){
     )); 
   }
   return Response::json($datas);
+});
+
+Route::get('move_to_book.json', function(){
+  $bookmark_ids = explode(',', Input::get('bookmark_ids'));
+  $book_id = Input::get('book_id');
+  foreach($bookmark_ids as $bookmark_id){
+    DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->update(array( 'book_id' => $book_id ));
+  }
+  return Response::json('success');
 });

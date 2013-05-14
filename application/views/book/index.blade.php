@@ -76,15 +76,29 @@
       var ul = $('<ul></ul>').addClass('dropdown-menu').appendTo($('#dropdown-list-books'));
       for(i=0;i<results.length;i++){
         $('#list-books-first').append('<li><a href="#" id="'+results[i].key_id+'" class="listbooks">'+results[i].name+'</a></li>');
-        $('<li><a href="">'+results[i].name+'</a></li>').appendTo(ul);
+        $('<li><a href="#" class="move_to_book" id="book_'+results[i].id+'">'+results[i].name+'</a></li>').appendTo(ul);
       }
       //click book to show books
       $('.listbooks').click(clickToShowBook);
+      $('.move_to_book').click(move_to);
     }
   })
-    
+  
+  
   function move_to(){
-    
+    var book_id = $(this).attr('id').split('_')[1];
+    var bookmark_ids = [];
+    $('input:checkbox').each(function(){
+      if ($(this).prop('checked') == true){
+        bookmark_ids.push($(this).attr('id'));
+      }
+    })
+    $.ajax({
+      url: 'move_to_book.json?bookmark_ids='+bookmark_ids+'&book_id='+book_id,
+      success: function(status){
+        location.href = 'book'
+      }
+    })
   }
   function clickToShowBook(){
     var id = $(this).attr('id')
