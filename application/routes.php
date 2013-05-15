@@ -89,7 +89,6 @@ Event::listen('500', function()
 Route::filter('before', function()
 {
 	// Do stuff before every request to your application...
-
   // check if session still active or not
   // if not then check cookies remember me
   // if remember me valid then user will login
@@ -128,6 +127,13 @@ Route::filter('before', function()
     }
   }
 });
+
+#Route::get('blocked', array('before' => 'filter', function()
+#	{
+#	  var_dump('fffff'); exit;
+##		if(Request::ajax()) return "<script>location.href = '?login' </script>";
+#	}
+#));
 
 Route::filter('after', function($response)
 {
@@ -172,7 +178,8 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('angular.application', 'js/application.js');
   Asset::add('angular.directive', 'js/directive.js');
   Asset::add('angular.service', 'js/service.js');
-  Asset::add('angular.controller', 'js/controller.js');
+  Asset::add('angular.dashbord_controller', 'js/dashboard_controller.js');
+  Asset::add('angular.book_controller', 'js/book_controller.js');
   Asset::add('underscore',
     'http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js');
   Asset::add('enscroll', 'js/enscroll-0.4.0.min.js');
@@ -271,7 +278,8 @@ Route::get('bookmark.json', 'book@bookmark');
 Route::get('book', 'book@index');
 
 Route::get('book_content', function(){
-  if ( Request::ajax() ) { 
+  if ( Request::ajax() ) {
+    if(!Auth::check()) return "<script>location.href = '?login' </script>";
     return View::make('book.index');
   }
   else {
@@ -423,4 +431,3 @@ Route::get('twitter_oauth', function(){
     return Redirect::to('twitter');
   }
 });
-

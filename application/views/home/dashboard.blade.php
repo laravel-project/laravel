@@ -2,6 +2,7 @@
 @section('navigation')
 <li><a class="brand" href="dashboard">Instapics</a></li>
 <li><a href="book">Manage Books</a></li>
+<li><a href="manage_article">Manage Article</a></li>
 <li><a href="{{ url('logout') }}">Logout</a></li>
 <div id="searches-box">
   <div class="input-append">

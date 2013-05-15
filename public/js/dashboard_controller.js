@@ -29,25 +29,25 @@ function TodoCtrl($scope) {
 //--ini buat artikel di content.blade.php
 function ArtclCtrl($scope, $http, $compile, facebook, twitter){
 
- $scope.count_article = 0;
- $scope.total_article = 0;
- 
- var connectTry = 0;
- var dataShare;
- //ini buat counter dr isi artikel. setiap isi artikel jsonny disalin ke
- //variabel dan untuk pembeda antara content satu dengan lainny digunakan variabel counter
- var counter = 0;
- //ini buat isi kontentny
- var contents = {}; 
- //ini buat title
- var titles = {};
- //ini buat gambarny
- var images = {};
- //ini untuk artikel id
- var article_id = {};
- //ini untuk mengecek artikel sudah di bookmark atau belum
- var bookmarked = {};
- (function($){
+  $scope.count_article = 0;
+  $scope.total_article = 0;
+
+  var connectTry = 0;
+  var dataShare;
+  //ini buat counter dr isi artikel. setiap isi artikel jsonny disalin ke
+  //variabel dan untuk pembeda antara content satu dengan lainny digunakan variabel counter
+  var counter = 0;
+  //ini buat isi kontentny
+  var contents = {}; 
+  //ini buat title
+  var titles = {};
+  //ini buat gambarny
+  var images = {};
+  //ini untuk artikel id
+  var article_id = {};
+  //ini untuk mengecek artikel sudah di bookmark atau belum
+  var bookmarked = {};
+  // (function($){
    
    $('#articles').after($compile('<spinner></spinner>')($scope));
    
@@ -277,7 +277,7 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter){
 		});
   }
 
-})(jQuery);
+//  })(jQuery);
    
   //this function is return the link of picture
   var picture_link = function(img_name, type) {
@@ -307,17 +307,3 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter){
     return link;
   }
 }
-
-
-var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
-  $scope.books = bookService.getBooks();
-});
-
-
-bookCtrl.resolve = {
-  bookmarks: function(bookService) {
-    bookService.fetchBooks(); 
-  }
-}
-
-
