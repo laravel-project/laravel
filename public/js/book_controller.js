@@ -12,9 +12,8 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
     })
     
     //load books first
-    $.ajax({
-      url: 'all_books.json',
-      success: function(results){
+    $http({method: 'GET', url: 'all_books.json'}).
+      success(function(results){
         var ul = $('<ul></ul>').addClass('dropdown-menu').appendTo($('#dropdown-list-books'));
         for(i=0;i<results.length;i++){
           $('#list-books-first').append('<li><a href="#" id="'+results[i].key_id+'" class="listbooks">'+results[i].name+'</a></li>');
@@ -24,18 +23,17 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
         $('.listbooks').click($scope.clickToShowBook);
         $('.move_to_book').click($scope.move_to);
       }
-    })
+    )
     
-    $.ajax({
-      url: 'show_book.json?book_id=BookAll',
-      success: function(results){
+    $http({method: 'GET', url: 'show_book.json?book_id=BookAll'}).
+      success(function(results){
         $('#listbookmarks').html("");
         for(i=0;i<results.length;i++){
           $('#listbookmarks').append('<li><input type="checkbox" id="'+results[i].key_id+
             '"/>'+results[i].title+'<div class="pright">'+results[i].book_name+'</div></li>')
         }
       }
-    })
+    )
   }
   
   $scope.initialize();
@@ -43,16 +41,14 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
   $('#submit-book').click(function(){
     var newBook = $('#new-book').val();
     if (newBook != ""){
-      $.ajax({
-        url: 'create_book.json?book_name='+newBook,
-        method: 'POST',
-        success: function(result){
+      $http({method: 'POST', url: 'create_book.json?book_name='+newBook}).
+        success(function(result){
           $('#list-books-first').append('<li><a href="#" id="'+result[0].key_id+'" class="listbooks">'+result[0].name+'</a></li>');
           $('#add-book').hide();
           $('#add-book input').val('').val();
           $('.listbooks').click($scope.clickToShowBook);
         }
-      })
+      )
     }
   })
   
@@ -64,26 +60,24 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
         bookmark_ids.push($(this).attr('id'));
       }
     })
-    $.ajax({
-      url: 'move_to_book.json?bookmark_ids='+bookmark_ids+'&book_id='+book_id,
-      success: function(status){
+    $http({method: 'POST', url: 'move_to_book.json?bookmark_ids='+bookmark_ids+'&book_id='+book_id}).
+      success(function(status){
         location.href = 'book'
       }
-    })
+    )
   }
   
   $scope.clickToShowBook = function(){
-    var id = $(this).attr('id')
-    $.ajax({
-      url: 'show_book.json?book_id='+id,
-      success: function(results){
+    var id = $(this).attr('id');
+    $http({method: 'GET', url: 'show_book.json?book_id='+id}).
+      success(function(results){
         $('#listbookmarks').html("");
         for(i=0;i<results.length;i++){
           $('#listbookmarks').append('<li><input type="checkbox" id="'+results[i].key_id+
             '"/>'+results[i].title+'<div class="pright">'+results[i].book_name+'</div></li>')
         }
       }
-    })
+    )
   }
 });
 
