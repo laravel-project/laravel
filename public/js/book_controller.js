@@ -13,7 +13,9 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
     $('#toggle-add-book').click(function(){
       $('#add-book').toggle();
       $('#add-book input').focus();
-    })
+    });
+    //destroy event scroll from article controller
+    jQuery(window).unbind( "scroll" );
   }
   
   $scope.initialize();

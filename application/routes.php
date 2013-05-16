@@ -288,14 +288,7 @@ Route::get('content', function()
   }
 });
 
-Route::get('bookmark.json', 'book@bookmark');
-
 Route::get('book', 'book@index');
-
-/*Route::get('book_content', function(){
-  
-
-}); */
 
 Route::get('dashboard', 'home@dashboard');
 
