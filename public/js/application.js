@@ -15,7 +15,7 @@ m.config(function($interpolateProvider, $routeProvider, $locationProvider) {
   
   $routeProvider.when('/book', 
     {
-      templateUrl: "/book_content", 
+      templateUrl: "/book", 
       controller: "BookCtrl", 
       resolve: bookCtrl.resolve    
     });

@@ -147,7 +147,20 @@ Route::filter('csrf', function()
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::to('/?login');
+  //if (Auth::guest()) return Redirect::to('/?login');
+  if (Auth::guest())
+  {
+    if ( Request::ajax() ) {
+      //return View::make('/?login');
+      return "<script language='javascript'>location.href = '/?login' </script>";  //return Response::make('javascript.auth', 200, array('content-type' => 'application/javascript'));
+      //return Respond::to()->js( function(){
+       //return View::make('javascript.auth', 200, array('content-type' => 'application/javascript'));
+      //});
+    }
+    else {
+      return Redirect::to('/?login');
+    }
+  }
 });
 
 // Route for Users_Controller
@@ -277,52 +290,16 @@ Route::get('bookmark.json', 'book@bookmark');
 
 Route::get('book', 'book@index');
 
-Route::get('book_content', function(){
-  if ( Request::ajax() ) {
-    if(!Auth::check()) return "<script>location.href = '?login' </script>";
-    return View::make('book.index');
-  }
-  else {
-    return Redirect::to('book');
-  }
+/*Route::get('book_content', function(){
+  
 
-});
+}); */
 
 Route::get('dashboard', 'home@dashboard');
 
 Route::post('home/create_topic', 'home@create_topic');
 
-Route::post('add_bookmark.json',function(){
-  $status = array();
-  $article_id = Input::get('article_id');
-  $article = Article::where_key_id($article_id)->first();
-  $user_id = Auth::User()->id;
-  if($article_id != ""){
-    $bookmark = Bookmark::where_article_id_and_user_id($article->id, $user_id)->first();
-    if($bookmark){
-      array_push($status, array(
-        'status' => 'failed',
-        'message' => 'this article has already bookmark',
-      ));
-    }else{
-      $new_bookmark = new Bookmark();
-      $new_bookmark->article_id = $article->id;
-      $new_bookmark->user_id = $user_id;
-      $new_bookmark->key_id = rand(268435456, 4294967295);
-      $new_bookmark->save();
-      array_push($status, array(
-        'status' => 'success',
-        'message' => 'this article success to bookmark',
-      ));
-    }
-  }else{
-    array_push($status, array(
-      'status' => 'failed',
-      'message' => 'failed to bookmark this article',
-    ));
-  }
-  return Response::json($status);
-});
+Route::post('add_bookmark.json', 'book@add_bookmark');
 
 
 // Route for Book_Controller
@@ -340,72 +317,13 @@ Route::post('send_article', function(){
 
 });
 
-Route::post('create_book.json', function(){
-  $datas = array();
-  $name = Input::get('book_name');
-  $user_id = Auth::User()->id;
-  if(Book::where_name($name)->first()){
-  }else{
-    $book = new Book();
-    $book->name = $name;
-    $book->user_id = $user_id;
-    $book->key_id = rand(268435456, 4294967295);
-    $book->save();
-    array_push($datas, array(
-      'key_id' => $book->key_id,
-      'name' => $name
-    ));
-  }
-  return Response::json($datas);
-});
+Route::post('create_book.json', 'book@create_book');
 
-Route::get('all_books.json', function(){
-  $user_id = Auth::User()->id;
-  $datas = array();
-  $books = Book::where_user_id($user_id)->get();
-  foreach($books as $book){
-    array_push($datas, array(
-      'id' => $book->id,
-      'key_id' => $book->key_id,
-      'name' => $book->name,
-    ));
-  }
-  return Response::json($datas);
-});
+Route::get('all_books.json', 'book@all_books');
 
-Route::get('show_book.json', function(){
-  $datas = array();
-  $book_id = Input::get('book_id');
-  
-  if ($book_id == "BookAll"){
-    $bookmarks = Bookmark::all();
-  }else{
-    $book = Book::where_key_id($book_id)->first();
-    $bookmarks = $book->bookmarks;
-  }
-  foreach($bookmarks as $bookmark){
-    if ($bookmark->book_id == 0){
-      $book_name = "unbookmarked";
-    }else{
-      $book_name = $bookmark->book->name;
-    }
-    array_push($datas, array(
-      'key_id' => $bookmark->key_id,
-      'title' => $bookmark->article->title,
-      'book_name' => $book_name
-    )); 
-  }
-  return Response::json($datas);
-});
+Route::get('show_book.json', 'book@show_bookmarked');
 
-Route::get('move_to_book.json', function(){
-  $bookmark_ids = explode(',', Input::get('bookmark_ids'));
-  $book_id = Input::get('book_id');
-  foreach($bookmark_ids as $bookmark_id){
-    DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->update(array( 'book_id' => $book_id ));
-  }
-  return Response::json('success');
-});
+Route::get('move_to_book.json', 'book@move_to_book');
 
 Route::get('twitter', function(){
   $twitter = new Twitter();
