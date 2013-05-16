@@ -457,7 +457,7 @@ preset{
 #listbookmarks li {
     padding: 5px;
     background: steelblue;
-    margin-left: -26px;
+/*    margin-left: -26px;*/
 }
 #listbookmarks li input {
     margin: 10px;

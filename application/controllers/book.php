@@ -70,9 +70,10 @@ class Book_Controller extends Base_Controller {
   public function action_show_bookmarked() {
     $datas = array();
     $book_id = Input::get('book_id');
-
+    $user_id = Auth::User()->id;
+    
     if ($book_id == "BookAll"){
-      $bookmarks = Bookmark::all();
+      $bookmarks = Bookmark::where('user_id', '=', $user_id)->get();
     }else{
       $book = Book::where_key_id($book_id)->first();
       $bookmarks = $book->bookmarks;
