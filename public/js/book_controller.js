@@ -1,7 +1,11 @@
 'use strict';
 
 var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
+   
   $scope.books = bookService.getBooks();
+  
+  $scope.bookmarks = bookService.getBookmarks();
+  
   var i;
   
   $scope.initialize = function(){
@@ -11,21 +15,7 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
       $('#add-book input').focus();
     })
     
-    //load books first
-    $http({method: 'GET', url: 'all_books.json'}).
-      success(function(results){
-        var ul = $('<ul></ul>').addClass('dropdown-menu').appendTo($('#dropdown-list-books'));
-        for(i=0;i<results.length;i++){
-          $('#list-books-first').append('<li><a href="#" id="'+results[i].key_id+'" class="listbooks">'+results[i].name+'</a></li>');
-          $('<li><a href="#" class="move_to_book" id="book_'+results[i].id+'">'+results[i].name+'</a></li>').appendTo(ul);
-        }
-        //click book to show books
-        $('.listbooks').click($scope.clickToShowBook);
-        $('.move_to_book').click($scope.move_to);
-      }
-    )
-    
-    $http({method: 'GET', url: 'show_book.json?book_id=BookAll'}).
+  /*  $http({method: 'GET', url: 'show_book.json?book_id=BookAll'}).
       success(function(results){
         $('#listbookmarks').html("");
         for(i=0;i<results.length;i++){
@@ -33,7 +23,7 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
             '"/>'+results[i].title+'<div class="pright">'+results[i].book_name+'</div></li>')
         }
       }
-    )
+    )*/
   }
   
   $scope.initialize();
@@ -52,8 +42,8 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
     }
   })
   
-  $scope.move_to = function(){
-    var book_id = $(this).attr('id').split('_')[1];
+  $scope.move_to = function(e){
+    var book_id = angular.element(e.target).attr('id').split('_')[1];
     var bookmark_ids = [];
     $('input:checkbox').each(function(){
       if ($(this).prop('checked') == true){
@@ -67,8 +57,8 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
     )
   }
   
-  $scope.clickToShowBook = function(){
-    var id = $(this).attr('id');
+  $scope.clickToShowBook = function(e){
+    var id = angular.element(e.target).attr('id');
     $http({method: 'GET', url: 'show_book.json?book_id='+id}).
       success(function(results){
         $('#listbookmarks').html("");
@@ -84,7 +74,7 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
 
 bookCtrl.resolve = {
   bookmarks: function(bookService) {
-    bookService.fetchBooks(); 
+    bookService.fetchData(); 
   }
 }
 

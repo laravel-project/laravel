@@ -19,7 +19,10 @@
       <div id='list-books'>
         <ul id='list-books-first' class="nav nav-pills nav-stacked">
           <li>
-            <a href='#' id='BookAll' class="listbooks">All</a>
+            <a href='#' id='BookAll' class="listbooks" ng-click="clickToShowBook($event)">All</a>
+          </li>
+          <li ng-repeat="book in books">
+            <a href="#" id="((book.key_id))" class="listbooks" ng-click="clickToShowBook($event)">((book.name))</a>
           </li>
         </ul>
       </div>
@@ -33,13 +36,19 @@
                 Move to
                 <span class="caret"></span>
               </button>
+              <ul class="dropdown-menu">
+                <li ng-repeat="book in books">
+                  <a href="#" class="move_to_book" id="(('book_'+ book.id))" ng-click="move_to($event)">((book.name))</a>
+                </li>
+              </ul>
             </div>
             <a class="btn" href="#"><img src='/img/delete.png' width='12px'></a>
           </div>
         </li>
       </ul>
-      <ul>
-        <li id='listbookmarks' class="nav nav-pills nav-stacked">
+      <ul id='listbookmarks' class="nav nav-pills nav-stacked">
+        <li ng-repeat="bookmark in bookmarks">
+          <input type="checkbox" id="((bookmark.key_id))"/>((bookmark.title))<div class="pright">((bookmark.book_name))</div>
         </li>
       </ul>
     </div>
