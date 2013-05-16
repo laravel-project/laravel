@@ -40,14 +40,17 @@ class Book_Controller extends Base_Controller {
   //this method is called when article has already bookmarked was move to book
   public function action_move_to_book()
   {
+    $datas = array();
+    $book_id = Input::get('book_id');    
     $bookmark_ids = explode(',', Input::get('bookmark_ids'));
-    $book_id = Input::get('book_id');
+    $user_id = Auth::User()->id;
     foreach($bookmark_ids as $bookmark_id)
     {
       DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->update(array( 'book_id' => $book_id ));
     }
-    
-    return Response::json('success');
+    $book_key_id = Input::get('latest_page');
+    $bookmarks = $this->show_bookmarks_of_book($book_key_id, $datas, $user_id);
+    return Response::json($bookmarks);
   }
   
   //retrieve all books tha user created
@@ -71,26 +74,8 @@ class Book_Controller extends Base_Controller {
     $datas = array();
     $book_id = Input::get('book_id');
     $user_id = Auth::User()->id;
-    
-    if ($book_id == "BookAll"){
-      $bookmarks = Bookmark::where('user_id', '=', $user_id)->get();
-    }else{
-      $book = Book::where_key_id($book_id)->first();
-      $bookmarks = $book->bookmarks;
-    }
-    foreach($bookmarks as $bookmark){
-      if ($bookmark->book_id == 0){
-        $book_name = "unbookmarked";
-      }else{
-        $book_name = $bookmark->book->name;
-      }
-      array_push($datas, array(
-        'key_id' => $bookmark->key_id,
-        'title' => $bookmark->article->title,
-        'book_name' => $book_name
-      )); 
-    }
-    return Response::json($datas);
+    $bookmarks = $this->show_bookmarks_of_book($book_id, $datas, $user_id);
+    return Response::json($bookmarks);
   }
   
   //this method is used to create book in manage book menu
@@ -147,5 +132,30 @@ class Book_Controller extends Base_Controller {
       ));
     }
     return Response::json($status);
+  }
+  
+  private function show_bookmarks_of_book($book_id, $datas, $user_id)
+  {
+    if ($book_id == "BookAll"){
+      $bookmarks = Bookmark::where('user_id', '=', $user_id)->get();
+    }else{
+      $book = Book::where_key_id($book_id)->first();
+      $bookmarks = $book->bookmarks;
+    }
+    foreach($bookmarks as $bookmark){
+      if ($bookmark->book_id == 0){
+        $book_name = "unbookmarked";
+      }else{
+        $book_name = $bookmark->book->name;
+      }
+      array_push($datas, array(
+        'key_id' => $bookmark->key_id,
+        'title' => $bookmark->article->title,
+        'book_name' => $book_name,
+        'book_key_id' => $bookmark->book->key_id
+      )); 
+    }
+    
+    return $datas;
   }
 }

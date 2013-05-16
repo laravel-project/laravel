@@ -14,16 +14,6 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
       $('#add-book').toggle();
       $('#add-book input').focus();
     })
-    
-  /*  $http({method: 'GET', url: 'show_book.json?book_id=BookAll'}).
-      success(function(results){
-        $('#listbookmarks').html("");
-        for(i=0;i<results.length;i++){
-          $('#listbookmarks').append('<li><input type="checkbox" id="'+results[i].key_id+
-            '"/>'+results[i].title+'<div class="pright">'+results[i].book_name+'</div></li>')
-        }
-      }
-    )*/
   }
   
   $scope.initialize();
@@ -45,14 +35,22 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
   $scope.move_to = function(e){
     var book_id = angular.element(e.target).attr('id').split('_')[1];
     var bookmark_ids = [];
+    var latest_page = $('.latest_page:first').attr('latest_page');
+
     $('input:checkbox').each(function(){
       if ($(this).prop('checked') == true){
         bookmark_ids.push($(this).attr('id'));
       }
     })
-    $http({method: 'POST', url: 'move_to_book.json?bookmark_ids='+bookmark_ids+'&book_id='+book_id}).
-      success(function(status){
-        location.href = 'book'
+    $http({method: 'POST', url: 'move_to_book.json?bookmark_ids='+bookmark_ids+'&book_id='+book_id+'&latest_page='+latest_page}).
+      success(function(results){
+        $('#listbookmarks').html("");
+        for(i=0;i<results.length;i++){
+          $('#listbookmarks').append('<li><input type="checkbox" id="'+results[i].key_id+
+            '" class="latest_page" latest_page="'+latest_page+
+            '"/>'+results[i].title+'<div class="pright">'+results[i].book_name+'</div></li>')
+        }
+        $().toastmessage('showSuccessToast', "successfully moved articles");
       }
     )
   }
@@ -64,6 +62,7 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
         $('#listbookmarks').html("");
         for(i=0;i<results.length;i++){
           $('#listbookmarks').append('<li><input type="checkbox" id="'+results[i].key_id+
+            '" class="latest_page" latest_page="'+results[i].book_key_id+
             '"/>'+results[i].title+'<div class="pright">'+results[i].book_name+'</div></li>')
         }
       }

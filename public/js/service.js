@@ -68,7 +68,7 @@ m.service('facebook', function(){
 m.service('twitter', function($http){
   return {
     tweet: function(text) {
-      window.open('/twitter?t='+text,'_blank');
+      window.open('/twitter?t='+text,'','width=600,height=400');
     }
   }
 })
