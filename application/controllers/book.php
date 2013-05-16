@@ -21,22 +21,6 @@ class Book_Controller extends Base_Controller {
 		
 	}
 
-  //this method is called when bookmarked occured
-  public function action_bookmark()
-  {
-    $data = array();
-    $user_id = Auth::User()->id;
-    $bookmarks = Bookmark::where('user_id', '=', $user_id)->get();
-    foreach($bookmarks as $bookmark){
-      array_push($data, array(
-        'key_id' => $bookmark->key_id,
-        'title' => $bookmark->article->title
-      ));
-    }
-    return Response::json($data);
- 
-  }
-  
   //this method is called when article has already bookmarked was move to book
   public function action_move_to_book()
   {

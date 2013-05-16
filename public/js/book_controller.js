@@ -13,17 +13,9 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
     $('#toggle-add-book').click(function(){
       $('#add-book').toggle();
       $('#add-book input').focus();
-    })
-    
-  /*  $http({method: 'GET', url: 'show_book.json?book_id=BookAll'}).
-      success(function(results){
-        $('#listbookmarks').html("");
-        for(i=0;i<results.length;i++){
-          $('#listbookmarks').append('<li><input type="checkbox" id="'+results[i].key_id+
-            '"/>'+results[i].title+'<div class="pright">'+results[i].book_name+'</div></li>')
-        }
-      }
-    )*/
+    });
+    //destroy event scroll from article controller
+    jQuery(window).unbind( "scroll" );
   }
   
   $scope.initialize();

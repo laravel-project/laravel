@@ -8,14 +8,6 @@ m.service('bookService', function($http, $q){
   return {
     fetchData: function(){
       var deferred = $q.defer();
-    /*  $http({method: 'GET', url: 'bookmark.json'})
-      .success(function(data, status) {
-        angular.copy(data, books);
-        deferred.resolve();
-      })
-      .error(function(data, status) {
-        deferred.reject();
-      }); */
       $http({method: 'GET', url: 'all_books.json'}).
         success(function(data, status){
           angular.copy(data, books);
