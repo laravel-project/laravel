@@ -319,11 +319,26 @@ Route::post('send_article', function(){
 
 Route::post('create_book.json', 'book@create_book');
 
+/*<<<<<<< HEAD*/
 Route::get('all_books.json', 'book@all_books');
 
 Route::get('show_book.json', 'book@show_bookmarked');
 
 Route::get('move_to_book.json', 'book@move_to_book');
+/*=======
+Route::get('all_books.json', 'book@all_book');
+
+Route::get('show_book.json', 'book@show_book');
+
+Route::post('move_to_book.json', function(){
+  $bookmark_ids = explode(',', Input::get('bookmark_ids'));
+  $book_id = Input::get('book_id');
+  foreach($bookmark_ids as $bookmark_id){
+    DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->update(array( 'book_id' => $book_id ));
+  }
+  return Response::json('success');
+});
+>>>>>>> 9dbc064bdf771efca62051166970cd8a6fc09451 */
 
 Route::get('twitter', function(){
   $twitter = new Twitter();
