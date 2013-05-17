@@ -314,6 +314,7 @@ Route::get('all_books.json', 'book@all_books');
 Route::get('show_book.json', 'book@show_bookmarked');
 
 Route::post('move_to_book.json', 'book@move_to_book');
+Route::post('delete_bookmark.json', 'book@delete_bookmark');
 
 Route::get('twitter', function(){
   $twitter = new Twitter();

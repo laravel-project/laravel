@@ -42,7 +42,7 @@
                 </li>
               </ul>
             </div>
-            <a class="btn" href="#"><img src='/img/delete.png' width='12px'></a>
+            <a class="btn" href="#" ng-click="deleteBookmark()"><img src='/img/delete.png' width='12px'></a>
           </div>
         </li>
       </ul>

@@ -37,6 +37,27 @@ class Book_Controller extends Base_Controller {
     return Response::json($bookmarks);
   }
   
+  //this method use to delete bookmarks
+  public function action_delete_bookmark(){
+    $datas = array();
+    $bookmark_ids = explode(',', Input::get('bookmark_ids'));
+    $user_id = Auth::User()->id;
+    $book_key_id = Input::get('latest_page');
+    if($book_key_id == "BookAll"){
+      foreach($bookmark_ids as $bookmark_id)
+      {
+        DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->delete();
+      }
+    }else{
+      foreach($bookmark_ids as $bookmark_id)
+      {
+        DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->update(array( 'book_id' => 0 ));
+      }
+    }
+    $bookmarks = $this->show_bookmarks_of_book($book_key_id, $datas, $user_id);
+    return Response::json($bookmarks);
+  }
+  
   //retrieve all books tha user created
   public function action_all_books()
   {
