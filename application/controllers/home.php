@@ -31,6 +31,7 @@ class Home_Controller extends Base_Controller {
 	*/
   public function __construct()
   {
+    parent::__construct();
     $this->filter('before', 'auth')->except(array('index'));
   }
   
@@ -126,14 +127,6 @@ class Home_Controller extends Base_Controller {
     }else{
       Message::another_message('failed','please input any topic, to complete your article');
       return Redirect::to('dashboard');
-    }
-  }
-  
-  private function action_auth()
-  {
-    if (!Auth::check())
-    {
-      return Redirect::to('login');
     }
   }
 
