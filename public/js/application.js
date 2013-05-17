@@ -6,7 +6,31 @@ var baseUrl = location.host;
 var m = angular.module('laravel', []);
 
 //overide angular starting symbol and end symbol template tag
-m.config(function($interpolateProvider, $routeProvider, $locationProvider) {
+m.config(function($interpolateProvider, $routeProvider, $locationProvider, $httpProvider) {
+
+  var interceptor = [function(scope, $q){
+    function success(response) {
+      return response;
+    }
+
+    function error(response) {
+      var status = response.status;
+ 
+      if (status == 401) {
+        location.href = '/?login';
+      }
+      // otherwise
+      //return $q.reject(response);
+ 
+    }
+
+    return function(promise) {
+      return promise.then(success, error);
+    }
+  }];
+
+  $httpProvider.responseInterceptors.push(interceptor);
+
   $locationProvider.html5Mode(true);
   $interpolateProvider.startSymbol('((');
   $interpolateProvider.endSymbol('))');
@@ -31,7 +55,6 @@ m.config(function($interpolateProvider, $routeProvider, $locationProvider) {
       template: "this doesn't exist"
   });
 });
-
 
 
 //this function is used to improve performance using memoization

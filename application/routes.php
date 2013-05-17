@@ -151,19 +151,14 @@ Route::filter('auth', function()
   if (Auth::guest())
   {
     if ( Request::ajax() ) {
-      //return View::make('/?login');
-      //return "<script language='javascript'>location.href = '/?login' </script>";  
-      //return Response::make('javascript.auth', 200, array('content-type' => 'application/javascript'));
-      //return Respond::to()->js( function(){
-       //return View::make('sessions.auth', array('content-type' => 'text/javascript'));
-      //});
-      return HTML::entities('<script>alert(\'hi\');</script>');
+      return Response::make('', 401);
     }
     else {
       return Redirect::to('/?login');
     }
   }
 });
+
 
 // Route for Users_Controller
 Route::controller('users');
