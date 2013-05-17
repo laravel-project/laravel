@@ -136,7 +136,7 @@ class Book_Controller extends Base_Controller {
         'key_id' => $bookmark->key_id,
         'title' => $bookmark->article->title,
         'book_name' => $book_name,
-        'book_key_id' => $bookmark->book->key_id
+        'book_key_id' => $book_id
       )); 
     }
     
