@@ -48,7 +48,8 @@
       </ul>
       <ul id='listbookmarks' class="nav nav-pills nav-stacked">
         <li ng-repeat="bookmark in bookmarks">
-          <input type="checkbox" id="((bookmark.key_id))"/>((bookmark.title))<div class="pright">((bookmark.book_name))</div>
+          <input type="checkbox" id="((bookmark.key_id))" class="latest_page" latest_page="BookAll"/>
+            ((bookmark.title))<div class="pright">((bookmark.book_name))</div>
         </li>
       </ul>
     </div>
