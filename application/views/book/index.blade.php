@@ -23,6 +23,9 @@
           </li>
           <li ng-repeat="book in books">
             <a href="#" id="((book.key_id))" class="listbooks" ng-click="clickToShowBook($event)">((book.name))</a>
+            <div class="pright delete_book_button">
+              <a href="#" id="((book.id))_((book.key_id))" ng-click='deleteBook($event)'><img src='/img/delete.png' width='12px'></a>
+            </div>
           </li>
         </ul>
       </div>

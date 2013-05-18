@@ -139,6 +139,16 @@ class Book_Controller extends Base_Controller {
     return Response::json($status);
   }
   
+  public function action_delete_book(){
+    $book_key_id = Input::get('book_id');
+    $book = Book::where_key_id($book_key_id)->first();
+    if($book){
+      DB::table('books')->where('key_id', '=', $book_key_id)->delete();
+      DB::table('bookmarks')->where('book_id', '=', $book->id)->update(array( 'book_id' => 0 ));
+    }
+    return Response::json('success'); 
+  }
+  
   private function show_bookmarks_of_book($book_id, $datas, $user_id)
   {
     if ($book_id == "BookAll"){

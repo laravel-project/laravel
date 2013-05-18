@@ -466,3 +466,9 @@ preset{
   list-style-type: none;
   margin-left: -12px;
 }
+
+.delete_book_button {
+    position: absolute;
+    right: 5px;
+    margin-top: -29px;
+}

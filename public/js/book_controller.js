@@ -25,7 +25,12 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
     if (newBook != ""){
       $http({method: 'POST', url: 'create_book.json?book_name='+newBook}).
         success(function(result){
-          $('#list-books-first').append('<li><a href="#" id="'+result[0].key_id+'" class="listbooks">'+result[0].name+'</a></li>');
+          $('#list-books-first').append('<li><a href="#" id="'+result[0].key_id+
+            '" class="listbooks">'+result[0].name+'</a></li>'+
+            '<div class="pright delete_book_button">'+
+              '<a href="#" id="delbook_((book.key_id))" ng-click="deleteBook($event)">'+
+              '<img src="/img/delete.png" width="12px"></a>'+
+            '</div>');
           $('#add-book').hide();
           $('#add-book input').val('').val();
           $('.listbooks').click($scope.clickToShowBook);
@@ -95,6 +100,18 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
         '" class="latest_page" latest_page="'+latest_page+
         '"/>'+results[i].title+'<div class="pright">'+results[i].book_name+'</div></li>')
     }
+  }
+
+  $scope.deleteBook = function(e){
+    var key_id = angular.element(e.target).parent().attr('id').split('_')[1];
+    var id = angular.element(e.target).parent().attr('id').split('_')[0];
+    $http({method: 'POST', url: 'delete_book.json?book_id='+key_id}).
+      success(function(status){
+        $('#'+key_id).parent().remove();
+        $('#book_'+id).parent().remove();
+        $().toastmessage('showSuccessToast', "successfully deleted book");
+      }
+    )
   }
 });
 
