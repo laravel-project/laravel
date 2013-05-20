@@ -48,6 +48,22 @@ m.directive('bookmark', function(){
   }
 });
 
+//this directive is used to show email pop up
+m.directive('email', function($compile) {
+  return {
+    restrict: "E",
+    replace: true,
+    template: '<div class="autohide-mail"><form id="frm_send_artcl">'+
+       '<input type="text" id="email"/>'+
+       '<input type="hidden" id="articleid" value="((article))"/>'+
+       '<button ng-click="send({event: $event})" class="btn">send</button></form></div>',
+    scope: {
+      article: '@',
+      send: '&'
+    }
+  }
+});
+
 //this directive is used to show article in the modal dialog boostrap
 m.directive('modal', function($compile) {
   return {
@@ -65,7 +81,7 @@ m.directive('modal', function($compile) {
                '<div class="modal-footer">'+
                  '<div class="facebook-icon" ng-click="facebookPost()"></div>'+
                  '<div class="twitter-icon" ng-click="tweet()"></div>'+
-                 '<div class="mail-icon" id="((articleid))"></div><span></span>'+
+                 '<div class="mail-icon" id="((articleid))" ng-click="showMailer()"></div><span></span>'+
                '</div>'+
               '</div>',
     link: function(scope, element, args) {

@@ -124,12 +124,10 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter){
    
    //show popup mailer
    $scope.showMailer = function(){
-     var articleid = this.articleid;
-     var html = '<div class="autohide-mail"><form id="frm_send_artcl">'+
-       '<input type="text" id="email"/>'+
-       '<input type="hidden" id="articleid" value="'+articleid+'"/>'+
-       '<button ng-click="sendMail()" class="btn">send</button></form></div>'
-     $('.mail-icon').popover({
+     var $this = angular.element('.mail-icon');
+     var articleid = $this.attr('id');
+     var html = $compile('<email article="'+articleid+'" send="sendMail(event)"></email>')($scope);
+     $this.popover({
        placement: 'right',
        title: 'send article to:', 
        html: 'true',
@@ -149,7 +147,7 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter){
    }
 
    //function to send email article content
-   $scope.sendMail = function() {
+   $scope.sendMail = function(e) {
      var form = angular.element('#frm_send_artcl');
      var email = form.find('input#email').val();
      var article = form.find('input#articleid').val();
@@ -166,6 +164,8 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter){
        error(function(data, status){
          $().toastmessage('showErrorToast', 'Error Connection');
        });
+      
+     e.preventDefault();
    }
    
    //fungsi untuk menampilkan pop up
@@ -181,6 +181,7 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter){
      +'</div></modal>')($scope)).appendTo('body');
      $('.content_popup').text().split('.').join('.<br/>');
      $modal.modal('show');
+
      $scope.showMailer();
 
      $('.modal-backdrop, .modal-header > .close').bind('click', function(){
