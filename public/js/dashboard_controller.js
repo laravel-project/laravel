@@ -27,7 +27,7 @@ function TodoCtrl($scope) {
 }
 
 //--ini buat artikel di content.blade.php
-function ArtclCtrl($scope, $http, $compile, facebook, twitter){
+function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker){
 
   $scope.count_article = 0;
   $scope.total_article = 0;
@@ -132,9 +132,9 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter){
        title: 'send article to:', 
        html: 'true',
        content: html
-     })
+     });
    }
-   
+
    //function for posting to facebook
    $scope.facebookPost = function() {
      facebook.postWall('', baseUrl + picture_link(images[dataShare], 'thumbs'), 
@@ -195,6 +195,20 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter){
        verticalTrackClass: 'track4',
        verticalHandleClass: 'handle4',
        minScrollbarLength: 28
+     });
+     
+     //check email regex in email field when user type
+     angular.element(document).on('keyup', '#email', function(){
+       var elm = angular.element(this);
+       var val = elm.val();
+       var form_btn = elm.parent().find('button');
+       var check_mail = regexChecker.email(val); 
+       if (val.length > 0 && check_mail) {
+         form_btn.prop('disabled', false);
+       }
+       else {
+         form_btn.prop('disabled', true);
+       }
      });
     
      e.preventDefault();

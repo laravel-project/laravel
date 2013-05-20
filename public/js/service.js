@@ -64,3 +64,12 @@ m.service('twitter', function($http){
     }
   }
 })
+
+m.service('regexChecker', function(){
+  return {
+    email: function(val) {
+      var regex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i; 
+      return regex.test(val);
+    }
+  }
+});

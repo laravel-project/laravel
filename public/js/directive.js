@@ -56,7 +56,7 @@ m.directive('email', function($compile) {
     template: '<div class="autohide-mail"><form id="frm_send_artcl">'+
        '<input type="text" id="email"/>'+
        '<input type="hidden" id="articleid" value="((article))"/>'+
-       '<button ng-click="send({event: $event})" class="btn">send</button></form></div>',
+       '<button ng-click="send({event: $event})" class="btn" disabled="true">send</button></form></div>',
     scope: {
       article: '@',
       send: '&'
