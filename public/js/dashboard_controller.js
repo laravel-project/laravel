@@ -27,10 +27,11 @@ function TodoCtrl($scope) {
 }
 
 //--ini buat artikel di content.blade.php
-function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker){
+function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, datasets){
 
-  $scope.count_article = 0;
-  $scope.total_article = 0;
+  var count_article = 0;
+  var articles = datasets['content'];
+  var total_article = datasets['counter'];
 
   var connectTry = 0;
   var dataShare;
@@ -47,56 +48,52 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker){
   var article_id = {};
   //ini untuk mengecek artikel sudah di bookmark atau belum
   var bookmarked = {};
-  // (function($){
-   
-   $('#articles').after($compile('<spinner></spinner>')($scope));
-   
-   //describe function to fetch data
-   $scope.fetch = function(url, success_condition) {
-      $http({method: 'GET', url: url}).
-       success(function(data, status) {
-         $scope.count_article = $scope.count_article + data['content'].length;
-         if (data['counter'] > 0) {
-           $scope.total_article = data['counter'];
-         }
-         setTimeout(function(){
-           $scope.load_content(data['content']);
-
-           if (success_condition == 'remove spinner')
-             $('spinner').remove();
-           else if (success_condition == 'remove lightbox')
-           {
-             $('body').css('overflow-y', 'visible'); 
-             $('lightbox').remove();
-           }
-             
-         }, 2000)       
-       }).
-       error(function(data, status) {
-         connectTry = connectTry + 1;
-         if (connectTry <= 3) {
-           $scope.fetch(url, success_condition);
-         }
-         else {
-           $().toastmessage('showErrorToast', "error connection");
-         }
-       });
-   }
+  
+  //$('#articles').after($compile('<spinner></spinner>')($scope));
+  
+  //describe function to fetch data
+  $scope.fetch = function(url, success_condition) {
+    $http({method: 'GET', url: url}).
+    success(function(data, status) {
+      count_article = count_article + data['content'].length;
+        setTimeout(function(){
+          
+          load_content(data['content']);
+          
+          if (success_condition == 'remove spinner')
+            $('spinner').remove();
+          else if (success_condition == 'remove lightbox')
+          {
+           $('body').css('overflow-y', 'visible'); 
+           $('lightbox').remove();
+          }
+        }, 2000)       
+    }).
+    error(function(data, status) {
+      connectTry = connectTry + 1;
+       if (connectTry <= 3) {
+         $scope.fetch(url, success_condition);
+       }
+       else {
+         $().toastmessage('showErrorToast', "error connection");
+       }
+    });
+  }
 
    //describe function to load more data
    $scope.loadMore = function() {
-     if ($scope.count_article < $scope.total_article)
+     if (count_article < total_article)
      {
        $('body').css('overflow-y', 'hidden'); 
        $('body').append($compile('<lightbox><spinner></spinner></lightbox>')($scope));
-       $scope.fetch('content.json?p='+$scope.count_article, 'remove lightbox');
+       $scope.fetch('content.json?p='+count_article, 'remove lightbox');
      }
 
    };
 
    //search my articles function
-   $scope.fetch('content.json', 'remove spinner');
-
+   //$scope.fetch('content.json', 'remove spinner');
+   
    
    $('#find_my_articles').keyup(function(){
      $('.grid').each(function(){
@@ -233,7 +230,7 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker){
    }
 
   //describe function to display content on blocksit
-   $scope.load_content = function($data) {
+  var load_content = function($data) {
     var colors = ['green','yellow','orange','orangered']
     if($data.length > 0) {
       for (var i = 0; i < $data.length; i++) { 
@@ -291,9 +288,7 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker){
 			animation	:	'slide'		//fade or slide
 		});
   }
-
-//  })(jQuery);
-   
+  
   //this function is return the link of picture
   var picture_link = function(img_name, type) {
     var link;
@@ -321,4 +316,24 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker){
     }
     return link;
   }
-}
+  
+  //initialize all content
+  load_content(articles);
+
+};
+
+ArtclCtrl.resolve = {
+    datasets: function($http, $q) {
+      var deferred = $q.defer();
+
+      $http({method: 'GET', url: 'content.json'}).
+      success(function(data, status) {
+        deferred.resolve(data)
+      }).
+      error(function(data, status) {
+        deferred.reject();
+      });
+
+      return deferred.promise;
+    }
+};

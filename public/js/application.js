@@ -35,7 +35,12 @@ m.config(function($interpolateProvider, $routeProvider, $locationProvider, $http
   $interpolateProvider.startSymbol('((');
   $interpolateProvider.endSymbol('))');
   
-  $routeProvider.when('/dashboard', {templateUrl: "/content", controller: "ArtclCtrl"});
+  $routeProvider.when('/dashboard', 
+    {
+      templateUrl: "/content", 
+      controller: ArtclCtrl,
+      resolve: ArtclCtrl.resolve
+    });
   
   $routeProvider.when('/book', 
     {
