@@ -11,8 +11,11 @@ m.directive('scroll', function() {
   return function(scope, elm, attrs){
     var windowElmnt = jQuery(window);
     var docElmnt = jQuery(document);
-
+    
     windowElmnt.bind("scroll", function(){
+      //save position to variable
+      yPositionScroll = window.pageYOffset;
+    
       if (windowElmnt.scrollTop() + windowElmnt.height() >= docElmnt.height()) {
         scope.$apply(attrs.scroll);
       }

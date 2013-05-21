@@ -29,9 +29,10 @@ function TodoCtrl($scope) {
 //--ini buat artikel di content.blade.php
 function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, datasets){
 
-  var count_article = 0;
   var articles = datasets['content'];
   var total_article = datasets['counter'];
+
+  count_article = articles.length;
 
   var connectTry = 0;
   var dataShare;
@@ -56,18 +57,18 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, dat
     $http({method: 'GET', url: url}).
     success(function(data, status) {
       count_article = count_article + data['content'].length;
-        setTimeout(function(){
-          
-          load_content(data['content']);
-          
-          if (success_condition == 'remove spinner')
-            $('spinner').remove();
-          else if (success_condition == 'remove lightbox')
-          {
-           $('body').css('overflow-y', 'visible'); 
-           $('lightbox').remove();
-          }
-        }, 2000)       
+      setTimeout(function(){
+        
+        load_content(data['content']);
+        
+        if (success_condition == 'remove spinner')
+          $('spinner').remove();
+        else if (success_condition == 'remove lightbox')
+        {
+         $('body').css('overflow-y', 'visible'); 
+         $('lightbox').remove();
+        }
+      }, 2000);
     }).
     error(function(data, status) {
       connectTry = connectTry + 1;
@@ -150,7 +151,6 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, dat
      var article = form.find('input#articleid').val();
      $http({method: 'POST', url: 'send_article?article='+article+'&email='+email}).
        success(function(data, status) {
-         console.log(status);
          if(status != 200){
             $().toastmessage('showErrorToast', 'Email failed to send');
           }
@@ -267,6 +267,7 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, dat
     
         $('<img src="' + picture_link($data[i].picture, 'thumbs') + '"/>').appendTo($grid);
       }
+     
     };
     
     $('.grid').each(function(grid){
@@ -286,7 +287,9 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, dat
     
     $('.bar2').mosaic({
 			animation	:	'slide'		//fade or slide
-		});
+		}); 
+    
+   
   }
   
   //this function is return the link of picture
@@ -320,20 +323,33 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, dat
   //initialize all content
   load_content(articles);
 
+    //reload position scroll
+    if(yPositionScroll > 0) {
+      jQuery(window).scrollTop(yPositionScroll);
+    }
+  
+ 
 };
 
 ArtclCtrl.resolve = {
-    datasets: function($http, $q) {
-      var deferred = $q.defer();
-
-      $http({method: 'GET', url: 'content.json'}).
-      success(function(data, status) {
-        deferred.resolve(data)
-      }).
-      error(function(data, status) {
-        deferred.reject();
-      });
-
-      return deferred.promise;
+  datasets: function($http, $q) {
+    var deferred = $q.defer();
+    var url;
+    if (count_article > 0) {
+      url = 'content.json?w=' + count_article;
     }
+    else
+    {
+      url = 'content.json';
+    }
+    $http({method: 'GET', url: url}).
+    success(function(data, status) {
+      deferred.resolve(data);
+    }).
+    error(function(data, status) {
+      deferred.reject();
+    });
+
+    return deferred.promise;
+  }
 };

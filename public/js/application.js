@@ -2,6 +2,8 @@
 
 var facebook_app_id = '604721692878709';
 var baseUrl = location.host;
+var count_article = 0;
+var yPositionScroll = 0;
 
 var m = angular.module('laravel', []);
 

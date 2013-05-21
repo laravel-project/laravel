@@ -64,13 +64,13 @@ class Article extends Eloquent {
   }
 
   
-  public static function get_articles($string, $offset=0, $first=false) {
+  public static function get_articles($string, $offset=0, $first=false, $limit=23) {
     $all_article = Article::with('crawlurl')->where('content','REGEXP',$string)->order_by('created_at', 'desc');
     
     if ($first == true) {
       self::$count_article = $all_article->count();  
     }
-    return $all_article->take(23)->skip($offset)->get(array('articles.id', 
+    return $all_article->take($limit)->skip($offset)->get(array('articles.id', 
       'articles.key_id', 'articles.title', 'articles.image', 'articles.content', 
       'articles.article_url', 'articles.crawl_url_id'));
   }

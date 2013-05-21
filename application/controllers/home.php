@@ -68,6 +68,10 @@ class Home_Controller extends Base_Controller {
       $articles = Article::get_articles($topic, null, true);
       $counter = Article::$count_article;
     }
+    else if(Input::get('w') != "") {
+      $articles = Article::get_articles($topic, null, true, Input::get('w'));
+      $counter = Article::$count_article;
+    }
     else {
       $articles = Article::get_articles($topic, null, true);
       $counter = Article::$count_article;
