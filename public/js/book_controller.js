@@ -1,6 +1,6 @@
 'use strict';
 
-var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
+var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService, $route) {
    
   $scope.books = bookService.getBooks();
   
@@ -8,6 +8,12 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
   
   var i;
   
+  $scope.currentPage = 0;
+  $scope.pageSize = 5;
+  $scope.numberOfPages = function(){
+    return Math.ceil($scope.books.length/$scope.pageSize);                
+  }
+    
   $scope.initialize = function(){
     $('#add-book').hide();
     $('#toggle-add-book').click(function(){
@@ -25,15 +31,17 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
     if (newBook != ""){
       $http({method: 'POST', url: 'create_book.json?book_name='+newBook}).
         success(function(result){
-          $('#list-books-first').append('<li><a href="#" id="'+result[0].key_id+
-            '" class="listbooks">'+result[0].name+'</a></li>'+
-            '<div class="pright delete_book_button">'+
-              '<a href="#" id="delbook_((book.key_id))" ng-click="deleteBook($event)">'+
-              '<img src="/img/delete.png" width="12px"></a>'+
-            '</div>');
-          $('#add-book').hide();
-          $('#add-book input').val('').val();
-          $('.listbooks').click($scope.clickToShowBook);
+//          $('#list-books-first').append('<li><a href="#" id="'+result[0].key_id+
+//            '" class="listbooks">'+result[0].name+'</a></li>'+
+//            '<div class="pright delete_book_button">'+
+//              '<a href="#" id="delbook_((book.key_id))" ng-click="deleteBook($event)">'+
+//              '<img src="/img/delete.png" width="12px"></a>'+
+//            '</div>');
+//          $('#add-book').hide();
+//          $('#add-book input').val('').val();
+//          $('.listbooks').click($scope.clickToShowBook);
+          $route.reload();
+          $().toastmessage('showSuccessToast', "successfully added new book");
         }
       )
     }
@@ -107,14 +115,14 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService) {
     var id = angular.element(e.target).parent().attr('id').split('_')[0];
     $http({method: 'POST', url: 'delete_book.json?book_id='+key_id}).
       success(function(status){
-        $('#'+key_id).parent().remove();
-        $('#book_'+id).parent().remove();
+//        $('#'+key_id).parent().remove();
+//        $('#book_'+id).parent().remove();
         $().toastmessage('showSuccessToast', "successfully deleted book");
+        $route.reload();
       }
     )
   }
 });
-
 
 bookCtrl.resolve = {
   bookmarks: function(bookService) {

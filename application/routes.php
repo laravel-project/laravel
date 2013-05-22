@@ -188,6 +188,7 @@ View::composer(array('layouts/main'), function($view)
   Asset::add('angular.application', 'js/application.js');
   Asset::add('angular.directive', 'js/directive.js');
   Asset::add('angular.service', 'js/service.js');
+  Asset::add('angular.filter','js/filter.js');
   Asset::add('angular.dashbord_controller', 'js/dashboard_controller.js');
   Asset::add('angular.book_controller', 'js/book_controller.js');
   Asset::add('underscore',

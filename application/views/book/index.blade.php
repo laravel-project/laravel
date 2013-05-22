@@ -21,13 +21,22 @@
           <li>
             <a href='#' id='BookAll' class="listbooks" ng-click="clickToShowBook($event)">All</a>
           </li>
-          <li ng-repeat="book in books">
+          <li ng-repeat="book in books | startFrom:currentPage*pageSize | limitTo:pageSize">
             <a href="#" id="((book.key_id))" class="listbooks" ng-click="clickToShowBook($event)">((book.name))</a>
             <div class="pright delete_book_button">
               <a href="#" id="((book.id))_((book.key_id))" ng-click='deleteBook($event)'><img src='/img/delete.png' width='12px'></a>
             </div>
           </li>
         </ul>
+        <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"
+          class="btn prev_book" ng-show="books.length > pageSize">Prev
+        </button>
+        <div class='pright'>
+          <button ng-disabled="currentPage == numberOfPages() - 1"
+            ng-click="currentPage=currentPage+1" class="btn next_book" 
+            ng-show="books.length > pageSize">Next
+          </button>
+        </div>
       </div>
     </div>
     <div class="pright books-list with-border-left">
