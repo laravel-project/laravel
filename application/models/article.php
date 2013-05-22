@@ -64,13 +64,29 @@ class Article extends Eloquent {
   }
 
   
-  public static function get_articles($string, $offset=0, $first=false, $limit=23) {
-    $all_article = Article::with('crawlurl')->where('content','REGEXP',$string)->order_by('created_at', 'desc');
+  public static function get_articles($string=null, $offset=0, $first=false, 
+    $limit=23, $article_id=null) {
+
+    if ($string != null) {
+      $all_article = Article::with('crawlurl')->where('content','REGEXP',$string)
+        ->order_by('created_at', 'desc');
+    }
+    else if($article_id != null) {
+      $all_article = Article::with('crawlurl')->where_in('id', $article_id)
+        ->order_by('created_at', 'desc');
+    }
     
     if ($first == true) {
       self::$count_article = $all_article->count();  
     }
-    return $all_article->take($limit)->skip($offset)->get(array('articles.id', 
+
+    $temp_article = $all_article->skip($offset);
+
+    if ($limit != null) {
+      $temp_article = $temp_article->take($limit);
+    }
+
+    return $temp_article->get(array('articles.id', 
       'articles.key_id', 'articles.title', 'articles.image', 'articles.content', 
       'articles.article_url', 'articles.crawl_url_id'));
   }
