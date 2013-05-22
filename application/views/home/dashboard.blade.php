@@ -13,5 +13,7 @@
 @endsection
 @section('content')
   <ng-view></ng-view>
+
+  <spinner style="display:none"></spinner>
 @endsection
 

@@ -333,22 +333,30 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, dat
 
 ArtclCtrl.resolve = {
   datasets: function($http, $q) {
+    var spinner = angular.element('spinner');
+    spinner.css('display', 'block');
     var deferred = $q.defer();
-    var url;
-    if (count_article > 0) {
+    var url, time;
+    if (count_article > 0) 
       url = 'content.json?w=' + count_article;
-    }
     else
-    {
       url = 'content.json';
-    }
-    $http({method: 'GET', url: url}).
-    success(function(data, status) {
-      deferred.resolve(data);
-    }).
-    error(function(data, status) {
-      deferred.reject();
-    });
+
+    if (spinner.length > 0)
+      time = 2000;
+    else
+      time = 0;
+
+    setTimeout(function(){
+      $http({method: 'GET', url: url}).
+      success(function(data, status) {
+        deferred.resolve(data);
+        spinner.remove();
+      }).
+      error(function(data, status) {
+        deferred.reject();
+      })
+    }, time);
 
     return deferred.promise;
   }
