@@ -59,20 +59,35 @@ class Home_Controller extends Base_Controller {
 
     $topic = $this->get_topic();
 
+    //p variable for load more article
     if(Input::get('p') != "") {
       $articles = Article::get_articles($topic, Input::get('p'));
       $counter = 0;
     }
-    else if(Input::get('q') != "" ){
+    else if(Input::get('q') != "" ){ 
+      //this is for search
       $string = Input::get('q');
       $articles = Article::get_articles($topic, null, true);
       $counter = Article::$count_article;
     }
-    else if(Input::get('w') != "") {
+    else if(Input::get('w') != "") { 
+      //w is varible to load all item with limit set is not use default limit
+      //it is used when user have already load a lot of article the user switch 
+      //to menu manage(book/article) when user back to article then user does 
+      //not to load again the article from the start
       $articles = Article::get_articles($topic, null, true, Input::get('w'));
       $counter = Article::$count_article;
     }
+    else if(Input::get('b') != "") {
+      //b is used to load content article by book(filter by book)
+      $book = Book::find( Input::get('b') );
+      $bookmarks = $book->bookmarks;
+      $article_ids = BaseUtil::collect($bookmarks, 'article_id');
+      $articles = Article::get_articles(null, null, true, null, $article_ids);
+      $counter = Article::$count_article;
+    }
     else {
+      //this is normal for loading content article
       $articles = Article::get_articles($topic, null, true);
       $counter = Article::$count_article;
     }

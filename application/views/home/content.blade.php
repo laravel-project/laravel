@@ -12,11 +12,13 @@
          <h4> My Books</h4>
          <ul id='my_books'>
            @foreach( $books as $book )
-             <li><a href="#{{ $book->nanme }}">{{ $book->name }}</a></li>
+             <li><a href="#" ng-click="loadBookmarkedArticle({{$book->id}})">{{ $book->name }}</a></li>
            @endforeach
          </ul>
       </div>
     </div>  
   </div>
-</div>
+</div> 
+
+
 
