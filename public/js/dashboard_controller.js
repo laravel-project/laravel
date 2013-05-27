@@ -329,7 +329,10 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, dat
 
   //reload position scroll
   if(yPositionScroll > 0) {
-    jQuery(window).scrollTop(yPositionScroll);
+    //use timeout to finish the element to load first then load the scroll.
+    setTimeout(function(){
+      jQuery(window).scrollTop(yPositionScroll);
+    }, 0);
   }
   
  
