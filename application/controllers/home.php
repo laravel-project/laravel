@@ -122,7 +122,7 @@ class Home_Controller extends Base_Controller {
         $string = $string.$sparator.$topic->names;
       }
       
-      $articles = Article::with('crawlurl')->where('content','REGEXP',$string)->get();
+      //$articles = Article::with('crawlurl')->where('content','REGEXP',$string)->get();
     }
     
     $topics = Input::get('topics'); 
