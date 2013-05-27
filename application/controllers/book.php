@@ -8,7 +8,6 @@ class Book_Controller extends Base_Controller {
     $this->filter('before', 'auth');
   }
 
-
 	public function action_index()
 	{
     if ( Request::ajax() ) {
@@ -18,44 +17,30 @@ class Book_Controller extends Base_Controller {
       //return Redirect::to('book');
       return View::make('home.dashboard', array('layout' => 'book'));
     }
-		
 	}
 
   //this method is called when article has already bookmarked was move to book
   public function action_move_to_book()
   {
-    $datas = array();
     $book_id = Input::get('book_id');    
     $bookmark_ids = explode(',', Input::get('bookmark_ids'));
     $user_id = Auth::User()->id;
-    foreach($bookmark_ids as $bookmark_id)
-    {
-      DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->update(array( 'book_id' => $book_id ));
-    }
+    Bookmark::update_bookmarks($bookmark_ids, $book_id);
     $book_key_id = Input::get('latest_page');
-    $bookmarks = $this->show_bookmarks_of_book($book_key_id, $datas, $user_id);
-    return Response::json($bookmarks);
+    return Bookmark::show_bookmarks_of_book($book_key_id, $user_id);
   }
   
   //this method use to delete bookmarks
   public function action_delete_bookmark(){
-    $datas = array();
     $bookmark_ids = explode(',', Input::get('bookmark_ids'));
     $user_id = Auth::User()->id;
     $book_key_id = Input::get('latest_page');
     if($book_key_id == "BookAll"){
-      foreach($bookmark_ids as $bookmark_id)
-      {
-        DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->delete();
-      }
+      Bookmark::delete_bookmarks($bookmark_ids);
     }else{
-      foreach($bookmark_ids as $bookmark_id)
-      {
-        DB::table('bookmarks')->where('key_id', '=', $bookmark_id)->update(array( 'book_id' => 0 ));
-      }
+      Bookmark::update_bookmarks($bookmark_ids, 0);
     }
-    $bookmarks = $this->show_bookmarks_of_book($book_key_id, $datas, $user_id);
-    return Response::json($bookmarks);
+    return Bookmark::show_bookmarks_of_book($book_key_id, $user_id);
   }
   
   //retrieve all books tha user created
@@ -76,33 +61,17 @@ class Book_Controller extends Base_Controller {
   
   //this method will show all bokmarked article based on book id
   public function action_show_bookmarked() {
-    $datas = array();
     $book_id = Input::get('book_id');
     $user_id = Auth::User()->id;
-    $bookmarks = $this->show_bookmarks_of_book($book_id, $datas, $user_id);
-    return Response::json($bookmarks);
+    return Bookmark::show_bookmarks_of_book($book_id, $user_id);
   }
   
   //this method is used to create book in manage book menu
   public function action_create_book()
   {
-    $datas = array();
     $name = Input::get('book_name');
     $user_id = Auth::User()->id;
-    if(Book::where_name($name)->first()){
-    }
-    else{
-      $book = new Book();
-      $book->name = $name;
-      $book->user_id = $user_id;
-      $book->key_id = rand(268435456, 4294967295);
-      $book->save();
-      array_push($datas, array(
-        'key_id' => $book->key_id,
-        'name' => $name
-      ));
-    }
-    return Response::json($datas);
+    return Book::save_data($name, $user_id);
   }
   
   //this method is used when user try to bookmarked an article
@@ -120,11 +89,7 @@ class Book_Controller extends Base_Controller {
           'message' => 'this article has already bookmark',
         ));
       }else{
-        $new_bookmark = new Bookmark();
-        $new_bookmark->article_id = $article->id;
-        $new_bookmark->user_id = $user_id;
-        $new_bookmark->key_id = rand(268435456, 4294967295);
-        $new_bookmark->save();
+        Bookmark::save_data($article->id, $user_id);
         array_push($status, array(
           'status' => 'success',
           'message' => 'this article success to bookmark',
@@ -141,36 +106,6 @@ class Book_Controller extends Base_Controller {
   
   public function action_delete_book(){
     $book_key_id = Input::get('book_id');
-    $book = Book::where_key_id($book_key_id)->first();
-    if($book){
-      DB::table('books')->where('key_id', '=', $book_key_id)->delete();
-      DB::table('bookmarks')->where('book_id', '=', $book->id)->update(array( 'book_id' => 0 ));
-    }
-    return Response::json('success'); 
-  }
-  
-  private function show_bookmarks_of_book($book_id, $datas, $user_id)
-  {
-    if ($book_id == "BookAll"){
-      $bookmarks = Bookmark::where('user_id', '=', $user_id)->get();
-    }else{
-      $book = Book::where_key_id($book_id)->first();
-      $bookmarks = $book->bookmarks;
-    }
-    foreach($bookmarks as $bookmark){
-      if ($bookmark->book_id == 0){
-        $book_name = "unbookmarked";
-      }else{
-        $book_name = $bookmark->book->name;
-      }
-      array_push($datas, array(
-        'key_id' => $bookmark->key_id,
-        'title' => $bookmark->article->title,
-        'book_name' => $book_name,
-        'book_key_id' => $book_id
-      )); 
-    }
-    
-    return $datas;
+    return Book::delete_data($book_key_id);
   }
 }

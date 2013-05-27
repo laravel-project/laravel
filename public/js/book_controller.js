@@ -8,12 +8,20 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService, $ro
   
   var i;
   
-  $scope.currentPage = 0;
-  $scope.pageSize = 5;
-  $scope.numberOfPages = function(){
-    return Math.ceil($scope.books.length/$scope.pageSize);                
+  //book paginations
+  $scope.bookCurrentPage = 0;
+  $scope.bookPageSize = 5;
+  $scope.bookNumberOfPages = function(){
+    return Math.ceil($scope.books.length/$scope.bookPageSize);                
   }
     
+  //bookmark pagination
+  $scope.bookmarkCurrentPage = 0;
+  $scope.bookmarkPageSize = 10;
+  $scope.bookmarkNumberOfPages = function(){
+    return Math.ceil($scope.bookmarks.length/$scope.bookmarkPageSize);                
+  }
+  
   $scope.initialize = function(){
     $('#add-book').hide();
     $('#toggle-add-book').click(function(){
@@ -42,6 +50,12 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService, $ro
 //          $('.listbooks').click($scope.clickToShowBook);
           $route.reload();
           $().toastmessage('showSuccessToast', "successfully added new book");
+//          var c = $scope.numberOfPages();
+//          setTimeout(function(){
+//            for(i=1;i<c;i++){
+//              $('.next_book').click();
+//            }
+//          },1)
         }
       )
     }
@@ -60,8 +74,9 @@ var bookCtrl = m.controller("BookCtrl", function($scope, $http, bookService, $ro
     })
     $http({method: 'POST', url: 'move_to_book.json?bookmark_ids='+bookmark_ids+'&book_id='+book_id+'&latest_page='+latest_page}).
       success(function(results){
-        $('#listbookmarks').html("");
-        $scope.showBookmarkAfterSuccess(results, latest_page)
+//        $('#listbookmarks').html("");
+//        $scope.showBookmarkAfterSuccess(results, latest_page)
+        $route.reload();
         $().toastmessage('showSuccessToast', "successfully moved articles");
       }
     )

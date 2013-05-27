@@ -21,20 +21,20 @@
           <li>
             <a href='#' id='BookAll' class="listbooks" ng-click="clickToShowBook($event)">All</a>
           </li>
-          <li ng-repeat="book in books | startFrom:currentPage*pageSize | limitTo:pageSize">
+          <li ng-repeat="book in books | startFrom:bookCurrentPage*bookPageSize | limitTo:bookPageSize">
             <a href="#" id="((book.key_id))" class="listbooks" ng-click="clickToShowBook($event)">((book.name))</a>
             <div class="pright delete_book_button">
               <a href="#" id="((book.id))_((book.key_id))" ng-click='deleteBook($event)'><img src='/img/delete.png' width='12px'></a>
             </div>
           </li>
         </ul>
-        <button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1"
-          class="btn prev_book" ng-show="books.length > pageSize">Prev
+        <button ng-disabled="bookCurrentPage == 0" ng-click="bookCurrentPage=bookCurrentPage-1"
+          class="btn prev_book" ng-show="books.length > bookPageSize">Prev
         </button>
         <div class='pright'>
-          <button ng-disabled="currentPage == numberOfPages() - 1"
-            ng-click="currentPage=currentPage+1" class="btn next_book" 
-            ng-show="books.length > pageSize">Next
+          <button ng-disabled="bookCurrentPage == bookNumberOfPages() - 1"
+            ng-click="bookCurrentPage=bookCurrentPage+1" class="btn next_book" 
+            ng-show="books.length > bookPageSize">Next
           </button>
         </div>
       </div>
@@ -59,11 +59,20 @@
         </li>
       </ul>
       <ul id='listbookmarks' class="nav nav-pills nav-stacked">
-        <li ng-repeat="bookmark in bookmarks">
+        <li ng-repeat="bookmark in bookmarks | startFrom:bookmarkCurrentPage*bookmarkPageSize | limitTo:bookmarkPageSize"">
           <input type="checkbox" id="((bookmark.key_id))" class="latest_page" latest_page="BookAll"/>
             ((bookmark.title))<div class="pright">((bookmark.book_name))</div>
         </li>
       </ul>
+      <button ng-disabled="bookmarkCurrentPage == 0" ng-click="bookmarkCurrentPage=bookmarkCurrentPage-1"
+        class="btn prev_bookmark" ng-show="bookmarks.length > bookmarkPageSize">Prev
+      </button>
+      <div class='pright'>
+        <button ng-disabled="bookmarkCurrentPage == bookmarkNumberOfPages() - 1"
+          ng-click="bookmarkCurrentPage=bookmarkCurrentPage+1" class="btn next_bookmark" 
+          ng-show="bookmarks.length > bookmarkPageSize">Next
+        </button>
+      </div>
     </div>
   </div>
 </div>
