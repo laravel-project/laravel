@@ -4,32 +4,23 @@
 m.service('bookService', function($http, $q){
   var books = [];
   var bookmarks = [];
-  var s1,s2 = false;
   return {
     fetchData: function(){
       var deferred = $q.defer();
-      $http({method: 'GET', url: 'all_books.json'}).
-        success(function(data, status){
-          angular.copy(data, books);
-          s1 = true;
-        })
-        .error(function(data, status) {
+      var bookXhr = $http({method: 'GET', url: 'all_books.json'});
+      
+      var bookmarkXhr = $http({method: 'GET', url: 'show_book.json?book_id=BookAll'});
+
+      $q.all([bookXhr, bookmarkXhr]).then(function(results){
+        if (typeof results[0] == 'undefined' || typeof results[1] == 'undefined')
           deferred.reject();
-        });
-      
-      $http({method: 'GET', url: 'show_book.json?book_id=BookAll'}).
-        success(function(data, status){
-          angular.copy(data, bookmarks);
-          s2 = true;
-        })
-        .error(function(data, status) {
-          deferred.reject();
-        });
-      
-      if(s1 == true && s2 == true) {
-        deferred.resolve();
-      }
-      
+        else {
+          angular.copy(results[0].data, books);
+          angular.copy(results[1].data, bookmarks);
+          deferred.resolve();
+        }
+      });
+       
       return deferred.promise;
     },
     getBooks: function() {

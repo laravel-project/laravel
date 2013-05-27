@@ -29,8 +29,10 @@ function TodoCtrl($scope) {
 //--ini buat artikel di content.blade.php
 function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, datasets){
 
-  var articles = datasets['content'];
-  var total_article = datasets['counter'];
+  var articles = datasets[0]['content'];
+  var total_article = datasets[0]['counter'];
+
+  $scope.books = datasets[1];
 
   count_article = articles.length;
 
@@ -94,7 +96,8 @@ function ArtclCtrl($scope, $http, $compile, facebook, twitter, regexChecker, dat
   };
   
   //this function is used to show article that has been bookmarked using book id
-  $scope.loadBookmarkedArticle = function(book_id) {
+  $scope.loadBookmarkedArticle = function(e) {
+    var book_id = angular.element(e.target).attr('data-id');
     $('body').css('overflow-y', 'hidden'); 
     $('body').append($compile('<lightbox><spinner></spinner></lightbox>')($scope));
     $scope.fetch('content.json?b='+book_id, 'remove lightbox', 'filter');
@@ -344,6 +347,9 @@ ArtclCtrl.resolve = {
     spinner.css('display', 'block');
     var deferred = $q.defer();
     var url, time;
+    var articles = [];
+    var books = [];
+
     if (count_article > 0) 
       url = 'content.json?w=' + count_article;
     else
@@ -354,16 +360,23 @@ ArtclCtrl.resolve = {
     else
       time = 0;
 
-    setTimeout(function(){
-      $http({method: 'GET', url: url}).
-      success(function(data, status) {
-        deferred.resolve(data);
-        spinner.remove();
-      }).
-      error(function(data, status) {
-        deferred.reject();
-      })
-    }, time);
+    //setTimeout(function(){
+    var articleXhr = $http({method: 'GET', url: url});
+           
+    var bookXhr = $http({method: 'GET', url: 'all_books.json'});
+
+     $q.all([articleXhr, bookXhr]).then(function(results){
+       if (typeof results[0] == 'undefined' || typeof results[1] == 'undefined')
+         deferred.reject();
+       else {
+         articles = results[0].data;
+         books = results[1].data;
+         deferred.resolve([articles, books]);
+       }
+     })
+
+       
+    //}, time);
 
     return deferred.promise;
   }

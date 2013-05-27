@@ -276,8 +276,7 @@ Route::get(array('home','/'), 'home@index');
 Route::get('content', function()
 {
   if ( Request::ajax() ) { 
-    return View::make('home.content', array( 
-      'books' => Book::where_user_id(Auth::User()->id)->take(5)->get()));
+    return View::make('home.content');   
   }
   else {
     return Redirect::to('dashboard');
