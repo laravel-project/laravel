@@ -114,4 +114,11 @@ class User extends Eloquent {
     $this->$attr = $value;
     $this->save();
   }
+
+  public function update_attributes($attrs) {
+     foreach ($attrs as $key => $value) {
+       $this->$key = $value;
+     }
+     $this->save();
+  }
 }

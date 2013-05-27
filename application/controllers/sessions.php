@@ -27,7 +27,8 @@ class Sessions_Controller extends Base_Controller {
           Crypter::encrypt($_SERVER['HTTP_USER_AGENT'].'||'.$check_user->email.
           '||'.$check_user->key_id.'||'.$check_user->remember_token), 4320);
       }
-
+      //add number how many times user is login.
+      $check_user->update_attribute('sign_in_count', $check_user->sign_in_count + 1);
       Message::success_or_not_message('success', 'login');
       return Redirect::to('dashboard');;
     }
